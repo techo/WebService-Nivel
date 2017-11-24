@@ -4,8 +4,8 @@ require_once '../model/Model.php';
 $oBj = new Model();
 $aRet = $oBj->InfoUser($id);
 
-echo('<pre>');
-die(print_r($aRet, true));
+// echo('<pre>');
+// die(print_r($aRet, true));
 
 ?>
 
@@ -14,9 +14,9 @@ die(print_r($aRet, true));
 <head>
     <meta charset="utf-8">
     <title>Editar Usuario</title>
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/simple-line-icons.css" rel="stylesheet">
+    <link href="http://herramientas.techo.org/aff/ws_soap//css/style.css" rel="stylesheet">
+    <link href="http://herramientas.techo.org/aff/ws_soap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://herramientas.techo.org/aff/ws_soap/css/simple-line-icons.css" rel="stylesheet">
 </head>
 <body class="navbar-fixed sidebar-nav fixed-nav">
     <header class="navbar">
@@ -43,20 +43,20 @@ die(print_r($aRet, true));
 				 <li class="nav-item">
 				 <a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a>
 				 
-				 <li class="nav-item nav-dropdown">
+				<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="usuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/usuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="paises.php"><i class="fa fa-arrow-right"></i>Paises</a>
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i class="fa fa-arrow-right"></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="areas.php"><i class="fa fa-arrow-right"></i>Areas</a>
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i class="fa fa-arrow-right"></i>Areas</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="cargos.php"><i class="fa fa-arrow-right"></i>Cargos</a>
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i class="fa fa-arrow-right"></i>Cargos</a>
 							</li>
 						</ul>
 					</li>
@@ -65,7 +65,7 @@ die(print_r($aRet, true));
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
 						</ul>
 					</li>
@@ -107,19 +107,19 @@ die(print_r($aRet, true));
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input type="text" class="form-control" id="nombre" placeholder="Enter Nombre">
+                                            <input type="text" class="form-control" id="nombre" value="<?php echo($aRet[0]['nombre']);?>">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="name">Apellido Paterno</label>
-                                            <input type="text" class="form-control" id="paterno" placeholder="Enter Apellido Paterno">
+                                            <input type="text" class="form-control" id="paterno" value="<?php echo($aRet[0]['apellido_paterno']);?>">
                                         </div>
                                     </div>
                                      <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="name">Apellido Materno</label>
-                                            <input type="text" class="form-control" id="materno" placeholder="Enter Apellido Materno">
+                                            <input type="text" class="form-control" id="materno" value="<?php echo($aRet[0]['apellido_materno']);?>">
                                         </div>
                                     </div>
                                 </div>
@@ -127,15 +127,10 @@ die(print_r($aRet, true));
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="name">Email</label>
-                                            <input type="text" class="form-control" id="email" placeholder="Enter Email">
+                                            <input type="text" class="form-control" id="email" value="<?php echo($aRet[0]['email']);?>">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label for="name">Contrase&ntilde;a</label>
-                                            <input type="password" class="form-control" id="password" placeholder="Enter Contrase&ntilde;a">
-                                        </div>
-                                    </div>
+                                   
                                     <div id="areas">
                                         
                                     </div>
@@ -170,19 +165,11 @@ die(print_r($aRet, true));
         </span>
     </footer>
     <!-- Bootstrap and necessary plugins -->
-    <script src="../js/libs/jquery.min.js"></script>
-    <script src="../js/libs/bootstrap.min.js"></script> 
-    <script src="../js/app.js"></script>
-	<script src="../js/main.js"></script>
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/libs/jquery.min.js"></script>
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/libs/bootstrap.min.js"></script> 
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/app.js"></script>
+	<script src="http://herramientas.techo.org/aff/ws_soap/js/main.js"></script>
 	<!-- Lista dados dos ComboBoxs -->
-	<script>
-	$(document).ready(function() {
-	    ListArea();
-	    ListCargo();
-	    ListPais();
-	    ListJefe();
-	});
-	</script>
 </body>
 
 </html>

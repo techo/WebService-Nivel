@@ -349,7 +349,11 @@ function ListUsuarios()
 
 function EditarUser(id)
 {
-	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditUsuario.php/?id="+ id)
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditUsuario.php/?id="+ id);
 }
 
+function SalirUsuario()
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php?");
+}
 

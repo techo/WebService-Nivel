@@ -92,6 +92,7 @@ class Model
         $sql .= "usuario.nombre as 'nombre', ";
         $sql .= "usuario.apellido_paterno as 'apellido_paterno', ";
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
+        $sql .= "usuario.mail as 'email' , ";
         $sql .= "area.nombre as 'area', ";
         $sql .= "area.id as 'codarea', ";
         $sql .= "cargo.nombre as 'cargo', ";
@@ -413,7 +414,7 @@ class Model
         $sql .= "id, ";
         $sql .= "nombre ";
         $sql .= "FROM cargo ";
-        $sql.= "WHERE status = 1";
+        $sql.= "WHERE status = 1 ORDER BY nombre ASC";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -429,7 +430,7 @@ class Model
         $sql .= "id, ";
         $sql .= "nombre ";
         $sql .= "FROM pais ";
-        $sql.= "WHERE status = 1";
+        $sql.= "WHERE status = 1 ORDER BY nombre ASC";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -445,7 +446,7 @@ class Model
         $sql .= "id, ";
         $sql .= "nombre ";
         $sql .= "FROM usuario ";
-        $sql.= "WHERE status = 1";
+        $sql.= "WHERE status = 1 ORDER BY nombre ASC";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();

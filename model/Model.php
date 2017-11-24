@@ -99,7 +99,7 @@ class Model
         $sql .= "pais.nombre  as 'pais', ";
         $sql .= "pais.id  as 'codpais' ";
         $sql .= "FROM usuario ";
-        $sql .= "INNER JOIN area ON area.id = usuario.id_area ";
+        $sql .= "LEFT JOIN area ON area.id = usuario.id_area ";
         $sql .= "INNER JOIN cargo ON cargo.id = usuario.id_cargo ";
         $sql .= "INNER JOIN pais ON pais.id = usuario.id_pais ";
         $sql .= "WHERE usuario.id = '".$idUser."' ";
@@ -446,6 +446,43 @@ class Model
         $sql .= "nombre ";
         $sql .= "FROM usuario ";
         $sql.= "WHERE status = 1";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function ListUsuarios()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "usuario.id, ";
+        $sql .= "usuario.nombre, ";
+        $sql .= "usuario.apellido_paterno, ";
+        $sql .= "usuario.apellido_materno, ";
+        $sql .= "usuario.mail, ";
+        $sql .= "usuario.status, ";
+        $sql .= "usuario.id_jefe as 'jefe'";
+        $sql .= "FROM usuario ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function OhmyGod($idJefe)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "usuario.nombre, ";
+        $sql .= "usuario.apellido_paterno, ";
+        $sql .= "usuario.apellido_materno ";
+        $sql .= "FROM usuario ";
+        $sql.= "WHERE id = " . $idJefe;
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();

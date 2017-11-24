@@ -38,6 +38,9 @@
         case 'ListContactCONT': ListContactCONT();
         break;
         
+        case 'ListUsuarios'   : ListUsuarios();
+        break;
+        
       }
       
       //Login do Usuario
@@ -338,7 +341,6 @@
               $html .= "<option value='0'>-- SELECCIONE--</option>";
               
               foreach ($aRet as $k=>$v)
-              
               {
                   $html .= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
               }
@@ -481,6 +483,67 @@
               $html .= "</select>";
               $html .= " </div>";
               
+              echo json_encode(array("results" => $html));
+          }
+      }
+      
+      function ListUsuarios()
+      {
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          $aRet = $oBj->ListUsuarios();
+          
+          foreach ($aRet as $k=>$v)
+          {
+              $aJefe = $oBj->OhmyGod($v['jefe']);
+              $aRet[$k]['jefe'] = $aJefe[0]['nombre'];
+              $aRet[$k]['jefe_paterno'] = $aJefe[0]['apellido_paterno'];
+              $aRet[$k]['jefe_materno'] = $aJefe[0]['jefe_materno'];
+          }
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='col-lg-12'>";
+              $html .= "<div class='card'>";
+              $html .= "<div class='card-header'>";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Usuarios";
+              $html .= "</div>";
+              $html .= "<div class='card-block'>";
+              $html .= "<table class='table table-bordered table-striped table-condensed'>";
+              $html .= "<thead>";
+              $html .= "<tr>";
+              $html .= "<th>Nombre</th>";
+              $html .= "<th>Email</th>";
+              $html .= "<th>Jefe</th>";
+              $html .= "<th>Status</th>";
+              $html .= "</tr>";
+              foreach ($aRet as $k=>$v)
+              {
+                  $html .= "<tr>";
+                  $html .= "<td>".$v['nombre']." ". $v['apellido_paterno']. " " .$v['apellido_materno']."</td>";
+                  $html .= "<td>".$v['mail']."</td>";
+                  $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
+                  $html .= "<td>";
+                  if($v['status'] == 1)
+                  {
+                      $html .= "<span class='tag tag-success'>Activo</span>";
+                  }
+                  else 
+                  {
+                      $html .= "<span class='tag tag-danger'>Inactivo</span>";
+                  }
+                  $html .= '<td><a type="button" onclick="EditarUser('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+                  $html .= "</td>";
+                  $html .= " </tr>";
+              }
+              $html .= "</thead>";
+              $html .= "<tbody>";
+              $html .= "</tbody>";
+              $html .= "</table>";
+              $html .= "</div>";
+              $html .= "</div>";
+              $html .= "</div>";
+                           
               echo json_encode(array("results" => $html));
           }
       }

@@ -51,6 +51,15 @@
 					</li>
 					
 					<li class="nav-item nav-dropdown">
+						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item">
+								<a class="nav-link" href="ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-check"></i>Ejemplos</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
@@ -81,7 +90,7 @@
          <?php
             require_once '../lib/nusoap.php';
             
-            $GetCheckToken = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl', false);
+            $GetCheckToken = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl&debug=1', 'wsdl');
             
             $param = array('token'   => '6998b5b0ed492b280571a6a746c0bcbc-0ac7b0bba5321a708a4fc699a0fc2a50');
             

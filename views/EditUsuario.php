@@ -1,8 +1,19 @@
+<?php 
+$id = $_GET['id'];
+require_once '../model/Model.php';
+$oBj = new Model();
+$aRet = $oBj->InfoUser($id);
+
+echo('<pre>');
+die(print_r($aRet, true));
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Usuario</title>
+    <title>Editar Usuario</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -88,7 +99,7 @@
     <!-- Main content -->
     <main class="main">
                <div class="card-header">
-                        <strong>Registro de Usuario</strong> 
+                        <strong>Editars Usuario</strong> 
                     </div>
                     <div class="card-block">
                         <form action="" method="post" class="form-horizontal ">
@@ -148,8 +159,8 @@
                         </form>
                     </div>
                     <div class="card-footer" align="center">
-                        <button type="button" class="btn btn-sm btn-success" onclick="GrabarUsuario();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="LimpiarUsuario();"><i class="fa fa-ban"></i> Limpiar</button>
+                        <button type="button" class="btn btn-sm btn-success" onclick="EditarUsuario();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="SalirUsuario();"><i class="fa fa-ban"></i> Salir</button>
                     </div>
     </main>
 

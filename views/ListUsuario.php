@@ -1,19 +1,8 @@
-<?php
-// session_start();
-
-// if((!isset ($_SESSION['usuario']) == true) and (!isset ($_SESSION['senha']) == true))
-// {
-// 	unset($_SESSION['login']);
-// 	unset($_SESSION['senha']);
-// 	header('location:../index.php');
-// }
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Lista Usuario</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -34,7 +23,7 @@
             </form>
         </div>
     </header>
-    <div class="sidebar">
+   <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-title text-xs-center">
@@ -98,12 +87,10 @@
     </div>
     <!-- Main content -->
     <main class="main">
-         <?php 
-           session_start();
-           echo('<br>');
-           echo('<pre>');
-           echo(print_r($_SESSION, true));
-         ?>   
+       <div class="row">
+                    <div id="usuario">
+                    <!--/col-->
+                </div>
     </main>
 
     <footer class="footer">
@@ -115,6 +102,12 @@
     <script src="../js/libs/jquery.min.js"></script>
     <script src="../js/libs/bootstrap.min.js"></script> 
     <script src="../js/app.js"></script>
+    <script src="../js/main.js?"></script>
+    <script>
+	$(document).ready(function() {
+	    ListUsuarios();
+	});
+	</script>
 </body>
 
 </html>

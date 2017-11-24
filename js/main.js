@@ -16,8 +16,8 @@ function Login()
 					if(oData['results'])
 					{
 						$('#teste').attr('action',oData['redirect']);
-							$('#token').val(oData['token']);
-							$('#teste').submit();
+						$('#token').val(oData['token']);
+						$('#teste').submit();
 					}
 					else
 					{
@@ -321,4 +321,35 @@ function ListContactCONT()
 		}
 	});	
 }
+
+function ListUsuarios()
+{
+	oData       = new Object();	
+	oData.acao  = "ListUsuarios";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#usuario').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Usuarios');
+			}
+		}
+	});	
+}
+
+function EditarUser(id)
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditUsuario.php/?id="+ id)
+}
+
 

@@ -397,7 +397,8 @@ class Model
         $sql  = "SELECT ";
         $sql .= "id, ";
         $sql .= "nombre, ";
-        $sql .= "codigo ";
+        $sql .= "codigo, ";
+        $sql .= "status ";
         $sql .= "FROM area ";
         $sql.= "WHERE status = 1";
         $pdo = Database::conexao();
@@ -507,6 +508,69 @@ class Model
         $sql .= "id_cargo          = '" . $cargo."', ";
         $sql .= "id_pais           = '" . $pais."', ";
         $sql .= "id_jefe           = '" . $jefe."', ";
+        $sql .= "status            = '" . $status."', ";
+        $sql .= "id_alterador      = '" . $idUser."', ";
+        $sql .= "fecha_alt         = NOW() ";
+        $sql .= "WHERE id          = '" . $id."'";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $Logado = true;
+        }
+        else
+        {
+            $Logado = false;
+        }
+        
+        return $Logado;
+    }
+    
+    function InfoArea($id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "codigo, ";
+        $sql .= "status ";
+        $sql .= "FROM area ";
+        $sql.= "WHERE id = " . $id;
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function ListaArea()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "codigo, ";
+        $sql .= "status ";
+        $sql .= "FROM area ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function EditarArea($nombre, $codigo, $status, $idUser, $id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "UPDATE area SET ";
+        $sql .= "nombre            = '" . $nombre."', ";
+        $sql .= "codigo            = '" . $codigo."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";

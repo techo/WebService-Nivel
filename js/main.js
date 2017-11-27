@@ -391,3 +391,66 @@ function EditarUsuario(id)
 			});	
 }
 
+function ListaArea()
+{
+	oData       = new Object();	
+	oData.acao  = "ListaArea";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#listagem').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Areas');
+			}
+		}
+	});	
+}
+
+function RedirectArea(id)
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditArea.php/?id="+ id);
+}
+
+function SalirArea()
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListArea.php?");
+}
+
+function EditarArea(id)
+{
+	oData          = new Object();	
+	oData.acao     = "EditarArea";
+	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val(); 
+	oData.status   = $('#status').val();
+	oData.id       = id;
+	$.ajax({
+				type: "POST",
+				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListArea.php");
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+

@@ -56,6 +56,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i class="fa fa-arrow-right"></i>Areas</a>
+							</li>
 						</ul>
 					</li>
 					

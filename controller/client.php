@@ -44,6 +44,12 @@
         case 'EditarUsuario'  : EditarUsuario($_POST);
         break;
         
+        case 'ListaArea'      : ListaArea($_POST);
+        break;
+        
+        case 'EditarArea'     : EditarArea($_POST);
+        break;
+        
       }
       
       //Login do Usuario
@@ -584,6 +590,96 @@
           else
           {
               $message = 'Error al Cambiar Usuario.';
+              $sucess  = 'false';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          
+      }
+      
+      function ListaArea()
+      {
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          $aRet = $oBj->ListaArea();
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='col-lg-12'>";
+              $html .= "<div class='card'>";
+              $html .= "<div class='card-header'>";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Areas";
+              $html .= "</div>";
+              $html .= "<div class='card-block'>";
+              $html .= "<table class='table table-bordered table-striped table-condensed'>";
+              $html .= "<thead>";
+              $html .= "<tr>";
+              $html .= "<th>Nombre</th>";
+              $html .= "<th>Codigo</th>";
+              $html .= "<th>Status</th>";
+              $html .= "</tr>";
+              foreach ($aRet as $k=>$v)
+              {
+                  $html .= "<tr>";
+                  $html .= "<td>".$v['nombre']."</td>";
+                  $html .= "<td>".$v['codigo']."</td>";
+                  $html .= "<td>";
+                  if($v['status'] == 1)
+                  {
+                      $html .= "<span class='tag tag-success'>Activo</span>";
+                  }
+                  else
+                  {
+                      $html .= "<span class='tag tag-danger'>Inactivo</span>";
+                  }
+                  $html .= '<td><a type="button" onclick="RedirectArea('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+                  $html .= "</td>";
+                  $html .= " </tr>";
+              }
+              $html .= "</thead>";
+              $html .= "<tbody>";
+              $html .= "</tbody>";
+              $html .= "</table>";
+              $html .= "</div>";
+              $html .= "</div>";
+              $html .= "</div>";
+              
+              echo json_encode(array("results" => $html));
+          }
+      }
+      
+      function EditarArea($aPost)
+      {
+          session_start();
+          $nombre   = $aPost['nombre'];
+          $codigo   = $aPost['codigo'];
+          $status   = $aPost['status'];
+          $id       = $aPost['id'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $lGraba = $oBj->EditarArea($nombre, $codigo, $status, $_SESSION['Id'], $id);
+          if($lGraba)
+          {
+              $message = 'Area Cambiada con Exito.';
+              $sucess  = 'true';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          else
+          {
+              $message = 'Error al Cambiar Area.';
               $sucess  = 'false';
               $result  = '';
               

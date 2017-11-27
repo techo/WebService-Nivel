@@ -2,10 +2,126 @@
 $id = $_GET['id'];
 require_once '../model/Model.php';
 $oBj = new Model();
-$aRet = $oBj->InfoUser($id);
+$aRet = $oBj->InfoUser($id); // Usuario
 
-// echo('<pre>');
-// die(print_r($aRet, true));
+$aAreas  = $oBj->ListArea();
+$aCargos = $oBj->ListCargo();
+$aPais   = $oBj->ListPais();
+$aChefe  = $oBj->ListJefe();
+
+//Searche Jefe
+$aJefe  = $oBj->checkJefe($aRet[0]['email']);
+$aJefe  = $oBj->OhmyGod($aJefe[0]['id_jefe']);
+
+//ComboBox Area
+$comboBoxArea = "<div class='form-group col-sm-3'>";
+$comboBoxArea.= "<label for='ccmonth'>Area</label>";
+$comboBoxArea.= "<select class='form-control' id='area'>";
+$comboBoxArea.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aAreas as $k => $v)
+{
+    if($aRet[0]['codarea'] == $v['id'])
+    {
+        $comboBoxArea.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxArea.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+}
+
+$comboBoxArea.= "</select>";
+$comboBoxArea.= "</div>";
+//Fim ComboBox Area
+
+//ComboBox Cargos
+$comboBoxCargo = "<div class='form-group col-sm-3'>";
+$comboBoxCargo.= "<label for='ccmonth'>Cargo</label>";
+$comboBoxCargo.= "<select class='form-control' id='cargo'>";
+$comboBoxCargo.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aCargos as $k => $v)
+{
+    if($aRet[0]['codcargo'] == $v['id'])
+    {
+        $comboBoxCargo.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxCargo.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+}
+
+$comboBoxCargo.= "</select>";
+$comboBoxCargo.= "</div>";
+//Fim ComboBox Cargos
+
+//ComboBox Pais
+$comboBoxPais = "<div class='form-group col-sm-3'>";
+$comboBoxPais.= "<label for='ccmonth'>Pais</label>";
+$comboBoxPais.= "<select class='form-control' id='pais'>";
+$comboBoxPais.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aPais as $k => $v)
+{
+    if($aRet[0]['codpais'] == $v['id'])
+    {
+        $comboBoxPais.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxPais.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+}
+
+$comboBoxPais.= "</select>";
+$comboBoxPais.= "</div>";
+//Fim ComboBox Pais
+
+//ComboBox Jefe
+$comboBoxJefe = "<div class='form-group col-sm-3'>";
+$comboBoxJefe.= "<label for='ccmonth'>Jefe</label>";
+$comboBoxJefe.= "<select class='form-control' id='jefe'>";
+$comboBoxJefe.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aChefe as $k => $v)
+{
+    if($aJefe[0]['id'] == $v['id'])
+    {
+        $comboBoxJefe.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxJefe.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+}
+
+$comboBoxJefe.= "</select>";
+$comboBoxJefe.= "</div>";
+//Fim ComboBox Jefe
+
+//ComboBox Status
+$comboBoxStatus = "<div class='form-group col-sm-3'>";
+$comboBoxStatus.= "<label for='ccmonth'>Status</label>";
+$comboBoxStatus.= "<select class='form-control' id='status'>";
+$comboBoxStatus.= "<option value='0'>-- SELECCIONE--</option>";
+
+if($aRet[0]['status'] == 1)
+{
+    $comboBoxStatus.= "<option selected value='1'>Activo</option>";
+    $comboBoxStatus.= "<option value='2'>Inactivo</option>";
+}
+
+if($aRet[0]['status'] == 2)
+{
+    $comboBoxStatus.= "<option value='1'>Activo</option>";
+    $comboBoxStatus.= "<option selected value='2'>Inactivo</option>";
+}
+
+$comboBoxStatus.= "</select>";
+$comboBoxStatus.= "</div>";
+//Fim ComboBox Status
 
 ?>
 
@@ -41,7 +157,7 @@ $aRet = $oBj->InfoUser($id);
                     <span>Menu</span>
                 </li>
 				 <li class="nav-item">
-				 <a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a>
+				 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/home.php"><i class="fa fa-home"></i> Home</a>
 				 
 				<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
@@ -67,6 +183,9 @@ $aRet = $oBj->InfoUser($id);
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i class="fa fa-arrow-right"></i>Areas</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -91,7 +210,7 @@ $aRet = $oBj->InfoUser($id);
 						</ul>
 					</li>
 				<li class="nav-item">				
-					<a class="nav-link" href="../index.php"><i class="fa fa-sign-out"></i>Salir</a>
+					<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/index.php"><i class="fa fa-sign-out"></i>Salir</a>
 				</li>	
             </ul>
         </nav>
@@ -99,7 +218,7 @@ $aRet = $oBj->InfoUser($id);
     <!-- Main content -->
     <main class="main">
                <div class="card-header">
-                        <strong>Editars Usuario</strong> 
+                        <strong>Editar Usuario</strong> 
                     </div>
                     <div class="card-block">
                         <form action="" method="post" class="form-horizontal ">
@@ -131,30 +250,18 @@ $aRet = $oBj->InfoUser($id);
                                         </div>
                                     </div>
                                    
-                                    <div id="areas">
-                                        
-                                    </div>
+                                    <?php echo($comboBoxArea);?>
                                 </div>
                                 <div class="row">
-                                   <div id="cargos">
-                                    </div>
-                                    <div id="paises">                                       
-                                    </div>
-                                    <div id="jefes">
-                                    </div>
-                                    <div class="form-group col-sm-3">
-                                        <label for="ccmonth">Status</label>
-                                        <select class="form-control" id="status">
-                                        	<option value="0">-- SELECCIONE--</option>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
-                                        </select>
-                                    </div>
+                                   <?php echo($comboBoxCargo);?>
+                                   <?php echo($comboBoxPais);?>
+                                   <?php echo($comboBoxJefe);?>
+                                   <?php echo($comboBoxStatus);?>
                                 </div>
                         </form>
                     </div>
                     <div class="card-footer" align="center">
-                        <button type="button" class="btn btn-sm btn-success" onclick="EditarUsuario();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
+                        <button type="button" class="btn btn-sm btn-success" onclick="EditarUsuario(<?php echo($id);?>);"><i class="fa fa-dot-circle-o"></i> Grabar</button>
                         <button type="button" class="btn btn-sm btn-danger" onclick="SalirUsuario();"><i class="fa fa-ban"></i> Salir</button>
                     </div>
     </main>

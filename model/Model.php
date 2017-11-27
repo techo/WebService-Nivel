@@ -93,6 +93,7 @@ class Model
         $sql .= "usuario.apellido_paterno as 'apellido_paterno', ";
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
         $sql .= "usuario.mail as 'email' , ";
+        $sql .= "usuario.status as 'status' , ";
         $sql .= "area.nombre as 'area', ";
         $sql .= "area.id as 'codarea', ";
         $sql .= "cargo.nombre as 'cargo', ";
@@ -444,7 +445,7 @@ class Model
         require_once 'DBConfig.php';
         $sql  = "SELECT ";
         $sql .= "id, ";
-        $sql .= "nombre ";
+        $sql .= "CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) as 'nombre'";
         $sql .= "FROM usuario ";
         $sql.= "WHERE status = 1 ORDER BY nombre ASC";
         $pdo = Database::conexao();
@@ -479,6 +480,7 @@ class Model
     {
         require_once 'DBConfig.php';
         $sql  = "SELECT ";
+        $sql .= "usuario.id, ";
         $sql .= "usuario.nombre, ";
         $sql .= "usuario.apellido_paterno, ";
         $sql .= "usuario.apellido_materno ";
@@ -490,6 +492,40 @@ class Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $result;
+    }
+    
+    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "UPDATE usuario SET ";
+        $sql .= "nombre            = '" . $nombre."', ";
+        $sql .= "apellido_paterno  = '" . $paterno."', ";
+        $sql .= "apellido_materno  = '" . $materno."', ";
+        $sql .= "mail              = '" . $email."', ";
+        $sql .= "id_area           = '" . $area."', ";
+        $sql .= "id_cargo          = '" . $cargo."', ";
+        $sql .= "id_pais           = '" . $pais."', ";
+        $sql .= "id_jefe           = '" . $jefe."', ";
+        $sql .= "status            = '" . $status."', ";
+        $sql .= "id_alterador      = '" . $idUser."', ";
+        $sql .= "fecha_alt         = NOW() ";
+        $sql .= "WHERE id          = '" . $id."'";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $Logado = true;
+        }
+        else
+        {
+            $Logado = false;
+        }
+        
+        return $Logado;
     }
     
 }

@@ -357,3 +357,37 @@ function SalirUsuario()
 	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php?");
 }
 
+function EditarUsuario(id)
+{
+	oData          = new Object();	
+	oData.acao     = "EditarUsuario";
+	oData.nombre   = $('#nombre').val(); 
+	oData.paterno  = $('#paterno').val(); 
+	oData.materno  = $('#materno').val();
+	oData.mail     = $('#email').val(); 
+	oData.area     = $('#area').val();
+	oData.cargo    = $('#cargo').val();
+	oData.pais     = $('#pais').val();
+	oData.jefe     = $('#jefe').val();
+	oData.status   = $('#status').val();
+	oData.id       = id;
+	$.ajax({
+				type: "POST",
+				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php");
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+

@@ -92,7 +92,7 @@
          
          $GetJefe = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl', false);
          
-         $param = array('token' => 'b4227c0438c66718746c04016aa94d01-71771411d7fd6d6f54e105524adeb91c',
+         $param = array('token' => 'b4227c0438c66718746c04016aa94d01-a5b32f6e6f70f4219e399bb3854493d4',
              'mail' => 'elias.lima@techo.org'
          );
          

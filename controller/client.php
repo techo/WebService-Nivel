@@ -41,6 +41,9 @@
         case 'ListUsuarios'   : ListUsuarios();
         break;
         
+        case 'EditarUsuario'  : EditarUsuario($_POST);
+        break;
+        
       }
       
       //Login do Usuario
@@ -546,6 +549,51 @@
                            
               echo json_encode(array("results" => $html));
           }
+      }
+      
+      function EditarUsuario($aPost)
+      {
+          session_start();
+          $nombre   = $aPost['nombre'];
+          $paterno  = $aPost['paterno'];
+          $materno  = $aPost['materno'];
+          $email    = $aPost['mail'];
+          $area     = $aPost['area'];
+          $cargo    = $aPost['cargo'];
+          $pais     = $aPost['pais'];
+          $jefe     = $aPost['jefe'];
+          $status   = $aPost['status'];
+          $id       = $aPost['id'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id);
+          if($lGraba)
+          {
+              $message = 'Usuario Cambiado con Exito.';
+              $sucess  = 'true';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          else
+          {
+              $message = 'Error al Cambiar Usuario.';
+              $sucess  = 'false';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          
       }
 		
 ?>                    

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Lista Usuario</title>
+    <title>Lista Pais</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -97,7 +97,7 @@
     <!-- Main content -->
     <main class="main">
        <div class="row">
-                    <div id="usuario">
+                    <div id="listagem">
                     <!--/col-->
                 </div>
     </main>
@@ -114,7 +114,7 @@
     <script src="../js/main.js?"></script>
     <script>
 	$(document).ready(function() {
-	    ListUsuarios();
+		ListaPais();
 	});
 	</script>
 </body>

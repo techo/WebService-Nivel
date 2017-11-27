@@ -516,4 +516,30 @@ function EditarCargo(id)
 			});	
 }
 
+function ListaPais()
+{
+	oData       = new Object();	
+	oData.acao  = "ListaPais";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#listagem').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Paises');
+			}
+		}
+	});	
+}
+
+
 

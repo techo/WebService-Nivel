@@ -652,5 +652,32 @@ class Model
         return $Logado;
     }
     
+    function ListaPais()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "pais.id as 'id', ";
+        $sql .= "pais.nombre as 'nombre',  ";
+        $sql .= "pais.codigo as 'codigo', ";
+        $sql .= "aff.id as 'id_aff', ";
+        $sql .= "aff.nombre as 'nombre_aff', ";
+        $sql .= "aff.apellido_paterno as 'paterno_aff', ";
+        $sql .= "aff.apellido_materno as 'materno_aff', ";
+        $sql .= "cont.id as 'id_cont', ";
+        $sql .= "cont.nombre as 'nombre_cont', ";
+        $sql .= "cont.apellido_paterno as 'paterno_cont', ";
+        $sql .= "cont.apellido_materno as 'materno_cont', ";
+        $sql .= "pais.status as 'status'";
+        $sql .= "FROM pais ";
+        $sql .= "INNER JOIN usuario aff ON pais.id_aff = aff.id ";
+        $sql .= "INNER JOIN usuario cont ON pais.id_cont = cont.id";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
 }
 ?>

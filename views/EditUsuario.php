@@ -184,6 +184,9 @@ $comboBoxStatus.= "</div>";
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListPais.php"><i class="fa fa-arrow-right"></i>Paises</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i class="fa fa-arrow-right"></i>Areas</a>
 							</li>
 							<li class="nav-item">

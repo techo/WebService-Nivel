@@ -56,6 +56,9 @@
         case 'EditarCargo'    : EditarCargo($_POST);
         break;
         
+        case 'ListaPais'      : ListaPais($_POST);
+        break;
+        
       }
       
       //Login do Usuario
@@ -783,6 +786,61 @@
               echo(json_encode($aRet));
           }
           
+      }
+      
+      function ListaPais()
+      {
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          $aRet = $oBj->ListaPais();
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='col-lg-12'>";
+              $html .= "<div class='card'>";
+              $html .= "<div class='card-header'>";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Paises";
+              $html .= "</div>";
+              $html .= "<div class='card-block'>";
+              $html .= "<table class='table table-bordered table-striped table-condensed'>";
+              $html .= "<thead>";
+              $html .= "<tr>";
+              $html .= "<th>Nombre</th>";
+              $html .= "<th>Codigo</th>";
+              $html .= "<th>Contacto AFF</th>";
+              $html .= "<th>Contacto CONT</th>";
+              $html .= "<th>Status</th>";
+              $html .= "</tr>";
+              foreach ($aRet as $k=>$v)
+              {
+                  $html .= "<tr>";
+                  $html .= "<td>".$v['nombre']."</td>";
+                  $html .= "<td>".$v['codigo']."</td>";
+                  $html .= "<td>".$v['nombre_aff'].' '.$v['paterno_aff'].' '.$v['materno_aff']."</td>";
+                  $html .= "<td>".$v['nombre_cont'].' '.$v['paterno_cont'].' '.$v['materno_cont']."</td>";
+                  $html .= "<td>";
+                  if($v['status'] == 1)
+                  {
+                      $html .= "<span class='tag tag-success'>Activo</span>";
+                  }
+                  else
+                  {
+                      $html .= "<span class='tag tag-danger'>Inactivo</span>";
+                  }
+                  $html .= '<td><a type="button" onclick="RedirectPais('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+                  $html .= "</td>";
+                  $html .= " </tr>";
+              }
+              $html .= "</thead>";
+              $html .= "<tbody>";
+              $html .= "</tbody>";
+              $html .= "</table>";
+              $html .= "</div>";
+              $html .= "</div>";
+              $html .= "</div>";
+              
+              echo json_encode(array("results" => $html));
+          }
       }
 		
 ?>                    

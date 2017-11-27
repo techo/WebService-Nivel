@@ -454,3 +454,66 @@ function EditarArea(id)
 			});	
 }
 
+function ListaCargo()
+{
+	oData       = new Object();	
+	oData.acao  = "ListaCargo";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#listagem').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Cargos');
+			}
+		}
+	});	
+}
+
+function RedirectCargo(id)
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditCargo.php/?id="+ id);
+}
+
+function SalirCargo()
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php?");
+}
+
+function EditarCargo(id)
+{
+	oData          = new Object();	
+	oData.acao     = "EditarCargo";
+	oData.nombre   = $('#nombre').val(); 
+	oData.status   = $('#status').val();
+	oData.id       = id;
+	$.ajax({
+				type: "POST",
+				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php");
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+
+

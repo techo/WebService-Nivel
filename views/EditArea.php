@@ -2,7 +2,7 @@
 $id = $_GET['id'];
 require_once '../model/Model.php';
 $oBj = new Model();
-$aRet = $oBj->InfoArea($id); // Usuario
+$aRet = $oBj->InfoArea($id); // Area
 
 
 //ComboBox Status
@@ -90,6 +90,9 @@ $comboBoxStatus.= "</div>";
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i class="fa fa-arrow-right"></i>Areas</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i class="fa fa-arrow-right"></i>Cargos</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -122,7 +125,7 @@ $comboBoxStatus.= "</div>";
     <!-- Main content -->
     <main class="main">
                <div class="card-header">
-                        <strong>Editar Areas</strong> 
+                        <strong>Editar Area</strong> 
                     </div>
                     <div class="card-block">
                         <form action="" method="post" class="form-horizontal ">

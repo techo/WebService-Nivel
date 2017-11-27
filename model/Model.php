@@ -592,5 +592,65 @@ class Model
         return $Logado;
     }
     
+    function ListaCargo()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "status ";
+        $sql .= "FROM cargo ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function InfoCargo($id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "status ";
+        $sql .= "FROM cargo ";
+        $sql.= "WHERE id = " . $id;
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function EditarCargo($nombre, $status, $idUser, $id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "UPDATE cargo SET ";
+        $sql .= "nombre            = '" . $nombre."', ";
+        $sql .= "status            = '" . $status."', ";
+        $sql .= "id_alterador      = '" . $idUser."', ";
+        $sql .= "fecha_alt         = NOW() ";
+        $sql .= "WHERE id          = '" . $id."'";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $Logado = true;
+        }
+        else
+        {
+            $Logado = false;
+        }
+        
+        return $Logado;
+    }
+    
 }
 ?>

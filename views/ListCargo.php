@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Lista Cargos</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -36,25 +36,25 @@
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/usuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
+								<a class="nav-link" href="usuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i class="fa fa-arrow-right"></i>Paises</a>
+								<a class="nav-link" href="paises.php"><i class="fa fa-arrow-right"></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i class="fa fa-arrow-right"></i>Areas</a>
+								<a class="nav-link" href="areas.php"><i class="fa fa-arrow-right"></i>Areas</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i class="fa fa-arrow-right"></i>Cargos</a>
+								<a class="nav-link" href="cargos.php"><i class="fa fa-arrow-right"></i>Cargos</a>
 							</li>
 						</ul>
 					</li>
 					
-					 <li class="nav-item nav-dropdown">
+					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
+								<a class="nav-link" href="ListUsuario.php"><i class="fa fa-arrow-right"></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i class="fa fa-arrow-right"></i>Areas</a>
@@ -93,7 +93,10 @@
     </div>
     <!-- Main content -->
     <main class="main">
-       
+       <div class="row">
+                    <div id="listagem">
+                    <!--/col-->
+                </div>
     </main>
 
     <footer class="footer">
@@ -105,6 +108,12 @@
     <script src="../js/libs/jquery.min.js"></script>
     <script src="../js/libs/bootstrap.min.js"></script> 
     <script src="../js/app.js"></script>
+    <script src="../js/main.js?"></script>
+    <script>
+	$(document).ready(function() {
+		ListaCargo();
+	});
+	</script>
 </body>
 
 </html>

@@ -59,6 +59,9 @@
         case 'ListaPais'      : ListaPais($_POST);
         break;
         
+        case 'EditarPais'     : EditarPais($_POST);
+        break;
+        
       }
       
       //Login do Usuario
@@ -841,6 +844,47 @@
               
               echo json_encode(array("results" => $html));
           }
+      }
+      
+      function EditarPais($aPost)
+      {
+          session_start();
+          $nombre   = $aPost['nombre'];
+          $codigo   = $aPost['codigo'];
+          $id_aff   = $aPost['aff'];
+          $id_cont  = $aPost['cont'];
+          $status   = $aPost['status'];
+          $id       = $aPost['id'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $lGraba = $oBj->EditarPais($nombre, $codigo, $id_aff, $id_cont, $status, $_SESSION['Id'], $id);
+          if($lGraba)
+          {
+              $message = 'Pais Cambiado con Exito.';
+              $sucess  = 'true';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          else
+          {
+              $message = 'Error al Cambiar Pais.';
+              $sucess  = 'false';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          
       }
 		
 ?>                    

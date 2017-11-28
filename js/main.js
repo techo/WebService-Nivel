@@ -541,5 +541,45 @@ function ListaPais()
 	});	
 }
 
+function RedirectPais(id)
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditPais.php/?id="+ id);
+}
+
+function SalirPais()
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListPais.php?");
+}
+
+function EditarPais(id)
+{
+	oData          = new Object();	
+	oData.acao     = "EditarPais";
+	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val();
+	oData.aff      = $('#aff').val();
+	oData.cont     = $('#cont').val();
+	oData.status   = $('#status').val();
+	oData.id       = id;
+	$.ajax({
+				type: "POST",
+				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListPais.php");
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+
 
 

@@ -1,5 +1,10 @@
 <?php
 
+
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
     header('Content-Type: application/json; charset=UTF-8',true);
     $cAcao    = $_POST['acao'];
    
@@ -186,15 +191,86 @@
               
               if($lGraba)
               {
-                  $message = 'Usuario registrado con Exito.';
-                  $sucess  = 'true';
-                  $result  = '';
+                  require_once("../lib/phpmailer/class.phpmailer.php");
+                  $mail = new PHPMailer1;
                   
-                  $aRet = array('Message' => $message,
-                                'Success' => $sucess,
-                                'Result'  => $result);
+                  $mail->isSMTP();
                   
-                  echo(json_encode($aRet));
+               //   $mail->SMTPDebug = 2;
+                  
+                  $mail->Host = 'smtp.gmail.com';
+                  
+                  $mail->Port = 587;
+                  
+                  $mail->SMTPSecure = 'tls';
+                  
+                  $mail->SMTPAuth = true;
+                  
+                  $mail->Username = "no-reply@techo.org";
+                  
+                  $mail->Password = "0CBiyyRg";
+                  
+                  $mail->setFrom($email);
+                  
+                  $mail->addAddress($email);
+                  
+                  $mail->Subject = 'Cadastro de Usuario';
+                  
+                  $mail->msgHTML('<!DOCTYPE html>
+                        <html>
+                        <head>
+                        	<meta charset="utf-8">
+                        	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+                        	<title>Cadastro de Usuario</title>
+                        </head>
+                        <body>
+                        <style>
+                        	* {
+                        		font-size: 14px;
+                        		line-height: 1.8em;
+                        		font-family: arial;
+                        	}
+                        </style>
+                        	<table style="margin:0 auto; max-width:660px;">
+                        		<thead>
+                        			<tr>
+                        				<th><img src="https://crunchbase-production-res.cloudinary.com/image/upload/c_lpad,h_256,w_256,f_jpg/v1456028699/hmjywirmsbcl3frjdtsn.png" />  </th>
+                        			</tr>
+                        		</thead>
+                        		<tbody>
+                        			<tr>
+                        				<td><p style="padding-bottom:20px; text-align:center;">abajo informaci&oacute;n sobre su Login:</p>
+                            				Email:<strong> '. $email .'</strong><br>
+                            				Contrase&ntilde;a:<strong> '. $password .'</strong><br>
+                        				</td>
+                        			</tr>
+                        			<tr>
+                        				<td>
+                        				</td>
+                        			</tr>
+                        		</tbody>
+                        	</table>
+                        </body>
+                        </html>');
+                  
+                  $mail->AltBody = 'This is a plain-text message body';
+                  
+                //  $mail->addAttachment('images/phpmailer_mini.png');
+                  
+                  if (!$mail->send()) {
+                      echo "Mailer Error: " . $mail->ErrorInfo;
+                  } else {
+                      
+                      $message = 'Usuario registrado con Exito.';
+                      $sucess  = 'true';
+                      $result  = '';
+                      
+                      $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+                      
+                      echo(json_encode($aRet));
+                  }
               }
               else
               {

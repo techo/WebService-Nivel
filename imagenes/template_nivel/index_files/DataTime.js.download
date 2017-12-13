@@ -1,0 +1,60 @@
+$.datepicker.regional['es'] = {
+    closeText: 'Cerrar',
+    prevText: '<Ant',
+    nextText: 'Sig>',
+    currentText: 'Hoy',
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+    weekHeader: 'Sm',
+    dateFormat: 'dd/mm/yy',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: ''
+};
+$.datepicker.setDefaults($.datepicker.regional['es']);
+function datetime() {
+    $("#Factura_datepicker").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true, 
+        changeYear: true,
+        minDate: 0
+    });
+    $("#Recepcion_datepicker").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true, 
+        changeYear: true,
+        minDate: 0
+    });
+    $("#comprobante_datepicker").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true, 
+        changeYear: true,
+        mindate: 0
+//$("#finiact").datepicker({dateFormat: 'yy-mm-dd', maxDate: new Date(), beforeShowDay: $.datepicker.noWeekends, changeMonth: true, changeYear: true});
+    });
+}
+;
+
+
+function Cambio() {
+    ////console.log("cambio")
+    document.getElementById('currency_select').options.length = 0;
+//    document.getElementById('subsidiary_select').options.length = 0;
+
+    var porId = document.getElementById('Proveedor_select').value;
+
+    $("#Proveedor_lbl").val(Proveedor[porId].Entityid);
+    $("#subsidiary_select").append("<option value = \"" + Proveedor[porId].lis_subsidiary[0].Internalid + "\" >" + Proveedor[porId].lis_subsidiary[0].Namenohieratchy + "</option>");
+    for (var i in Proveedor[porId].lis_currency) {
+        $("#currency_select").append("<option value = \"" + Proveedor[porId].lis_currency[i].Internalid + "\" >" + Proveedor[porId].lis_currency[i].Name + "</option>");
+    }
+
+}
+        

@@ -1,0 +1,10 @@
+
+function ver_compras(parametro){
+    go('ordenes',[{id:"tipo","val":"compra"},{id:"enviado","val":parametro}]);
+}
+function ver_reembolso(parametro){
+    go('ordenes',[{id:"tipo","val":"reembolso"},{id:"enviado","val":parametro}]);
+}
+function ver_solicitudes(parametro){
+    go('ordenes',[{id:"tipo","val":"solicitudes"},{id:"enviado","val":parametro}]);
+}

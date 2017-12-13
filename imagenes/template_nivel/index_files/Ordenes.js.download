@@ -1,0 +1,1824 @@
+var Objemployees = '<%=bdEmployee%>';
+//Variable para autocompletar el Select Subsidiary y currency
+var Proveedor = {};
+//variable para rescatar los Gastos existentes
+var Arrgasto = new Array();
+//variables para autocomplete
+var Proveedor2 = new Array();
+var employee = new Array();
+var carpetas;
+var orden = null;
+var tipo = null;
+var EstadoOrden = null;
+//bandera para los botones
+var consultando = false;
+var gastos_id = 7;
+var check = 9;
+var ordenId = 0;
+var _TABLAS = {};
+//var gastos_idCarga = 7;
+var lang = new Lang('es');
+function devueltaSolicitud(motivo) {
+
+//    console.log("entre al devolver Solicitud");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'update_solicitud', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function rechazadaSolicitud(motivo) {
+
+//    console.log("entre al devolver Solicitud");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'rechaso_solicitud', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function aprobadaSolicitud(motivo) {
+
+//    console.log("entre al devolver Solicitud");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'aprobada_solicitud', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function aprobadaSolicitud2(motivo) {
+
+//    console.log("entre al devolver Solicitud2");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'aprobada_solicitud2', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function aprobadaSolicitudFinal(motivo) {
+
+//    console.log("entre al devolver Solicitud2");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'aprobada_solicitudfinal', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+
+
+function aprobadaOrden(motivo) {
+
+//    console.log("entre al devolver Solicitud2");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'aprobada_ordenes', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function solicitudReenviadaJ(motivo) {
+//    console.log("entre al reenvio");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'reenvio_ordenes_jefe', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+
+function solicitudReenviadaF(motivo) {
+//    console.log("entre al reenvio");
+//    console.log("nuevo motivo " + motivo);
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'reenvio_ordenes_finanzas', 'motivo': motivo
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+
+function cambiar(parametro, estado, tipo) {
+//    console.log('entro al cambiar');
+    var NewMotivo = "";
+    var motivo = valor('observacion');
+    var motivoR = valor('observacion2');
+    var motivo1 = valor('observaciontxt');
+    var MotivoNuevo = valor('observaciontxt1');
+    var observacion = "";
+    if (motivo == "!!" && motivoR == "!!") {
+        observacion = motivo1;
+    } else if (motivoR == "!!" && motivo1 == "!!") {
+        observacion = motivo;
+    } else if (motivo == "!!" && motivo1 == "!!") {
+        observacion = motivoR;
+    }
+    if (Number(estado) == 43) {
+        NewMotivo = "Item de gastos completos.";
+    } else {
+        NewMotivo = motivo
+    }
+    $.ajax({url: 'Svl_OrdenEstado',
+        async: false,
+        data: {'action': 'orden-estado', 'observacion': observacion, 'proximoEstado': parametro, 'ordenId': ordenId, 'obs43': NewMotivo, 'estado': estado, 'tipo': tipo, 'MotivoNuevo': MotivoNuevo
+        },
+        success: function (data) {
+            if (data['respuesta'] != "true") {
+                alert(data['respuesta']);
+            } else {
+                if (parametro === "devolver") {
+                    if (Number(estado) == 31 || Number(estado) == 51) {
+//                        console.log('entre al if devolver 31 & 51');
+                        devueltaSolicitud(MotivoNuevo);
+//                        console.log('nuevo motivo 31 ' + MotivoNuevo);
+                    } else {
+//                        console.log('entre al if devolver cualquier estado');
+                        devueltaSolicitud(motivo1);
+                    }
+                    alert('Acabas de ' + parametro + ' la solicitud: #' + ordenId + ".");
+                    go('nivel-inicio');
+                } else if (parametro === "rechazar") {
+//                    console.log('entre al else if rechazar');
+                    rechazadaSolicitud(motivo1);
+                    alert('Acabas de ' + parametro + ' la solicitud: #' + ordenId + ".");
+                    go('nivel-inicio');
+                } else if (parametro === "aceptar") {
+//                    console.log('entre al else if aceptar');
+                    if (Number(estado) == 41 && Number(tipo) == 300) {
+//                        console.log('Solicitud tipo 300, estado 41');
+                        aprobadaSolicitud2(motivo1);
+                    } else if (Number(estado) == 41 && Number(tipo) != 300) {
+                        aprobadaOrden(motivo1);
+//                        console.log('Solicitud tipo 292 o 294, estado 41');
+                    } else if (Number(estado) == 51) {
+//                        console.log('Solicitud cualquiera primera vuelta estado 21');
+                        aprobadaSolicitudFinal(MotivoNuevo);
+                    } else if (Number(estado) == 21) {
+//                        console.log('Solicitud cualquiera primera vuelta estado 21');
+                        aprobadaSolicitud(motivo1);
+                    } else if (Number(estado) == 31) {
+//                        console.log('Solicitud cualquiera primera vuelta estado 31');
+                        aprobadaSolicitud(MotivoNuevo);
+                    }
+                    alert('Acabas de ' + parametro + ' la solicitud: #' + ordenId + ".");
+                    go('nivel-inicio');
+                } else if (parametro === "reenviar") {
+                    if (Number(estado) == 22 && Number(tipo) != 300) {
+//                        console.log('Solicitud reenviado para el jefe 22---294-292');
+                        solicitudReenviadaJ(motivoR);
+                    } else if (Number(estado) == 22 && Number(tipo) == 300) {
+//                        console.log('Solicitud reenviado para el jefe 22----300');
+                        solicitudReenviadaJ(motivo);
+                    } else if (Number(estado) == 43) {
+//                        console.log('Solicitud reenviado para el jefe 43');
+                        solicitudReenviadaJ(NewMotivo);
+                    } else if (Number(estado) == 32) {
+//                        console.log('Solicitud reenviado para el jefe 32');
+                        solicitudReenviadaJ(motivoR);
+                    } else if (Number(estado) == 42) {
+//                        console.log('Solicitud reenviado para el finanzas 42');
+//                        console.log('soy el motivo ' + motivo);
+                        solicitudReenviadaF(motivo);
+                    } else if (Number(estado) == 52) {
+//                        console.log('Solicitud reenviado para el finanzas 52 ');
+//                        console.log('soy el motivo ' + motivoR);
+                        solicitudReenviadaF(motivoR);
+                    }
+                    alert('Acabas de ' + parametro + ' la solicitud: #' + ordenId + ".");
+                    go('nivel-inicio');
+                }
+
+            }
+        }, beforeSend: function (xhr) {
+            $('#cargandoCambio').html("Guardando ....<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+        }, complete: function (jqXHR, textStatus) {
+            $('#cargandoCambio').fadeOut();
+        }
+    });
+}
+function reenviar(parametro, parametroGasto, tipoOrden, estado) {
+    fgasto(parametroGasto);
+    if (Number(tipoOrden) == 294) {
+//        console.log("entre al guardar 2");
+        guardar2(parametro);
+    } else {
+        var flag = true;
+        if (tipoOrden != 300) {
+            flag = (Arrgasto.length != 0 ? true : false);
+        }
+        if (tipoOrden != 300 && (valor('Proveedor_lbl') == "!!" || valor('oc_lbl').replace(" ", "") == "!!" || !flag || valor('Recepcion_datepicker') == "!!")) {
+            alert("Faltan campos");
+        } else if (tipoOrden == 300 && (valor('currency_select') == "0" || valor('txt_monto') == "!!" || valor('currency_tipo_pago') == "0" || valor('txt_nota') == "!!")) {
+            alert("Faltan campos");
+        } else if (tipoOrden == 300 && (valor('currency_tipo_pago') != "3" && (valor('banco_select') == "0" || valor('txt_ncuenta') == "!!"))) {
+            alert("Faltan campos");
+            return;
+        } else if (tipoOrden == 300 && Number(estado) == 43 && (valor('urlGastos') == "!!" && valor('justificacion_txt') == "!!")) {
+            alert("Faltan campos Rendicion");
+            return;
+        } else {
+//            console.log("entre al guardar");
+            guardar(tipoOrden);
+        }
+
+    }
+    cambiar('reenviar', estado, tipoOrden);
+}
+function valor(id) {
+    try {
+        var valor = ($('#' + id) != undefined ? $('#' + id).val() : "!!");
+        return (valor.trim().length > 0 ? valor : "!!");
+    } catch (err) {
+        return "!!";
+    }
+}
+var _TEMP;
+function enviarSolicitud() {
+//    console.log("entre al enviar correo");
+    $.ajax({url: "Svl_Email",
+        async: false,
+        data: {'action': 'enviar_solicitud'
+        },
+        success: function (result) {
+            if (result === 'Correo Enviado') {
+//                console.log("entre al if de enviar correo");
+            } else {
+//                console.log("entre al else de enviar correo");
+            }
+        }
+    });
+}
+function enviarProveedor() {
+    var brands = $('#currency_selected option:selected');
+    var selected = [];
+    $(brands).each(function (index, brand) {
+        selected.push([$(this).val()]);
+    });
+//    console.log(" Soy los valores " + selected);
+    if (valor('name_proveedor') === "!!" || valor('rut_proveedor') === "!!" || valor('direccion_proveedor') === "!!" || valor('fono_proveedor') === "!!" ||
+            valor('email_proveedor') === "!!" || valor('name_contacto') === "!!" || valor('email_contacto') === "!!" || valor('banco_proveedor') === "!!" ||
+            valor('cuentaTipo_proveedor') === "!!" || valor('nroCuenta_proveedor') === "!!" || selected.length === 0 ||
+            valor('observaciontxt') === "!!") {
+        alert("Faltan Campos");
+    } else {
+        $.ajax({url: "Svl_Email",
+            async: false,
+            data: {'action': 'enviar_Proveedor', 'nameProvee': valor('name_proveedor').trim(), 'rutProvee': valor('rut_proveedor').trim(), 'direccionProvee': valor('direccion_proveedor').trim(),
+                'fonoProvee': valor('fono_proveedor').trim(), 'emailProvee': valor('email_proveedor').trim(), 'nameContacto': valor('name_contacto').trim(), 'emailContacto': valor('email_contacto').trim(),
+                'bancoProvee': valor('banco_proveedor').trim(), 'cuentaProvee': valor('cuentaTipo_proveedor').trim(), 'nroCuentaProvee': valor('nroCuenta_proveedor').trim(),
+                'currencyProvee': JSON.stringify(selected), 'obsProvee': valor('observaciontxt').trim()
+            },
+            success: function (result) {
+                if (result === 'Correo Enviado') {
+                    $('#CrearProveedor').modal("show");
+                } else {
+                    alert("No se a podido enviar la solicitud");
+                }
+            },
+            beforeSend: function (xhr) {
+                $('#cargandoProveedor').html("Enviando ....<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+            }, complete: function (jqXHR, textStatus) {
+                $('#cargandoProveedor').fadeOut();
+            }
+        });
+    }
+}
+function guardar(tipoOrden) {
+    _TEMP = orden;
+    var x = "";
+    var b = "";
+    if (valor('cuenta_select') == 0) {
+        x = "!!";
+    } else {
+        x = valor('cuenta_select');
+    }
+    if (selecc('banco_select') == 0) {
+        b = "!!";
+    } else {
+        b = selecc('banco_select');
+    }
+//    console.log("entro a guardar" + tipoOrden);
+    var flag = true;
+    if (tipoOrden != 300) {
+//    (request.getParameter("purchaseExpense[" + i + "][Account]").trim().equalsIgnoreCase("!!") ? "0" : request.getParameter("purchaseExpense[" + i + "][Account]"))
+        flag = (Arrgasto.length != 0 ? true : false);
+    }
+    if (tipoOrden != 300 && (valor('Proveedor_lbl') == "!!" || valor('oc_lbl').replace(" ", "") == "!!" || !flag || valor('Recepcion_datepicker') == "!!")) {
+//        console.log("Entre al if");
+        alert("Faltan campos");
+    } else if (tipoOrden == 300 && (valor('currency_select') == "0" || valor('txt_monto') == "!!" || valor('currency_tipo_pago') == "0" || valor('txt_nota') == "!!")) {
+//        console.log("Entre al else if 1");
+        alert("Faltan campos");
+    } else if (tipoOrden == 300 && (valor('currency_tipo_pago') != "3" && (valor('banco_select') == "0" || valor('txt_ncuenta') == "!!" || valor('cuenta_select') == "0"))) {
+//        console.log("Entre al else if 2");
+        alert("Faltan campos");
+    } else {
+//        console.log("entro a else directo");
+        if (!consultando) {
+            consultando = true;
+            $.ajax({url: "Svl_Orden",
+                async: false, //action  guardar-orden-compra
+                data: {'action': 'guardar-orden-compra', 'Proveedor': selecc('Proveedor_select'), /* 'tipoOrder': 292, */ 'Fecha': valor('txt_fechaO'), 'memo': valor('txt_nota'), 'Recepcion_datepicker': valor('Recepcion_datepicker'),
+                    'Factura_datepicker': valor('Factura_datepicker'), 'currency': selecc('currency_select'), 'url_OC': valor('oc_lbl'),
+                    /*Codigo Solicitud*/     'monto': valor('txt_monto'), 'tipopago': selecc('currency_tipo_pago'), 'tipobanco': b,
+                    'ncuenta': valor('txt_ncuenta'), 'Tcuenta': x,
+                    'url_FC': valor('urlGastos'), 'MemoRendicion': valor('justificacion_txt'),
+                    'largo': Arrgasto.length, 'purchaseExpense': Arrgasto
+
+                },
+                success: function (result) {
+//                    console.log(result);
+                    if (result['respuesta'] == 'creado') {
+                        if (tipoOrden == 292) {
+                            resumenOC(result['ordenId']);
+//                            console.log("entre al if final");
+                        } else {
+                            resumenSolicitud(result['ordenId']);
+//                            console.log("entre al else final");
+                        }
+                        enviarSolicitud();
+                        $('#Send').modal("show");
+                    }
+                },
+                beforeSend: function (xhr) {
+                    $('#cargandoAnalisisAval').html("Guardando ....<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+                }, complete: function (jqXHR, textStatus) {
+                    $('#cargandoAnalisisAval').fadeOut();
+                }
+            });
+        }
+    }
+}
+function guardar2(parametro) {
+    if (valor('Factura_datepicker') === "" || valor('Proveedor_lbl') === "" || valor('currency_select') === "!!" || valor('oc_lbl').replace(" ", "") === "!!" || Arrgasto.length < 1) {
+        alert("Faltan campos");
+    } else {
+//        console.log("Arrgasto.toString()" + Arrgasto.valueOf().toString());
+        JSON.stringify(Arrgasto);
+//        console.log("valor de \n\n\n" + parametro);
+        if (!consultando) {
+            consultando = true;
+            $.ajax({
+                async: false,
+                url: "Svl_Orden", //action  guardar-orden-compra
+                data: {
+                    'action': 'guardar-orden-compra',
+                    'Proveedor': parametro, /* 'tipoOrder': 292, */
+                    'Fecha': valor('txt_fechaO'),
+                    'memo': valor('txt_nota'),
+                    'Recepcion_datepicker': valor('Recepcion_datepicker'),
+                    'Factura_datepicker': valor('Factura_datepicker'),
+                    'currency': selecc('currency_select'), 'url_OC': valor('oc_lbl'),
+                    /*Codigo Solicitud*/
+                    'monto': valor('txt_monto'),
+                    'tipopago': selecc('currency_tipo_pago'),
+                    'tipobanco': selecc('banco_select'),
+                    'MemoRendicion': valor('justificacion_txt'),
+                    'Tcuenta': valor('cuenta_select'),
+                    'ncuenta': valor('txt_ncuenta'),
+                    'url_FC': valor('fc_lbl'), 'largo': Arrgasto.length, 'purchaseExpense': Arrgasto
+
+                },
+                success: function (result) {
+                    if (result['respuesta'] == 'creado') {
+                        enviarSolicitud();
+                        resumenOR(result['ordenId']);
+                        $('#Send').modal("show");
+                    }
+                },
+                beforeSend: function (xhr) {
+                    $('#cargandoAnalisisAval').html("Guardando ....<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+                }, complete: function (jqXHR, textStatus) {
+                    $('#cargandoAnalisisAval').fadeOut();
+                }
+            });
+        }
+    }
+}
+function selecc(id) {
+//console.log(id);
+    try {
+        var seleccion = document.getElementById(id);
+        var valor = seleccion.options[seleccion.selectedIndex].value; //coges el valor
+        return valor;
+    } catch (ex) {
+        return "!!";
+    }
+}
+//fuerza si es obligado a cargarlos(cuando se muestra una orden), orden: si es OC no se necesita de fevomprobante,dominante y nro de comprobante cargado: 1) si es cargado desde mostrar 0 si es cargado desde un Boton agregar gasto 1
+function addgasto(fuerza, orden, cargado, param) {
+//    console.log(cargado + ";" + param);
+    if ((valor('account_select') === "0" || valor('txt_amount') === "!!" || valor('tax_select') === "0" || valor('department_select') === "0"
+            || valor('txt_memo') === "!!" || valor('class_select') === "0" || valor('location_select') === "0")/* && (fuerza === 1)*/) {
+        alert("Complete los campos Obligatorios");
+    } else if (Number(orden) == 2) {
+        if (valor('Factura_datepicker') === "!!") {
+            alert("Complete Fecha Comprobante");
+        } else if (valor('txt_denominacion_social') === "!!") {
+            alert("Complete Denominacion");
+        } else if (valor('txt_nro_comprobante') === "!!") {
+            alert("Complete Nro Comprobantes");
+        } else {
+            addgasto(fuerza, 3, cargado, param);
+        }
+    } else {
+        var nuevaFila = "<tr id=\"" + gastos_id + "\" name=\"" + gastos_id + "\">";
+        var valorcampo = $("#account_select option:selected").text().trim().split(" ");
+        nuevaFila += "<td align='center'> <span id='account" + gastos_id + "'  data-value='" + $('#account_select').val() + "'  name='" + $('#account_select').val() + "' title='" + $("#account_select option:selected").text() + "' >" + $("#account_select option:selected").text() + "</span></td>";
+        nuevaFila += "<td align='center'> <span  id='amount" + gastos_id + "' name='" + $("#txt_amount").val() + "' title='" + $("#txt_amount").val() + "'>" + $("#txt_amount").val().substring(0, 8) + "</span>   </td>";
+        valorcampo = $("#tax_select option:selected").text().trim().split(" ");
+        nuevaFila += "<td align='center'> <span  id='tax" + gastos_id + "' name='" + $('#tax_select').val() + "' title='" + $("#tax_select option:selected").text() + "' >" + valorcampo[2] + "</span></td>";
+        nuevaFila += "<td  align=\"center\" > <span  id='memo" + gastos_id + "' name='" + $("#txt_memo").val() + "' title='" + $("#txt_memo").val() + "'>" + $("#txt_memo").val().substring(0, 8) + "</span>   </td>";
+        valorcampo = $("#department_select option:selected").text().trim().split(" ")
+        nuevaFila += "<td align=\"center\" > <span  id='department" + gastos_id + "'  name='" + $('#department_select').val() + "' title='" + $("#department_select option:selected").text() + "' >" + valorcampo[0] + "</span></td>";
+        valorcampo = $("#class_select option:selected").text().trim().split(" ");
+        nuevaFila += "<td align=\"center\"  > <span   id='class" + gastos_id + "' name='" + $('#class_select').val() + "' title='" + $("#class_select option:selected").text() + "'>" + valorcampo[0] + "</span></td>";
+        valorcampo = $("#location_select option:selected").text().trim().split(" ");
+        nuevaFila += "<td align=\"center\" > <span   id='location" + gastos_id + "' name='" + $('#location_select').val() + "' title='" + $("#location_select option:selected").text() + "'>" + valorcampo[0] + "</span></td>";
+        if (orden != '1') {
+            nuevaFila += "<td align=\"center\" > <span  id='Fecomprobante" + gastos_id + "'  name='" + $("#Factura_datepicker").val() + "' title='" + $("#Factura_datepicker").val() + "'>" + $("#Factura_datepicker").val() + "</span>   </td>";
+            nuevaFila += "<td align=\"center\" > <span  id='denominacion" + gastos_id + "'   name='" + $("#txt_denominacion_social").val() + "' title='" + $("#txt_denominacion_social").val() + "' >" + $("#txt_denominacion_social").val().substring(0, 8) + "</span>   </td>";
+            nuevaFila += "<td align=\"center\" > <span  id='Nrocomprobante" + gastos_id + "'  name='" + $("#txt_nro_comprobante").val() + "' title='" + $("#txt_nro_comprobante").val() + "'>" + $("#txt_nro_comprobante").val().substring(0, 8) + "</span>   </td>";
+        }
+        if (cargado != "0") {
+            nuevaFila += "<td id=bontones> <input lang=\"es\" class=\"btn\" id=\"Mostrar" + gastos_id + "\" value=\"Modificar\" onclick=\"MostrarGasto(" + gastos_id + "," + orden + ");\" type=\"button\"> \n\
+                               <input lang=\"es\" class=\"btn\" id=\"Eliminar" + gastos_id + "\" value=\"Eliminar\"  onclick=\"EliminarGasto(" + gastos_id + "); revisarPresupuestoElse();\"  type=\"button\"></td></td>";
+        }
+        nuevaFila += "</tr>";
+        $('#expense_splits  tbody').append(nuevaFila);
+        gastos_id = gastos_id + 1;
+        if ($('#account' + gastos_id) === 0) {
+            $('#RevisarPre').attr("class", "");
+        }
+
+
+        if (param === "1") {
+            $('#OCif').modal("show");
+        } else {
+            $('#OCelse').modal("show");
+        }
+        revisarPresupuestoElse();
+        limpiarGastos();
+    }
+}
+function limpiarGastos() {
+    $('#account_select').val("0");
+    $('#txt_amount').val("");
+    $('#tax_select').val("0");
+    $('#txt_memo').val("");
+    $('#Factura_datepicker').val("");
+    $('#txt_denominacion_social').val("");
+    $('#txt_nro_comprobante').val("");
+}
+
+var elementoModificado; //variable para distingir en que tr esta parado para eliminar
+var elementoanterior = 0;
+function MostrarGasto(elemento, orden, reca) {//alias modificar
+    if (reca * 1 === 1) {
+        $('#Eliminar' + elementoanterior).prop('disabled', false);
+        $('#Eliminar' + elemento).prop('disabled', true);
+        $('#btn_Gastos').hide();
+        $('#btnModificar').show();
+        $('#btnCancelarModificacion').show();
+        $("#" + elementoanterior).css("background-color", "white");
+        elementoModificado = elemento;
+        $("#btnCancelarModificacion").show(); //
+        $("#add_btn").hide(); //
+        $("#" + elementoModificado).css("background-color", "white");
+        $("#" + elemento).css("background-color", "yellow");
+        $("#account_select").val($('#account' + elementoModificado).attr("name"));
+        $("#txt_amount").val($('#amount' + elementoModificado).attr("name"));
+        $("#tax_select option[value=" + $('#tax' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#txt_memo").val($("#memo" + elementoModificado).attr("name"));
+        $("#department_select option[value=" + $('#department' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#class_select option[value=" + $('#class' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#location_select option[value=" + $('#location' + elementoModificado).attr("name") + "]").prop('selected', true);
+        if (orden * 1 === 2) {
+            $("#Factura_datepicker").val($("#Fecomprobante" + elemento).attr("name"));
+            $("#txt_denominacion_social").val($("#denominacion" + elemento).attr("name"));
+            $("#txt_nro_comprobante").val($("#Nrocomprobante" + elemento).attr("name"));
+        }
+        elementoanterior = elementoModificado;
+    } else {
+        $('#Eliminar' + elementoanterior).prop('disabled', false);
+        $('#Eliminar' + elemento).prop('disabled', true);
+        $('#btn_Gastos').hide();
+        $('#btnModificar').show();
+        $('#btnCancelarModificacion').show();
+        $("#" + elementoanterior).css("background-color", "white");
+        elementoModificado = elemento;
+        $("#btnCancelarModificacion").show(); //
+        $("#add_btn").hide(); //
+        $("#" + elementoModificado).css("background-color", "white");
+        $("#" + elemento).css("background-color", "yellow");
+//        console.log("acount selectes " + $("#account_select option[value=" + $('#account' + elementoModificado).attr("name") + "]").val());
+        $("#account_select option[value=" + $('#account' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#txt_amount").val($('#amount' + elementoModificado).prop('title'));
+        $("#tax_select option[value=" + $('#tax' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#txt_memo").val($("#memo" + elementoModificado).prop('title'));
+        $("#department_select option[value=" + $('#department' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#class_select option[value=" + $('#class' + elementoModificado).attr("name") + "]").prop('selected', true);
+        $("#location_select option[value=" + $('#location' + elementoModificado).attr("name") + "]").prop('selected', true);
+        if (orden != '1') {
+            $("#Recepcion_datepicker").val($("#Fecomprobante" + elemento).text());
+            $("#txt_denominacion_social").val($("#denominacion" + elemento).prop('title'));
+            $("#txt_nro_comprobante").val($("#Nrocomprobante" + elemento).prop('title'));
+        }
+        elementoanterior = elementoModificado;
+    }
+}
+function ModificarGastos(orden) {
+////console.log("modificar es " +elementoModificado)
+    $("#account" + elementoModificado).text($("#account_select option:selected").text().trim().split(" ")[0])
+    $("#account" + elementoModificado).attr('name', $('#account_select').val());
+    $("#account" + elementoModificado).attr('title', $("#account_select option:selected").text());
+    $("#memo" + elementoModificado).text($("#txt_memo").val().substring(0, 8))
+    $("#memo" + elementoModificado).attr('name', $('#txt_memo').val());
+    $("#memo" + elementoModificado).attr('title', $('#txt_memo').val());
+    $("#amount" + elementoModificado).text($("#txt_amount").val().substring(0, 8))
+    $("#amount" + elementoModificado).attr('name', $('#txt_amount').val());
+    $("#amount" + elementoModificado).attr('title', $('#txt_amount').val());
+    if (orden != '1') {
+        $("#Fecomprobante" + elementoModificado).text($("#Recepcion_datepicker").val())
+
+        $("#denominacion" + elementoModificado).text($("#txt_denominacion_social").val().substring(0, 8))
+        $("#denominacion" + elementoModificado).attr('name', $('#txt_denominacion_social').val());
+        $("#denominacion" + elementoModificado).attr('title', $('#txt_denominacion_social').val());
+        $("#Nrocomprobante" + elementoModificado).text($("#txt_nro_comprobante").val().substring(0, 8))
+        $("#Nrocomprobante" + elementoModificado).attr('name', $('#txt_nro_comprobante').val());
+        $("#Nrocomprobante" + elementoModificado).attr('title', $('#txt_nro_comprobante').val());
+    }
+
+    $("#tax" + elementoModificado).text($("#tax_select option:selected").text().trim().split(" ")[2])
+    $("#tax" + elementoModificado).attr('name', $('#tax_select').val());
+    $("#tax" + elementoModificado).attr('title', $("#tax_select option:selected").text());
+    $("#location" + elementoModificado).text($("#location_select option:selected").text().trim().split(" ")[0])
+    $("#location" + elementoModificado).attr('name', $('#location_select').val());
+    $("#location" + elementoModificado).attr('title', $("#location_select option:selected").text());
+    $("#class" + elementoModificado).text($("#class_select option:selected").text().trim().split(" ")[0])
+    $("#class" + elementoModificado).attr('name', $('#class_select').val());
+    $("#class" + elementoModificado).attr('title', $("#class_select option:selected").text());
+    $("#department" + elementoModificado).text($("#department_select option:selected").text().trim().split(" ")[0])
+    $("#department" + elementoModificado).attr('name', $('#department_select').val());
+    $("#department" + elementoModificado).attr('title', $("#department_select option:selected").text());
+    $('#Eliminar' + elementoModificado).prop('disabled', false);
+    $('#btnModificar').hide();
+    $('#btnCancelarModificacion').hide();
+    $('#btn_Gastos').show();
+    $("#" + elementoModificado).css("background-color", "white");
+    elementoModificado = 0;
+}
+function EliminarGasto(elemento) {
+    $("#" + elemento).remove();
+}
+function CancelarModificacion(param) {
+    $("#btnModificar").hide(); //
+    $("#btnCancelarModificacion").hide(); //
+    $("#add_btn").show(); //
+    $('#btn_Gastos').show();
+    $('#Eliminar' + elementoModificado).prop('disabled', false);
+    $("#" + elementoModificado).css("background-color", "white");
+    elementoModificado = 0;
+    $('#account_select').val("0");
+    $('#txt_amount').val("");
+    $('#tax_select').val("0");
+    $('#txt_memo').val("");
+    $('#department_select').val("0");
+    $('#class_select').val("0");
+    $('#location_select').val("0");
+    if (param * 1 === 2) {
+        $('#Factura_datepicker').val("");
+        $('#txt_denominacion_social').val("");
+        $('#txt_nro_comprobante').val("");
+    }
+
+}
+function fgasto(orden) {
+//    console.log('entre al Fgasto');
+    Arrgasto = [];
+    if (orden == 3) {
+        return;
+    }
+    if (orden != '1') {
+
+        for (var i = 7; i < gastos_id; i++) {
+            var agastos = $('#account' + i).attr("name");
+            if (agastos != undefined) {
+//                console.log('prueba' + $("#Fecomprobante" + i).text());
+                Arrgasto.push({Account: agastos, Amount: $('#amount' + i).prop('title'), Tax_Code: $('#tax' + i).attr("name"), Memo: $("#memo" + i).prop('title'), Department: $('#department' + i).attr("name"),
+                    Clas: $('#class' + i).attr("name"), Location: $('#location' + i).attr("name"), FechaComprobante: $("#Fecomprobante" + i).text(), Denominacion: $("#denominacion" + i).prop('title') != undefined ? $("#denominacion" + i).prop('title') : "!!",
+                    comprobante: ($("#Nrocomprobante" + i).prop('title') != undefined ? $("#Nrocomprobante" + i).prop('title') : "!!")
+                });
+//                console.log('nuewvo arreglo ' + JSON.stringify(Arrgasto));
+            }
+        }
+    } else {
+        for (var i = 7; i < gastos_id; i++) {
+            var agastos = $('#account' + i).attr("name");
+            if (agastos != undefined) {
+                Arrgasto.push({Account: agastos, Amount: $('#amount' + i).prop('title'), Tax_Code: $('#tax' + i).attr("name"), Memo: $("#memo" + i).prop('title'), Department: $('#department' + i).attr("name"),
+                    Clas: $('#class' + i).attr("name"), Location: $('#location' + i).attr("name"), FechaComprobante: "!!", Denominacion: "!!", comprobante: "!!"
+
+                });
+            }
+        }
+    }
+
+
+
+}
+function verificar() {
+    var valor = $("#account_select").val()
+    if (valor == 113) {
+        alert("Puede que no existan fondos para la cuenta seleccionada");
+    }
+
+}
+function CambioIdioma() {
+    idioma($('#idioma').val());
+}
+function idioma(idioma) {
+
+//////console.log("desde ORDENES.JS  "+idioma)
+//window.lang.change($('#idioma').val())
+//////console.log(""+idioma)
+    window.lang.change(idioma)
+    //////console.log("Salio con el idioma " + idioma)
+
+}
+function cargar() {
+    department();
+    $.ajax({url: "Svl_Orden",
+        async: false,
+        data: {'action': 'RELLENAR-ORDEN'},
+        success: function (result) {
+            for (var obj in result.Hvendor) {
+                //////console.log("el segundo //console " +result.Hvendor[obj].Internalid);    
+                $("#Proveedor_select").append("<option value=\"" + result.Hvendor[obj].Internalid + "\">" + result.Hvendor[obj].Entityid + "</option>");
+                if (Proveedor["" + result.Hvendor[obj].Internalid] === undefined) {
+                    Proveedor["" + result.Hvendor[obj].Internalid] = result.Hvendor[obj];
+                    Proveedor2.push(result.Hvendor[obj]);
+                }
+            }
+            for (var obj in result.employee) {
+                employee.push(result.employee[obj])
+            }
+            autocompleta();
+            //////console.log("paso");
+            for (var obj in result.clas) {
+                $("#class_select").find("option[value=\"" + result.clas[obj].Internalid + "\"]").remove(); //Elimina el Proveedor (si solo si existe), para crear uno nuevo y no aparescan repetidos
+                $("#class_select").append("<option value=\"" + result.clas[obj].Internalid + "\">" + result.clas[obj].Name + "</option>");
+            }
+            for (var obj in result.location) {
+                $("#location_select").find("option[value=\"" + result.location[obj].Internalid + "\"]").remove(); //Elimina el Proveedor (si solo si existe), para crear uno nuevo y no aparescan repetidos
+                $("#location_select").append("<option value=\"" + result.location[obj].Internalid + "\">" + result.location[obj].Name + "</option>");
+            }
+            for (var obj in result.centro_costros) {
+                $("#department_select").find("option[value=\"" + result.centro_costros[obj].Internalid + "\"]").remove(); //Elimina el Proveedor (si solo si existe), para crear uno nuevo y no aparescan repetidos
+                $("#department_select").append("<option value=\"" + result.centro_costros[obj].Internalid + "\">" + result.centro_costros[obj].Name + "</option>");
+            }
+
+        }
+    });
+    datetime();
+    tax();
+    account();
+}
+function option_change(id, id2) {
+    var seleccion = document.getElementById(id);
+    document.getElementById(id2).value = seleccion.options[seleccion.selectedIndex].id;
+}
+function account() {
+    $("#result").html("cargando ...");
+    $.ajax({url: "Svl_CuentasContables",
+        async: false,
+        data: {'action': 'cuentas-contables'},
+        success: function (result) {
+            $.each(result, function (k, v) {
+                var account = v.split(",")
+                $("#account_select").append("<option id=\"" + account[0] + "\" value=\"" + account[0] + "\">" + account[1] + "</option>");
+            });
+        }
+    });
+}
+function tax() {
+    $.ajax({url: "Svl_Orden",
+        async: false,
+        data: {'action': 'cargar-campos-taxcode-solicitud'},
+        success: function (result) {
+            $.each(result, function (k, v) {
+                var account = v.split(",")
+                $("#tax_select").append("<option value=\"" + account[0] + "\" id=\"" + account[2] + "\">" + account[1] + "</option>");
+            });
+        }
+    });
+}
+function department() {
+//console.log('entro')
+    $.ajax({url: "Svl_CentroCostos",
+        async: false,
+        data: {'action': 'centro-costos-orden'},
+        success: function (result) {
+
+
+
+            for (var obj in result) {
+//                    Imprimir Arreglo        // console.log(JSON.stringify(result[obj]));
+                $("#department_select").find("option[value=\"" + result[obj].CENTROCOSTO_ID + "\"]").remove(); //Elimina el Proveedor (si solo si existe), para crear uno nuevo y no aparescan repetidos
+                $("#department_select").append("<option value=\"" + result[obj].CENTROCOSTO_ID + "\">" + result[obj].NAME + "</option>");
+            }
+        }
+    });
+}
+function autocompleta() {
+
+    $("#Proveedor_lbl").autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            response($.grep(Proveedor2, function (value) {
+                value = value.Entityid || value.label || value.value || value;
+                return matcher.test(value) || matcher.test((value));
+            }));
+        },
+        focus: function (event, ui) {
+            $("#Proveedor_lbl").val(ui.item.Entityid);
+            return false;
+        }, change: function (event, ui) {
+            if (ui.item == null || ui.item == undefined) {
+                var c = $('#Proveedor_lbl').val();
+                $('#Proveedor_txt').text(c);
+//                console.log("Soy el valor " + c);
+                $('#save_btn').prop('disabled', true);
+                $('#Proveedor').modal("show");
+                $("#Proveedor_lbl").val("");
+                return false;
+            } else {
+                $('#save_btn').prop('disabled', false);
+            }
+        },
+        select: function (event, ui) {
+            $("select#Proveedor_select").val(ui.item.Internalid);
+            Cambio();
+            $("#Proveedor_lbl").val(ui.item.Entityid);
+            return false;
+        }
+    }).autocomplete("instance")._renderItem = function (ul, item) {
+        return $("<li>")
+                .append("<a>" + item.Entityid + "</a>").appendTo(ul);
+    };
+}
+function mostrarTPago() {
+    var tipo = $('#currency_tipo_pago').val();
+    if (tipo * 1 === 3 || tipo * 1 === 0) {
+        $('#banco_campo').hide();
+        $('#tipoCuenta').hide();
+    } else {
+        $('#banco_campo').show();
+        $('#tipoCuenta').show();
+    }
+}
+function cargarCurrency() {
+//console.log('entro al cargar moneda');
+    $.ajax({
+        async: false,
+        url: "Svl_Currency",
+        async: false,
+                data: {'action': 'extraer_moneda'},
+        success: function (result) {
+            for (var obj in result) {
+                $("#currency_select").append("<option value=\"" + result[obj].Internalid + "\">" + result[obj].Name + "</option>");
+            }
+        }
+    });
+}
+function cargarbancos(param) {
+//console.log('entro al cargar moneda');
+    $.ajax({
+        async: false,
+        url: "Svl_Bancos",
+        async: false,
+                data: {'action': 'extraer_banco', 'donde': param},
+        success: function (result) {
+            for (var obj in result) {
+                $("#banco_select").append("<option value=\"" + result[obj].idbanco + "\">" + result[obj].nameBanco + "</option>");
+            }
+        }
+    });
+}
+
+function cargarCuentas() {
+
+    var param = $('#banco_select').val();
+//    console.log("valor 222222" + param);
+//    if (Number(donde) == 1) {
+//        console.log("entro al if de cuenta");
+//        param = param1;
+//    }
+//    console.log("valor 2 " + param);
+    if (Number(param) == 0) {
+        $('#cuenta_select').attr("disabled", true);
+        $("#cuenta_select option").remove();
+        $('#cuenta_select').append('<option value="0" selected="selected">[Seleccione Banco]</option>');
+    } else {
+        $('#cuenta_select').attr("disabled", false);
+        $("#cuenta_select").find("option[value='0']").remove();
+        $("#cuenta_select option").remove();
+//        console.log("entro al  cargar cuentas");
+//        console.log("valor 3 " + param);
+
+        $.ajax({
+            async: false,
+            url: "Svl_Cuenta",
+            async: false,
+                    data: {'action': 'extraercuenta', 'param': param},
+            success: function (result) {
+
+                for (var obj in result) {
+                    $("#cuenta_select").append("<option value=\"" + result[obj].id_cuenta + "\">" + result[obj].name_cuenta + "</option>");
+                }
+            }
+        });
+    }
+}
+
+var puede = "";
+function CargarSolicitud(parametro, estado, cargo, IdOrden) {
+    cargarLog(IdOrden);
+    $('#div_Log_').show();
+//    console.log("estado" + estado);
+    cargarbancos('2');
+    cargarCurrency();
+    $.ajax({
+        url: "Svl_Orden",
+        async: false, //action cargar Solicitud
+        data: {'action': 'cargar_solicitud', 'parametro': parametro
+        },
+        success: function (result) {
+            var c = result.UrlGastos;
+            $('#inp-nombre').val(result.NombreCompleto);
+            $('#Recepcion_datepicker').val(result.Fecha_Recepcion);
+            $('#currency_select > option[ value = "' + result.IdCurrency + '"]').attr("selected", "selected");
+            $('#txt_monto').val(result.Monto);
+            $('#currency_tipo_pago > option[ value = "' + result.IdPago + '"]').attr("selected", "selected");
+            var tipo = $('#currency_tipo_pago').val();
+            if (tipo == 3) {
+                $('#banco_campo').hide();
+                $('#tipoCuenta').hide();
+                $('#cuenta_select').hide();
+            }
+            var banco = result.IdBanco;
+            var cuenta = result.IdCuenta;
+//            console.log("soy el balor que va a cuentas " + banco);
+//            console.log("soy el balor  " + cuenta);
+            cargarCuentas(banco, "1");
+            $('#banco_select > option[ value = "' + banco + '"]').attr("selected", "selected");
+            cargarCuentas();
+            $('#cuenta_select > option[ value = "' + result.IdCuenta + '"]').attr("selected", "selected");
+            $('#txt_ncuenta').val(result.NroCuenta);
+            $('#txt_nota').val(result.Memo);
+            $('#urlGastos').val(result.UrlGastos);
+            $('#nuevo_url_link').attr("href", c);
+            $('#nuevo_url_link').text(c);
+            $('#justificacion_txt').val(result.MemoGastos);
+        }
+    });
+    SolicitudDineroBloqueo(parametro, estado, cargo, IdOrden);
+}
+function SolicitudDineroBloqueo(parametro, estado, cargo, IdOrden) {
+    var x = $('#currency_tipo_pago').val();
+    if (Number(estado) == 21 && Number(cargo) == 2 || Number(estado) == 41 && Number(cargo) == 3) {
+        $('#Comentario').show();
+        $('#volver_btn_final').hide();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        if (Number(x) == 3) {
+            $('#banco_campo').hide();
+            $('#tipoCuenta').hide();
+        } else {
+            $('#banco_campo').show();
+            $('#tipoCuenta').show();
+        }
+        bloqueoSolicitud(cargo, estado, x);
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 21 && Number(cargo) == 1 || Number(estado) == 24 && Number(cargo) == 1 || Number(estado) == 41 && Number(cargo) == 1 || Number(estado) == 44 && Number(cargo) == 1) {
+        $('#Comentario').hide();
+        $('#volver_btn_final').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+        if (Number(x) == 3) {
+            $('#banco_campo').hide();
+            $('#tipoCuenta').hide();
+        } else {
+            $('#banco_campo').show();
+            $('#tipoCuenta').show();
+        }
+        bloqueoSolicitud(cargo, estado, x);
+    }
+    if (Number(estado) == 31 && Number(cargo) == 1) {
+        $('#Comentario').hide();
+        $('#volver_btn_final').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#RendicionEmpleado').show();
+        $('#nuevo_url').show();
+        $('#urlgas').hide();
+        $('#volver_btn_final').hide();
+        $('#aceptar_rendicion').hide();
+        $('#pro17').css('display', 'none');
+        $('#justificacion_txt').attr("disabled", true);
+//        console.log("valor de x " + x);
+        if (Number(x) == 3) {
+            $('#banco_campo').hide();
+            $('#tipoCuenta').hide();
+        } else {
+            $('#banco_campo').show();
+            $('#tipoCuenta').show();
+        }
+        bloqueoSolicitud(cargo, estado, x);
+        $('#btn_final').show();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 22 || Number(estado) == 42) {
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#Re_Enviar').show();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+        if (Number(x) == 3) {
+            $('#banco_campo').hide();
+            $('#tipoCuenta').hide();
+        } else {
+            $('#banco_campo').show();
+            $('#tipoCuenta').show();
+        }
+    }
+    if (Number(estado) == 43 && Number(cargo) == 1) {
+        $('#RendicionEmpleado').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#urlgas').show();
+        bloqueoSolicitud(cargo, estado, x);
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 31 && Number(cargo) == 2) {
+        $('#RendicionEmpleado').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#Rend').hide();
+        $('#Comen').hide();
+        $('#aceptar_rendicion').hide();
+        $('#urlGastos').attr("disabled", true);
+        $('#justificacion_txt').attr("disabled", true);
+        $('#pro16').css('display', 'none');
+        $('#pro17').css('display', 'none');
+        $('#Comentario2').show();
+        $('#nuevo_url').show();
+        $('#urlgas').hide();
+        $('#rechazar_btn2').hide();
+        bloqueoSolicitud(cargo, estado, x);
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 32 || Number(estado) == 52) {
+        $('#RendicionEmpleado').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#urlgas').show();
+        bloqueoSolicitud(cargo, estado, x);
+        $('#aceptar_rendicion').hide();
+        $('#campos').show();
+        $('#Re_Enviar2').show();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 51 && Number(cargo) == 3) {
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#RendicionEmpleado').show();
+        $('#justificacion_txt').attr("disabled", true);
+        $('#aceptar_rendicion').hide();
+        $('#Comentario2').show();
+        $('#pro17').css('display', 'none');
+        $('#justificacion_txt').attr("disabled", true);
+        $('#nuevo_url').show();
+        $('#urlgas').hide();
+        $('#rechazar_btn2').hide();
+        bloqueoSolicitud(cargo, estado, x);
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 51 && Number(cargo) == 1) {
+        $('#RendicionEmpleado').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#Rend').hide();
+        $('#Comen').hide();
+        $('#aceptar_rendicion').hide();
+        $('#urlGastos').attr("disabled", true);
+        $('#justificacion_txt').attr("disabled", true);
+        $('#pro16').css('display', 'none');
+        $('#pro17').css('display', 'none');
+        $('#Comentario2').show();
+        $('#nuevo_url').show();
+        $('#urlgas').hide();
+        $('#rechazar_btn2').hide();
+        $('#Comentario2').hide();
+        $('#btn_final').show();
+        bloqueoSolicitud(cargo, estado, x);
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 53) {
+        $('#RendicionEmpleado').show();
+        $('#aceptar_rendicion').hide();
+        $('#btn_final').show();
+        $('#btn-enviar').hide();
+        $('#btn-cancelar1').hide();
+        $('#volver_btn_final').hide();
+        $('#pro17').css('display', 'none');
+        bloqueoSolicitud(cargo, estado, x);
+        $('#justificacion_txt').attr("disabled", true);
+        $('#cuenta_select').attr("disabled", true);
+        $('#nuevo_url').show();
+        $('#urlgas').hide();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+}
+function bloqueoSolicitud(cargo, estado, x) {
+
+    $("#Recepcion_datepicker").attr("disabled", true);
+    $('#inp-nombre').attr("disabled", true);
+    $('#currency_select').attr("disabled", true);
+    $('#cuenta_select').attr("disabled", true);
+    $('#txt_monto').attr("disabled", true);
+    $('#currency_tipo_pago').attr("disabled", true);
+    $('#banco_select').attr("disabled", true);
+    $('#txt_ncuenta').attr("disabled", true);
+    $('#txt_nota').attr("disabled", true);
+    $('#Re_Enviar').hide();
+    if (Number(x) == 3) {
+        $('#banco_campo').hide();
+        $('#tipoCuenta').hide();
+    } else {
+        $('#banco_campo').show();
+        $('#tipoCuenta').show();
+    }
+    $('#campos').hide();
+    $('#pro').hide();
+    $('#pro1').hide();
+    $('#pro2').hide();
+    $('#pro3').hide();
+    $('#pro4').hide();
+    $('#pro5').hide();
+    $('#pro6').hide();
+    $('#pro7').hide();
+}
+function CargarCompra(parametro, estado, cargo, tipoOrden, param1, param2, param3, IdOrden, IdNetsuite) {
+    cargar();
+    cargarLog(IdOrden);
+    $('#div_Log_').show();
+//    console.log('estado ' + estado);
+//    console.log('parametro1 ' + IdOrden);
+    $.ajax({url: "Svl_Orden",
+        async: false, //action cargar compra
+        data: {'action': 'cargar_compra', 'parametro': parametro
+        },
+        success: function (result) {
+//            console.log("soy el estado " + result.EstadoID);
+            $('#Proveedor_select > option[ value = "' + result.VendorId + '"]').attr("selected", "selected");
+            $('#Proveedor_lbl').val(result.Vendor);
+            puede = result.EstadoID;
+            $('#txt_nota').val(result.Memo);
+            try {
+                $('#Recepcion_datepicker').val(result.FechaRecep);
+                $('#Factura_datepicker').val(result.FechaFact);
+            } catch (err) {
+            }
+            $('#currency_select').html('');
+            $('#currency_select').append("<option value='" + result.CURRENCY_ID + "' >" + result.Currency + "</option>");
+            $('#oc_lbl').val(result.UrlCompra);
+            $('#nuevo_url_link').attr("href", c);
+            if (Number(estado) == 22 || Number(estado) == 42) {
+                $('#nuevo_url').hide();
+            } else {
+                var c = result.UrlCompra;
+                $('#nuevo_url_link').text(c);
+                $('#nuevo_url_link').attr("href", c);
+                $('#nuevo_url').show();
+                $('#urlog').hide();
+                $("#Recepcion_datepicker").attr("disabled", true);
+            }
+            for (var temp in result['gastos'])
+            {
+                var nuevaFila = "<tr id=\"" + gastos_id + "\" name=\"" + gastos_id + "\">";
+                nuevaFila += "<td align='center'> <span id='account" + gastos_id + "'name='" + result['gastos'][temp]['CuentaId'] + "'title='" + result['gastos'][temp]['nameCuenta'] + "' >" + result['gastos'][temp]['nameCuenta'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='amount" + gastos_id + "'name='" + result['gastos'][temp]['Importe'] + "'title='" + result['gastos'][temp]['Importe'] + "'>" + result['gastos'][temp]['Importe'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='tax" + gastos_id + "'name='" + result['gastos'][temp]['CodigoImpuestoId'] + "'title='" + result['gastos'][temp]['CodigoImpuestoId'] + "' >" + result['gastos'][temp]['CodigoImpuesto'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='memo" + gastos_id + "'name='" + result['gastos'][temp]['Nota'] + "'title='" + result['gastos'][temp]['Nota'] + "'>" + result['gastos'][temp]['Nota'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='department" + gastos_id + "'name='" + result['gastos'][temp]['DepartamentoId'] + "'title='" + result['gastos'][temp]['DepartamentoId'] + "' >" + result['gastos'][temp]['Departamento'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='class" + gastos_id + "'name='" + result['gastos'][temp]['claseId'] + "'title='" + result['gastos'][temp]['claseId'] + "'>" + result['gastos'][temp]['clase'] + "</span></td>";
+                nuevaFila += "<td align='center'> <span id='location" + gastos_id + "'name='" + result['gastos'][temp]['UbicacionId'] + "'title='" + result['gastos'][temp]['UbicacionId'] + "'>" + result['gastos'][temp]['Ubicacion'] + "</span></td>";
+                if (result['gastos'][temp]['Fecha_Comprobante'] != undefined)
+                {
+                    nuevaFila += "<td align='center'> <span id='Fecomprobante" + gastos_id + "'name='" + result['gastos'][temp]['Fecha_Comprobante'] + "'title='" + result['gastos'][temp]['Fecha_Comprobante'] + "'>" + result['gastos'][temp]['Fecha_Comprobante'] + "</span></td>";
+                    nuevaFila += "<td align='center'> <span id='denominacion" + gastos_id + "'name='" + result['gastos'][temp]['Denominacion'] + "'title='" + result['gastos'][temp]['Denominacion'] + "'>" + result['gastos'][temp]['Denominacion'] + "</span></td>";
+                    nuevaFila += "<td align='center'> <span id='Nrocomprobante" + gastos_id + "'name='" + result['gastos'][temp]['Nro_Comprobante'] + "'title='" + result['gastos'][temp]['Nro_Comprobante'] + "'>" + result['gastos'][temp]['Nro_Comprobante'] + "</span></td>";
+                }
+                if (tipoOrden === 292) {
+                    nuevaFila += "<td class=bontones> <input lang=\"es\" class=\"btn\" id=\"Mostrar" + gastos_id + "\" value=\"Modificar\" onclick=\"MostrarGasto(" + gastos_id + ",1,1);\" type=\"button\"> \n\
+                               <input lang=\"es\" class=\"btn\" id=\"Eliminar" + gastos_id + "\" value=\"Eliminar\"  onclick=\"EliminarGasto(" + gastos_id + "); revisarPresupuestoElse();\"  type=\"button\"></td></td>";
+                } else {
+                    nuevaFila += "<td class=bontones> <input lang=\"es\" class=\"btn\" id=\"Mostrar" + gastos_id + "\" value=\"Modificar\" onclick=\"MostrarGasto(" + gastos_id + ",2,1);\" type=\"button\"> \n\
+                   <input lang=\"es\" class=\"btn\" id=\"Eliminar" + gastos_id + "\" value=\"Eliminar\"  onclick=\"EliminarGasto(" + gastos_id + "); revisarPresupuestoElse();\"  type=\"button\"></td></td>";
+                }
+                gastos_id = gastos_id + 1;
+                nuevaFila += "</tr>";
+                $('#expense_splits  tbody').append(nuevaFila);
+            }
+            FuncPorDefectos(param1, param2, param3);
+        }
+    });
+    OrdenesBloqueos(estado, cargo, IdOrden, IdNetsuite, tipoOrden);
+}
+function OrdenesBloqueos(estado, cargo, IdOrden, IdNetsuite, tipoOrden) {
+    if (Number(estado) == 21 && Number(cargo) == 2 || Number(estado) == 41 && Number(cargo) == 3) {
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('.bontones').hide();
+        $('#_Gastos_TR').hide();
+        $('#Confirmacion').attr("class", "letrasSuperior");
+        $('#Comentario').show();
+        $('#campos').hide();
+        $('#_CamposGastos_').hide();
+        bloqueo(estado, cargo);
+        $('#CrearOC').attr("class", "");
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 21 && Number(cargo) == 1 || Number(estado) == 41 && Number(cargo) == 1 /*|| Number(estado) == 43  && Number(cargo) == 1*/) {
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('.bontones').hide();
+        $('#_Gastos_TR').hide();
+        bloqueo(estado, cargo);
+        $('#campos').hide();
+        $('#CrearOC').text("En Proceso");
+        $('#volver_btn_final').show();
+        $('#_CamposGastos_').hide();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 22 || Number(estado) == 42) {
+        $('#CrearOC').text("Modificacion");
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('#Re_Enviar').show();
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 24 || Number(estado) == 44) {
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('#_Gastos_TR').hide();
+        $('.bontones').hide();
+        $('#volver_btn_final').show();
+        $('#_CamposGastos_').hide();
+        $('#campos').hide();
+        bloqueo(estado, cargo);
+        $('#Confirmacion').text("Historial");
+        $('#Confirmacion').attr("class", "letrasSuperior");
+        $('#CrearOC').attr("class", "");
+        $('#valorId').text(IdOrden);
+        $('#IdSolicitud').show();
+    }
+    if (Number(estado) == 43 && Number(tipoOrden) != 300)
+    {
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('#_Gastos_TR').hide();
+        $('.bontones').hide();
+        $('#volver_btn_final').show();
+        $('#_CamposGastos_').hide();
+        $('#campos').hide();
+        bloqueo(estado, cargo);
+        $('#Confirmacion').text("Historial");
+        $('#Confirmacion').attr("class", "letrasSuperior");
+        $('#CrearOC').attr("class", "");
+        $('#valorId').text(IdOrden);
+//        $('#valorNetsuite').text(IdNetsuite);
+        $('#IdSolicitud').show();
+//        $('#IdNetsuite').show();
+    } else if (Number(estado) == 43 && Number(tipoOrden) == 300) {
+        $('#save_btn').hide();
+        $('#btn-cancelar1').hide();
+        $('#_Gastos_TR').hide();
+        $('.bontones').hide();
+        $('#volver_btn_final').show();
+        $('#_CamposGastos_').hide();
+        $('#campos').hide();
+        bloqueo(estado, cargo);
+        $('#Confirmacion').text("Historial");
+        $('#Confirmacion').attr("class", "letrasSuperior");
+        $('#CrearOC').attr("class", "");
+        $('#valorId').text(IdOrden);
+//        $('#valorNetsuite').text(IdNetsuite);
+        $('#IdSolicitud').show();
+    }
+
+}
+function bloqueo(param, cargo) {
+    $('#Proveedor_lbl').attr("disabled", true);
+    $('#txt_nota').attr("disabled", true);
+    $('#currency_select').attr("disabled", true);
+    $('#oc_lbl').attr("disabled", true);
+    $('#txt_fechaxx').attr("disabled", true);
+    $('#IngresoURL').hide();
+    $('#pro').hide();
+    $('#pro1').hide();
+    $('#pro2').hide();
+    $('#pro3').hide();
+    $('#pro4').hide();
+    $('#pro5').hide();
+    $('#pro6').hide();
+    $('#pro7').hide();
+    $('#pro8').hide();
+    $('#pro9').hide();
+    $('#pro10').hide();
+    $('#pro11').hide();
+    $('#pro12').hide();
+    $('#pro13').hide();
+}
+function subirURL() {
+    if ($('#oc_lbl').val().trim().length > 0) {
+        var myVariable = $('#oc_lbl').val();
+        if (/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(myVariable)) {
+            $('#SubirCoti').attr("class", "pas");
+        } else {
+            alert('Ingrese URL Valida');
+            $('#oc_lbl').val("");
+            $('#SubirCoti').attr("class", "");
+        }
+    }
+}
+function subirURLgastos() {
+    if ($('#urlGastos').val().trim().length > 0) {
+        var myVariable = $('#urlGastos').val();
+        if (/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(myVariable)) {
+        } else {
+            alert('Ingrese URL Valida');
+            $('#urlGastos').val("");
+        }
+    }
+}
+function revisarPresupuesto() {
+    $('#RevisarPre').attr("class", "pas");
+    $('#CrearOR').attr("class", "pas");
+}
+function revisarPresupuestoElse() {
+    var c = $('#expense_splits tbody tr').length;
+    if (c === 1) {
+        $('#RevisarPre').attr("class", "");
+    } else {
+        $('#RevisarPre').attr("class", "pas");
+    }
+}
+function resumenSolicitud(IdOrden) {
+    $('#inp-nombre').attr("disabled", true);
+    $("#Recepcion_datepicker").datepicker("option", "disabled", true);
+    $('#currency_select').attr("disabled", true);
+    $('#txt_monto').attr("disabled", true);
+    $('#currency_tipo_pago').attr("disabled", true);
+    $('#banco_select').attr("disabled", true);
+    $('#txt_ncuenta').attr("disabled", true);
+    $('#txt_nota').attr("disabled", true);
+    $('#btn-enviar').hide();
+    $('#btn-cancelar1').hide();
+    $('#volver_btn').css("display", "");
+    $('#valorId').text(IdOrden);
+    $('#IdSolicitud').show();
+    $('#cuenta_select').attr("disabled", true);
+//    console.log("soy el IdOrden" + IdOrden);
+}
+function resumenOC(IdOrden) {
+    $('#InfoGeneral').attr("class", "letrasSuperior");
+    $('#txt_nota').attr("readonly", "readonly");
+    $('#txt_fechaxx').attr("readonly", "readonly");
+    $("#Recepcion_datepicker").datepicker("option", "disabled", true);
+    $('#currency_select').attr("disabled", true);
+    $('#urlog').hide();
+    $('#Proveedor_lbl').attr("readonly", "readonly");
+    $('#_Gastos_TR').css("display", "none");
+    $('#save_btn').hide();
+    $('#btn-cancelar1').hide();
+    $('#volver_btn').css("display", "");
+    $('#bontones').hide();
+    $('#RevisarPre').attr("class", "pas");
+    $('#CrearOC').attr("class", "pas");
+    $('#SubirCoti').attr("class", "pas");
+    var c = $('#oc_lbl').val();
+    $('#nuevo_url_link').text(c);
+    $('#nuevo_url_link').attr("href", c);
+    $('#nuevo_url').show();
+    $('#btn-cancelar1').hide();
+    $('#save_btn').hide();
+    $('#_Gastos_TR').hide();
+    $('#valorId').text(IdOrden);
+    $('#IdSolicitud').show();
+//    console.log("soy el IdOrden" + IdOrden);
+}
+function resumenOR(IdOrden) {
+    $('#InfoGeneral').attr("class", "letrasSuperior");
+    $('#txt_nota').attr("disabled", true);
+    $('#txt_fechaxx').attr("disabled", true);
+    $('#currency_select').attr("disabled", true);
+    $('#Proveedor_lbl').attr("disabled", true);
+    $('#urlog').hide();
+    $('#_CamposGastos_').css("display", "none");
+    $('#save_btn').hide();
+    $('#volver_btn').css("display", "");
+    $('#bontones').hide();
+    $('#RevisarPre').attr("class", "pas");
+    $('#CrearOC').attr("class", "pas");
+    $('#SubirCoti').attr("class", "pas");
+    var c = $('#oc_lbl').val();
+    $('#nuevo_url_link').text(c);
+    $('#nuevo_url_link').attr("href", c);
+    $('#nuevo_url').show();
+    $('#btn-cancelar1').hide();
+    $('#valorId').text(IdOrden);
+    $('#IdSolicitud').show();
+//    console.log("soy el IdOrden" + IdOrden);
+}
+function FuncPorDefectos(param, param1, param2) {
+    var c = 0;
+    if (param != "0" || param != null) {
+        $('#department_select').val(param);
+    } else {
+        $('#department_value').val(c);
+    }
+    if (param1 != "0") {
+        $('#class_select').val(param1);
+    } else {
+        $('#class_value').val(c);
+    }
+    if (param2 != "0") {
+        $('#location_select').val(param2);
+    } else {
+        $('#location_value').val(c);
+    }
+
+}
+function presupuesto(cargo) {
+    if (cargo === "1") {
+        $('#presu').css("display", "none");
+    }
+}
+function Mantenedor(cargo) {
+    if (cargo != "3") {
+        $('#Mantenedor').css("display", "none");
+    }
+}
+
+function Valores() {
+    $('#CrearProveedor').modal("show");
+}
+function limpiaProveedor() {
+    $('#name_proveedor').val("");
+    $('#rut_proveedor').val("");
+    $('#direccion_proveedor').val("");
+    $('#fono_proveedor').val("");
+    $('#email_proveedor').val("");
+    $('#name_contacto').val("");
+    $('#email_contacto').val("");
+    $('#banco_proveedor').val("");
+    $('#cuentaTipo_proveedor').val("");
+    $('#nroCuenta_proveedor').val("");
+    $("#currency_selected").multiselect("clearSelection");
+    $('#observaciontxt').val("");
+}
+function camposObligatos() {
+    $('#campos').hide();
+    $('#pro').hide();
+    $('#pro1').hide();
+    $('#pro2').hide();
+    $('#pro3').hide();
+    $('#pro4').hide();
+    $('#pro5').hide();
+    $('#pro6').hide();
+    $('#pro7').hide();
+    $('#pro8').hide();
+    $('#pro9').hide();
+    $('#pro10').hide();
+    $('#pro11').hide();
+    $('#pro12').hide();
+    $('#pro13').hide();
+}
+function save_btn() {
+    $('#save_btn').prop('disabled', false);
+}
+function cargarName(param) {
+    $('#inp-nombre').val(param);
+}
+
+function badgesPedidosAbiertos() {
+//    console.log("badgesPedidosAbiertos");
+    $.ajax({
+        url: "Svl_Badge",
+        async: false, //action cargar Solicitud
+        data: {'action': 'cargar_pedidosAbiertos'
+        },
+        success: function (result) {
+            ChangeValueBadge($('#PedidosAbiertos'), result['value'] * 1);
+        }
+    });
+}
+function badgesHistorial() {
+//    console.log("badgesHistorial");
+    $.ajax({
+        url: "Svl_Badge",
+        async: false, //action cargar Solicitud
+        data: {'action': 'cargar_historial'
+        },
+        success: function (result) {
+            ChangeValueBadge($('#historialPrincipal'), result['value'] * 1);
+            ChangeValueBadge($('#historial'), result['value'] * 1);
+        }
+    });
+}
+function badgesSeguimientosPendientes() {
+    $.ajax({
+        url: "Svl_Badge",
+        async: false, //action cargar Solicitud
+        data: {'action': 'cargar_SeguimientosPendientes'
+        },
+        success: function (result) {
+            ChangeValueBadge($('#idPendientes'), result['value'] * 1);
+        }
+    });
+}
+function badgesSumas() {
+    $.ajax({
+        url: "Svl_Badge",
+        async: false, //action cargar Solicitud
+        data: {'action': 'cargar_suma'
+        },
+        success: function (result) {
+            ChangeValueBadge($('#idacciones'), result['value'] * 1);
+        }
+    });
+}
+function ChangeValueBadge(elemento, value) {
+
+    try {
+        if ($(elemento).is("input")) {
+            $(elemento).val(value);
+        } else if ($(elemento).is("label") || $(elemento).is("span")) {
+            $(elemento).text(value);
+        }
+        if (value * 1 !== 0) {
+            $(elemento).addClass("in");
+        } else {
+            $(elemento).removeClass("in");
+        }
+    } catch (err) {
+
+    }
+
+}
+
+function AddBanco(param) {
+    $('#nuevoBanco').show();
+    if (Number(param) == 1) {
+        limpiarMantenedor();
+        $('#btnGuardar').show();
+        $('#btnUpdate').hide();
+        $('#banco_select').val("0");
+        cargarCuenta();
+    }
+}
+function limpiarMantenedor() {
+    $('#bancossss').val("");
+    $('#checkboxActivo').prop("checked", "");
+    $("#Tcheck tr").remove();
+}
+
+function SelectBanco() {
+    limpiarMantenedor();
+    var banco = $('#banco_select').val();
+    $.ajax({
+        url: "Svl_Bancos",
+        async: false,
+        data: {'action': 'cargarbanco', 'val': banco
+        },
+        success: function (result) {
+            $('#bancossss').val(result.bancoName);
+            if (Number(result.estado) == 1) {
+                $('#checkboxActivo').prop("checked", "checked");
+            }
+            cargarCuenta();
+            for (var temp in result['estados'])
+            {
+                var a = result['estados'][temp]['cuentaId'];
+                if (Number(result['estados'][temp]['estado']) == 1) {
+                    $('#' + a).prop("checked", "checked");
+                }
+            }
+        }
+    });
+    AddBanco('0');
+    $('#btnGuardar').hide();
+    $('#btnUpdate').show();
+}
+
+function agregarCampos() {
+
+    $.ajax({
+        url: "Svl_Cuenta",
+        async: false,
+        data: {
+            'action': 'insert_cuenta',
+            'Name': valor('TCuenta')
+        },
+        success: function (result) {
+            if (result['resp'] == 'Guardado') {
+                alert('Cuenta Guardada');
+                $("#Tcheck tr").remove();
+            }
+        },
+        beforeSend: function (xhr) {
+            $('#Guardando').html("Guardando ....<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+        }, complete: function (jqXHR, textStatus) {
+            $('#Guardando').fadeOut();
+        }
+    });
+    cargarCuenta();
+}
+
+function Modal() {
+    $('#nuevoTipoCuenta').modal("show");
+    $('#TCuenta').val("");
+    $('#checkboxcActivo').prop("checked", "");
+}
+function cargarCuenta() {
+    $.ajax({
+        url: "Svl_Cuenta",
+        async: false,
+        data: {'action': 'extraer_cuenta'},
+        success: function (result) {
+            for (var obj in result) {
+                var nuevaFila = "<tr><td><input id=\"" + result[obj].id_cuenta + "\" class=\"styled\" type=\"checkbox\"><label id=\"label" + result[obj].id_cuenta + "\" for=\"" + result[obj].id_cuenta + "\">" + result[obj].name_cuenta + "</label></td></tr>";
+                $("#Tcheck").append(nuevaFila);
+            }
+        }
+    });
+}
+function comprueba() {
+    if (valor('TCuenta') === "!!") {
+        alert("Ingrese el tipo de cuenta");
+    } else {
+        $.ajax({
+            url: "Svl_Cuenta",
+            async: false,
+            data: {
+                'action': 'select_cuenta',
+                'Name': valor('TCuenta')
+            },
+            success: function (result) {
+                if (result['resp'] == 'Existe') {
+                    alert('La cuenta ya existe');
+                    $("#Tcheck tr").remove();
+                    cargarCuenta();
+                    $('#TCuenta').val("");
+                    $('#checkboxcActivo').prop("checked", "");
+                } else {
+                    agregarCampos();
+                    $('#TCuenta').val("");
+                    $('#checkboxcActivo').prop("checked", "");
+                }
+            },
+            beforeSend: function (xhr) {
+                $('#Guardando').html("<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+            }, complete: function (jqXHR, textStatus) {
+                $('#Guardando').fadeOut();
+            }
+        });
+    }
+}
+
+function guardarBanco() {
+    if ($('#checkboxActivo').prop('checked') == true) {
+        var i = 1;
+    } else {
+        var i = 0;
+    }
+    var Arr = [];
+    $('#Tcheck tr').each(function (index, element) {
+        var n = $(element).find("td").eq(0).find("input").eq(0);
+        var s = $(n).prop('checked');
+        var id = $(n).attr('id');
+        if (s == true) {
+            Arr.push(id);
+        }
+    });
+    $.ajax({
+        url: "Svl_Bancos",
+        async: false,
+        data: {
+            'action': 'insert_banco',
+            'NameBanco': valor('bancossss'),
+            'Estado': i,
+            'idCuenta': JSON.stringify(Arr)
+        },
+        success: function (result) {
+            if (result['resp'] == 'Guardado') {
+                alert('Guardado Exitosamente');
+                cargarbancos('1');
+                $('#btnGuardar').hide();
+                $('#nuevoBanco').hide();
+                $('#banco_select').val("0");
+            }
+        },
+        beforeSend: function (xhr) {
+            $('#GuardaBanco').html("<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+        }, complete: function (jqXHR, textStatus) {
+            $('#GuardaBanco').fadeOut();
+        }
+    });
+}
+
+
+function updateBanco() {
+    var t = valor('banco_select');
+    if ($('#checkboxActivo').prop('checked') == true) {
+        var i = 1;
+    } else {
+        var i = 0;
+    }
+    var rowCount = $('#Tcheck tr').length;
+    var Arr = [];
+    $('#Tcheck tr').each(function (index, element) {
+        var n = $(element).find("td").eq(0).find("input").eq(0);
+        var s = $(n).prop('checked');
+        var id = $(n).attr('id');
+        if (s == true) {
+            Arr.push(id);
+        }
+    });
+    $.ajax({
+        url: "Svl_Bancos",
+        async: false,
+        data: {
+            'action': 'update_bcuenta',
+            'idBanco': t,
+            'NameBanco': valor('bancossss'),
+            'Estado': i,
+            'idCuenta': JSON.stringify(Arr),
+            'totalTr': rowCount
+        },
+        success: function (result) {
+            if (result['resp'] == 'Guardado') {
+                alert('Actualizado Exitosamente');
+                cargarbancos('1');
+                $('#btnUpdate').hide();
+                $('#nuevoBanco').hide();
+                $('#banco_select').val("0");
+            }
+        },
+        beforeSend: function (xhr) {
+            $('#GuardaBanco').html("<i class=\"fa fa-cog fa-spin\" style=\"color:grey\"></i>").fadeIn();
+        }, complete: function (jqXHR, textStatus) {
+            $('#GuardaBanco').fadeOut();
+        }
+    });
+}
+
+function cargarLog(param) {
+//    console.log('Entre al cargarLog');
+    var trCargando = "<center>Espere. Cargando contenido ... <i class=\"fa fa-spinner fa-pulse\" style=\"color:grey\"></i></center>";
+    _TABLAS['dt_Log_'] = $('#dt_Log_').DataTable({
+        "ordering": true,
+        dom: 'tp',
+        "columnDefs": [{
+//                "data": "Fecha",
+//                "render": function (data, type, full, meta) {
+//                    return data.split(' ')[0];
+//                }
+            }],
+        "ajax": {
+            url: "Svl_OrdenEstado",
+            async: false,
+            data: {
+                'action': 'cargar_log', 'param': param
+            }
+        },
+        "columns": [
+            {"data": "Fecha"},
+            {"data": "NombreCompleto"},
+            {"data": "Descripcion"},
+            {"data": "Observacion"}
+        ],
+        "language": {
+            "emptyTable": "No hay registros para mostrar",
+            "loadingRecords": trCargando,
+            "infoEmpty": ""
+
+        }
+    });
+}
+
+function selectIdioma() {
+    $.ajax({
+        url: "Svl_Idioma",
+        data: {'action': 'idioma'}
+    });
+}
+
+function selectEstadoNetsuite(orden) {
+    $.ajax({
+        url: "Svl_Orden",
+        async: false,
+        data: {
+            'action': 'idordenes',
+            'orden': orden
+        },
+        success: function (result) {
+//            if (result['resp'] == 'Guardado') {
+//                alert('Actualizado Exitosamente');
+            console.log('entre');
+            console.log(result.toString());
+            
+//            }
+        }
+    });
+}

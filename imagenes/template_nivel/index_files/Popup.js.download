@@ -1,0 +1,20 @@
+
+
+function valores(parametro) {
+    return $('#' + parametro).bootstrapSwitch('state');
+}
+function ConfigCorreo() {
+    console.log("entro al guardar");
+    $.ajax({url: 'Svl_Employees',
+        data: {'action': 'conf_correo', 'SolicitudAprobada': valores('SolicitudAprobada'), 'SolicitudCancelada': valores('SolicitudCancelada'), 'ModificarSolicitud': valores('ModificarSolicitud'),
+            'OCAprobada': valores('OCAprobada'), 'OCCancelada': valores('OCCancelada'), 'ModificarOC': valores('ModificarOC'), 'ORAprobada': valores('ORAprobada'), 'ORCancelada': valores('ORCancelada'),
+            'ModificarOR': valores('ModificarOR'), 'SolicitudCreada': valores('SolicitudCreada')
+
+        },
+        success: function (result) {
+            console.log("Pasooo Por Aqui");
+            console.log(result);
+            $('#myModal').modal("hide");
+        }
+    });
+}

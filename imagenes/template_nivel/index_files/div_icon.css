@@ -1,0 +1,202 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 03-02-2016, 12:07:52
+    Author     : desarrillo
+*/
+
+@-moz-keyframes back-flip {
+    0% {
+        -moz-transform: rotatex(-75deg);
+    }
+    100% {
+        -moz-transform: rotatex(0deg);
+    }
+}
+@-webkit-keyframes back-flip {
+    0% {
+        -webkit-transform: rotatex(-75deg);
+    }
+    100% {
+        -webkit-transform: rotatex(0deg);
+    }
+}
+@keyframes back-flip {
+    0% {
+        transform: rotatex(-75deg);
+    }
+    100% {
+        transform: rotatex(0deg);
+    }
+}
+
+.div-icon {
+    width: 150px;
+    height: 150px;
+    display: inherit;
+    border-radius: 9px;
+    position: relative;
+    margin: 5px;
+    transition: all 600ms linear;
+
+
+
+}
+
+
+.div-icon span.badge {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+    position: relative;
+    transform: scale(1.4,1.4);
+    -ms-transform: scale(1.4,1.4);
+    -webkit-transform: scale(1.4,1.4);
+    -webkit-transition: background-color 600ms linear;
+    -moz-transition: background-color 600ms linear;
+    -o-transition: background-color 600ms linear;
+    -ms-transition: background-color 600ms linear;
+    transition: background-color 600ms linear;
+}
+
+.flip{
+
+    -moz-animation-name: back-flip;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: ease-in;
+    -moz-animation-duration: 0.5s;
+
+    -webkit-animation-name: back-flip;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-duration: 0.5s;
+
+    animation-name: back-flip;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s; 
+}
+
+.div-icon span.badge.con{
+    background-color: red;
+}
+
+.div-icon span.badge.in{
+    opacity: 1.5;
+}
+
+
+.icon-label span{
+    white-space: pre-wrap;
+    display: inline-block;
+    margin: auto;
+    position: inherit;
+}
+.icon-label{
+    /*    border-top: 1px solid;
+        border-bottom: 1px solid;*/
+    border-color: #ccc;
+    color: RGBA(13, 71, 161, 0.73);
+    font-weight: bold;
+    padding: 0px 12px;
+    text-align: center;
+}
+
+
+.div-icon div.icon-parameter{
+    width: 100%;
+    height: 100%;
+    background: url(../../imgs/icons/parametros.png);
+    background-position: 48% 28%;
+    background-repeat: no-repeat;
+    background-size: 117px 120px;
+}
+
+.div-icon div.icon-users{
+    width: 100%;
+    height: 100%;
+    background: url(../../imgs/icons/users.png);
+    background-position: 48% 28%;
+    background-repeat: no-repeat;
+    background-size: 117px 120px;
+}
+
+
+
+.div-icon.border-shadow{
+    background: #FFF;
+    -webkit-box-shadow: 0px 1px 10px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 10px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 10px -3px rgba(0,0,0,0.75);
+}
+
+.div-icon.border-shadow:active{
+    background: #FFF;
+    -webkit-box-shadow: 0px 1px 13px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 13px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 13px -3px rgba(0,0,0,0.75);
+}
+
+.icon-container label{
+    display: inherit; position: relative; margin: 2%;color: #AAAAAA;
+}
+
+.div-icon.div-icon-round{
+    border-radius: 90px;
+    height: 100px !important;
+    width: 100px !important;
+    border:1px solid;
+    /*    background-color: #428bca;
+        border-color: #428bca;*/
+    background-color: #AAAAAA;
+    border-color: #AAAAAA;
+    margin:auto;
+    cursor: pointer;
+}
+.icon-label{
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    top: 0%;
+    font-weight: bold;
+    font-size: 17px;
+
+}
+.icon-container{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.div-icon.div-icon-round span.badge {
+    top: -85px;
+    left: -1px;
+
+}
+
+.div-icon.div-icon-round div.t-center{
+    position: relative;
+    top: 6%;
+    font-size: 59px;
+    left: auto;
+    color: white;
+    text-align: center;
+}
+.div-info{
+    position: absolute;
+
+    background-color: white;
+    border: 1px solid RGBA(198, 198, 198, 0.66);
+    border-radius: 20px;
+    z-index: 0;
+    opacity: 0;
+    top: 10px;
+    transition: opacity 0.15s linear;
+}
+
+.div-info.in{
+
+    z-index: 1000;
+    opacity: 1.5;
+}

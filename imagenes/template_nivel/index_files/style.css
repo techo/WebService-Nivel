@@ -1,0 +1,231 @@
+.row-separator{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #CCC;
+}
+
+.enlaces{
+    padding-left:50px !important;
+    padding-right: 50px !important;
+    font-weight: bold;
+}
+
+ul.menu {
+    padding: 0;
+}
+
+ul.menu li {
+    display: inline;
+    padding-right: 35px;
+
+}
+
+ul.menu li a{
+    color: #666666;   
+
+}
+
+ul.menu li a:hover{
+    color: #0092DD;    
+}
+
+.inpnivel{
+    border: 1px solid #FFF !important;
+}
+
+.addonnivel{
+    background-color: #FFF !important;
+    border-color: #FFF !important;
+}
+
+.letras{
+    color:#666666;
+    font-size: 15px;
+    font-weight: bold;
+}
+.letras2{
+    color:#666666;
+    font-weight: bold;
+    font-size: 27px;
+}
+
+.tit{
+    background: #FFF;
+}
+.color
+{
+    color:#000;
+}
+
+.letrasSuperior
+{
+    color:#FFF !important;
+    background: #0092dd !important;
+    border-color: #FFF !important;
+    border-style: solid !important;
+}
+.pas{
+    color:#FFF !important;
+    background: #0092dd !important;
+    border-color: #FFF !important;
+    border-style: solid !important;
+    opacity: 0.4;
+}
+.botonSession{
+    background-color: #0092DD;
+    border-color: #0092DD;
+}
+.table_fields > tbody > tr{
+    border-bottom: 1px solid #666666;
+
+}
+.contTable{
+    margin-bottom: 27px;
+
+}
+
+.menu-buttons *{
+    cursor: pointer;
+}
+.menu-buttons .m-item:hover{
+    opacity: 0.8;
+    background-color: #EDEDED;
+    cursor: pointer;
+}
+
+.img-construccion{
+    height: 78px;
+    width: 254px;
+}
+
+.obligatorios{
+    color: #0092DD;
+}
+
+@media(max-width:768px){
+
+    .m-title:not(:first-child){
+        margin-bottom: 21px !important;
+        margin-top: 15px !important;
+    }
+
+    .menu-buttons{
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    .menu-buttons .m-item {
+        margin-right: 2px;
+        margin-bottom: 2px;
+        min-height: 50px;
+        min-height: 50px;
+        padding: 20px;
+        border-bottom: 1px solid #aaaaaa;
+        border-top: 1px solid #aaaaaa;
+        border-radius: 5px;
+    }
+
+    .menu-buttons .m-item:nth-child(2){
+
+    }
+
+    .menu-buttons .m-item .m-label{
+
+    }
+    .menu-buttons.m-sep{
+
+    }
+}
+
+@media(min-width:768px){
+
+    .menu-buttons .m-item {
+        min-height: 300px;
+        max-height: 400px;
+        padding: 0px 0px 0px 0px !important;
+        margin-bottom: 13px;
+    }
+
+    .menu-buttons .m-item:nth-child(2){
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+
+    .menu-buttons .m-item .m-label{
+        margin: 180px 0px 180px 0px;
+
+
+    }
+    .menu-buttons.m-sep{
+        border-bottom: 1px solid;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 13px;
+        width: 100%;
+        padding-bottom: 10px;
+        margin-bottom: 2%;
+    }
+}
+
+
+@media(min-width:768px){
+    .menu-center{
+        width: 70% !important; 
+        margin: auto;
+    }
+
+}
+
+
+@media(max-width:768px){
+    nav.navbar .navbar-collapse ul.nav li a span{
+        float: right;
+    }
+
+}
+
+
+
+@font-face {
+    font-family: "novecento";
+
+    src: local("../Novecento/Novecentowide-Normal.otf"),
+        url("../Novecento/Novecentowide-Normal.otf") format("opentype");
+}
+
+
+body{
+    font-family: "novecento";
+    font-size-adjust: 0.5;
+
+}
+
+.fa-spin-custom, .glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+.badge.in {
+    background-color: red;
+    font-weight: bold;
+    font-size: 15px;
+}

@@ -1,0 +1,428 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+var enviadoDesde = "";
+var _TABLAS = {};
+
+$(document).ready(function () {
+
+
+    _TABLAS['dt_Log'] = $('#dt_Log').DataTable({
+        dom: 'ftp'//,
+//        "ajax": "ConectarBd?peticion=10&correo="+E_correo,
+//        "columns": [
+//            { "data": "name" },
+//            { "data": "position" },
+//            { "data": "office" },
+//            { "data": "extn" },
+//            { "data": "start_date" },
+//            { "data": "salary" }
+//        ]
+    });
+
+    _TABLAS['dt_Procesos'] = $('#dt_Procesos').DataTable({
+        dom: 'tp',
+//         "ajax": "ConectarBd?peticion=11&correo="+E_correo+"&cargo="+E_Cargo+"&pais="+E_Pais,
+        "ajax": "Svl_OrdenEstado?action=orden-procesos",
+        "columns": [
+            {"data": "Nro"},
+            //{ "data": "Proveedor" },
+            {"data": "Empleado"},
+            {"data": "Tipo", "render": function (data, type, full, meta) {
+                    return"<span lang='es' >" + data + "</span>";
+                }},
+            {"data": "Fecha"},
+            {"data": "Estado1", "render": function (data, type, full, meta) {
+                    return Estado1(data);
+                }},
+            {"data": "Estado2", "render": function (data, type, full, meta) {
+                    return Estado2(data);
+                }},
+            {"data": "Estado3", "render": function (data, type, full, meta) {
+                    return Estado3(data);
+                }},
+            {"data": null, "render": function (data, type, full, meta) {
+                    return"<td><input type=\"button\" id=\"url\" onclick=\"redigProceso(this);\" lang='es' value=\"Ver\"></td>";
+                }}
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "<span lang='es'>Primero</span>",
+                "sLast": "<span lang='es'>Último</span>",
+                "sNext": "<span lang='es'>Siguiente</span>",
+                "sPrevious": "<span lang='es'>Anterior</span>",
+                "Previous": "<span lang='es'>previa</span>"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+
+
+    });
+
+    _TABLAS['dt_Accion'] = $('#dt_Accion').DataTable({
+        dom: 'tp',
+//         "ajax": "ConectarBd?peticion=10&correo="+E_correo+"&cargo="+E_Cargo+"&pais="+E_Pais,
+        "ajax": "Svl_OrdenEstado?action=ORDEN-accion",
+        "columns": [
+            {"data": "Nro"},
+            {"data": "Hecho", "render": function (data, type, full, meta) {
+                    return"<td><span lang='es'>" + data + "</span></td>";
+                }},
+            {"data": "Accion"},
+            {"data": null, "render": function (data, type, full, meta) {
+                    return"<td><input type=\"button\" id=\"url\" onclick=\"redigAccion(this);\" lang='es' value=\"Ver\"></td>";
+                }}
+
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "<span lang='es'>Primero</span>",
+                "sLast": "<span lang='es'>Último</span>",
+                "sNext": "<span lang='es'>Siguiente</span>",
+                "sPrevious": "<span lang='es'>Anterior</span>",
+                "Previous": "<span lang='es'>previa</span>"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+
+
+    });
+
+    _TABLAS['dt_Finalizadas'] = $('#dt_Finalizadas').DataTable({
+        dom: 'tp',
+        //"ajax": "ConectarBd?peticion=12&correo="+E_correo+"&cargo="+E_Cargo+"&pais="+E_Pais,
+        "ajax": "Svl_OrdenEstado?action=ORDEN-FINALIZADA",
+        "columns": [
+            {"data": "Nro"},
+            {"data": "Empleado"},
+            {"data": "Tipo", "render": function (data, type, full, meta) {
+                    return "<span lang='es'>" + data + "</span"
+                }},
+            {"data": "Fecha"},
+            {"data": "Estado2", "render": function (data, type, full, meta) {
+                    return Estado2(data);
+                }},
+            {"data": "Estado3", "render": function (data, type, full, meta) {
+                    return Estado3(data);
+                }},
+            {"data": null, "render": function (data, type, full, meta) {
+                    return"<td><input type=\"button\" id=\"url\" onclick=\"redigFinalizada(this);\" lang='es' value=\"Ver\"></td>";
+                }}
+
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "<span lang='es'>Primero</span>",
+                "sLast": "<span lang='es'>Último</span>",
+                "sNext": "<span lang='es'>Siguiente</span>",
+                "sPrevious": "<span lang='es'>Anterior</span>",
+                "Previous": "<span lang='es'>previa</span>"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+
+
+    });
+
+    $('#Accion').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false
+    });
+    var trCargando = "<center>Espere. Cargando contenido ... <i class=\"fa fa-spinner fa-pulse\" style=\"color:grey\"></i></center>";
+
+    _TABLAS['tb_registros'] = $('#tb_registros').DataTable({
+        "ordering": true,
+        dom: 'ftp',
+        "columnDefs": [{
+                "targets": -1,
+                "data": null, "defaultContent": '<button aria-disabled="false" role="button" onclick = "CargarOrdenes(this); bloqueo(); " class="btn btn-primary" >Ver</button>'
+
+            }, {
+                /* Para dar formato a la fecha muestre solo la fecha*/
+                "targets": 2,
+                "data": "Fecha",
+                "render": function (data, type, full, meta) {
+                    return data.split(' ')[0];
+                }
+            }],
+        "ajax": {
+            url: "Svl_OrdenEstado?action=llenar_solicitudes&tipoSolicitud=" + $('#OMG').attr('name') + "&dsde=" + enviadoDesde,
+            async: false
+        },
+        "columns": [
+            {"data": "N"},
+            {"data": "Nota"},
+            {"data": "Fecha"},
+            {"data": "Estado"},
+            {"data": "Accion"}
+        ],
+        "language": {
+            "emptyTable": "No hay registros para mostrar",
+            "loadingRecords": trCargando,
+            "infoEmpty": ""
+
+        }
+    });
+});
+//$('#tb_registros tbody').on('click', 'button', function () {
+//    var data = _TABLAS['tb_registros'].row($(this).parents("tr")).data();
+////    console.log(JSON.stringify(data));
+////            var operacion = data.operacion;
+////            var tipo = (Number(data['raac']) === 1 ? 'C' : 'S')
+////            ////////console.log(tipo + "  :::::  " + operacion + "  " + Number(data['raac']))
+////    go("cargar-solicitud", [{"id": "N", "val": data.N }, {"id": "TipoOrden", "val":  data.}, {"id": "tipo", "val": (Number(data['raac']) === 1 ? 'C' : 'S')}]);
+//});
+
+function CargarOrdenes(parametro) {
+    console.log("Cargar Ordenes " + parametro);
+//    console.log(JSON.stringify(_TABLAS["dt_Procesos"].row($(elemento).parents("tr")).data()));
+    var datos = (_TABLAS['tb_registros'].row($(parametro).parents("tr")).data());
+    console.log(datos);
+    go("cargar_solicitud", [{"id": "N", "val": datos.N}, {"id": "TipoOrden", "val": datos.TipoOrden}, {"id": "estado", "val": datos.EstadoNumerico}]);
+//    console.log(datos.N + "," + datos.TipoOrden);
+}
+
+//    cargarLog(this);
+//dt_Log_
+//function cargarLog(parametro) {
+//    console.log(parametro);
+//    var datos = (_TABLAS['dt_Log_'].row($(parametro).parents("tr")).data());
+//    console.log(datos);
+//    
+//}
+
+
+
+function Estado1(data) {//empleado
+    switch (data) {
+        case 0:
+            return "<td id=\"Employee\" title=\"Por Modificar\"><i id=\"Modificar\" class=\"fa fa-spinner\" lang='es' title='Por Modificar' onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 1:
+            return "<td id=\"Employee\" title=\"Enviada\"><i id=\"Enviada\" class=\"fa fa-paper-plane\"  lang='es' title=\"Enviada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 2:
+            return "<td id=\"Employee\" title=\"Por Ingresar URL\"><i id=\"Espera\" class=\"fa fa-share-square-o\" lang='es' title=\"Por Ingresar URL\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 3:
+            return "<td id=\"Employee\" title=\"Modificada para Jefe directo\"><i id=\"ModificadaJD\" class=\"fa fa-paper-plane\" lang='es' title=\"Modificada para Jefe directo\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 4:
+            return "<td id=\"Employee\" title=\"Modificada para Administracion y Finanzas\"><i id=\"ModificadaA&F\" class=\"fa fa-paper-plane\" lang='es' title=\"Modificada para Administracion y Finanzas\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 5:
+            return "<td id=\"Employee\" title='Por ingresar Rendicion'><i id=\"ModificadaA&F\" class=\"fa fa-share-square-o\" lang='es' title=\"Por ingresar Rendicion\" onclick=\"redig(this);\"></i> </td>";
+            break;
+
+        case 11:
+            return "<td id=\"Employee\" title=\"Enviada rendicion\"><i id=\"EnviadaRendi\" class=\"fa fa-paper-plane\"  lang='es' title=\"Enviada Rendicion\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 13:
+            return "<td id=\"Employee\" title=\"Enviada rendicion\"><i id=\"EnviadaRendi\" class=\"fa fa-paper-plane\"  lang='es' title=\"Enviada Rendicion\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 14:
+            return "<td id=\"Employee\" title=\"Enviada rendicion para Administracion y Finanzas\"><i id=\"EnviadaRendi\" class='fa fa-paper-plane'  lang='es' title=\"Enviada rendicion para Administracion y Finanzas\" onclick=\"redig(this);\"></i> </td>";
+            break;
+
+        case 18:
+            return "<td id=\"Employee\" title=\"Por Modificar para JD\"><i id=\"Espera\" class=\"fa fa-share-square-o\" lang='es' title=\"Por Modificar para JD\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 19:
+            return "<td id=\"Employee\" title=\"Por Modificar para A&F\"><i id=\"Espera\" class=\"fa fa-share-square-o\" lang='es' title=\"Por Modificar para A&F\" onclick=\"redig(this);\"></i> </td>";
+            break;
+
+    }
+
+}
+function Estado2(data) {//jefe
+    switch (data) {
+        case 0:
+            return "<td id=\"Jefe\" title=\"Enviada\"><i id=\"Enviada\" class=\"fa fa-cog\" lang='es' title=\"Enviada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 21://Accion por ejecutar
+            return "<td id=\"Jefe\" title=\"Por Revisar\"><i id=\"Enviada\" class=\"fa fa-cog\" lang='es' title=\"Por revisar\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 22://devuelta
+            return "<td id=\"Jefe\" title=\"SOLICITUD DEVUELTA\"><i id=\"Enviada\" class=\"fa fa-exclamation-circle\" lang='es' title=\"Solicitud devuelta\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 23: //aprobada
+            return "<td id=\"Jefe\" title=\"SOLICITUD APROBADA\"><i id=\"aprobada\" class=\"fa fa-check\" lang='es' title=\"Solicitud aprobada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 24: //aprobada
+            return "<td id=\"Jefe\" title=\"Rechazada\"><i id=\"rechazada\" class=\"fa fa-ban fa-lg\" lang='es' title=\"Rechazada\"></i></td>";
+            break;
+        case 32: //aprobada
+            return "<td id=\"Jefe\" title=\"Rendicion devuelta\"><i id='aprobadaRendi' class=\"fa fa-exclamation-circle\" lang='es' title=\"Rendicion devuelta\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 33: //aprobada
+            return "<td id=\"Jefe\" title=\"Rendicion APROBADA\"><i id='aprobadaRendi' class=\"fa fa-check\" lang='es' title=\"Rendicion aprobada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+
+    }
+
+}
+function Estado3(data) {//A&F
+
+    switch (data) {
+        case 0:
+            return "<td id=\"Finanzas\" title=\"Esperando respuesta\"><i id=\"e_respuesta\" class=\"fa fa-spinner\" lang='es' title=\"Esperando respuesta\"></i></td>";
+            break;
+        case 40:
+            return "<td id=\"Finanzas\" title=\"Cancelada por Jefe Directo\"><i id=\"Enviada\" class=\"fa fa-lock\" lang='es' title=\"Cancelada por Jefe Directo\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 41:
+            return "<td id=\"Finanzas\" title=\"Por Revisar\"><i id=\"Enviada\" class=\"fa fa-cog\" lang='es' title=\"Por Revisar\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 42://devuelta
+            return "<td id=\"Finanzas\" title=\"SOLICITUD DEVUELTA\"><i id=\"Enviada\" class=\"fa fa-exclamation-circle\" lang='es' title=\"Solicitud devuelta\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 33: //aprobada
+            return "<td id=\"Finanzas\" title=\"SOLICITUD APROBADA\"><i id=\"aprobada\" class=\"fa fa-check\" lang='es' title=\"Solicitud aprobada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 23:
+            return "<td id=\"Finanzas\" title=\"Por Revisar\"><i id=\"Enviada\" class=\"fa fa-cog\" lang='es' title=\"Por Revisar\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 43:
+            return "<td id=\"Finanzas\" title=\"SOLICITUD APROBADA\"><i id=\"aprobada\" class=\"fa fa-check\" lang='es' title=\"Solicitud aprobada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 44:
+            return "<td id=\"Finanzas\" title=\"Rechazada\"><i id=\"rechazada\" class=\"fa fa-ban fa-lg\" lang='es' title=\"Rechazada\"></i></td>";
+            break;
+        case 52:
+            return "<td id=\"Finanzas\" title=\"SOLICITUD DEVUELTA\"><i id=\"aprobadaRendi\" class=\"fa fa-exclamation-circle\" lang='es' title=\"Solicitud devuelta\" onclick=\"redig(this);\"></i> </td>";
+            break;
+        case 53: //aprobada
+            return "<td id=\"Finanzas\" title=\"Rendicion APROBADA\"><i id='aprobadaRendi' class=\"fa fa-check\" lang='es' title=\"Rendicion aprobada\" onclick=\"redig(this);\"></i> </td>";
+            break;
+
+    }
+}
+
+
+function redigFinalizada(elemento) {
+    //console.log(JSON.stringify(_TABLAS["dt_Finalizadas"].row($(elemento).parents("tr")).data()));
+    var datos = (_TABLAS["dt_Finalizadas"].row($(elemento).parents("tr")).data());
+    var url = "";
+    if (datos.Tipo.localeCompare("Reembolso") == 0) {//es una de reembolsos
+        url = "Reembolso.jsp"
+    } else if (datos.Tipo.localeCompare("Orden de Compra") == 0) {
+        url = "OrdenCompra.jsp"
+    } else if (datos.Tipo.localeCompare("Sol Dinero") == 0) {
+        url = "SolicitudDinero.jsp"
+    }
+    // console.log("Nro" + datos.Nro + "  " + url)
+    // alert("Nro" + datos.Nro + "  " + url)
+    //go(300,[{"id":"nro","val":datos.Nro},{"id":"url","val":url},{"id":"tipo","val":3}])
+    go("redireccionarSolicitud", [{"id": "nro", "val": datos.Nro}, {"id": "url", "val": url}, {"id": "tipo", "val": "3"}]);
+}
+function redigProceso(elemento) {
+//    console.log(JSON.stringify(_TABLAS["dt_Procesos"].row($(elemento).parents("tr")).data()));
+    var datos = (_TABLAS["dt_Procesos"].row($(elemento).parents("tr")).data());
+
+
+    var url = "";
+    if (datos.Tipo.localeCompare("Reembolso") == 0) {//es una de reembolsos
+        url = "Reembolso.jsp"
+    } else if (datos.Tipo.localeCompare("Orden de Compra") == 0) {
+        url = "OrdenCompra.jsp"
+    } else if (datos.Tipo.localeCompare("Sol Dinero") == 0) {
+        url = "SolicitudDinero.jsp"
+    }
+    flag = 3;
+    ;//1: Acepta,recchaza o devuelve, 2: corrige 3: Solo mira 
+    if (E_Cargo == 0 && ((datos.Estado2 == 22 && datos.Estado1 != 3) || (datos.Estado2 == 32 && datos.Estado1 != 13) || (datos.Estado3 == 42 && datos.Estado1 != 4) || (datos.Estado3 == 52 && datos.Estado1 != 14) || (datos.Estado3 == 32 && datos.Estado1 != 13))) {
+        flag = 2;
+    } else if (E_Cargo == 1 && (datos.Estado2 == 21 || datos.Estado2 == 0 || datos.Estado1 == 3)) {
+        flag = 1;
+    } else if (E_Cargo == 2 && (datos.Estado1 == 4 || (datos.Estado2 == 23 && datos.Estado3 != 43 && datos.Estado3 != 42) || datos.Estado2 == 33)) {
+        flag = 1;
+    }
+
+
+    //console.log(E_Cargo+" ==1 && "+"("+datos.Estado2 +"== 21 ||"+ datos.Estado1+" == 3")
+    //   console.log(url)
+    //console.log(datos.Tipo.localeCompare("Reembolso"))
+    go(300, [{"id": "nro", "val": datos.Nro}, {"id": "url", "val": url}, {"id": "tipo", "val": flag}]);
+    console.log(flag + " " + datos.Nro + "  " + url)
+
+}
+function redigAccion(elemento) {
+    console.log(JSON.stringify(_TABLAS["dt_Accion"].row($(elemento).parents("tr")).data()));
+    var datos = (_TABLAS["dt_Accion"].row($(elemento).parents("tr")).data());
+
+    //"{"Tipo":294,"EstadoOrden":22,"Nro":86,"Hecho":" Devuelta por nota de los Gastos ","Accion":"Corregir errores"}"
+    var url = "";
+
+    if (datos.Tipo === 294) {
+        //es una de reembolsos
+        url = "Reembolso.jsp";
+    } else if (datos.Tipo === 292) {
+        url = "OrdenCompra.jsp";
+    } else if (datos.Tipo === 300) {
+        url = "SolicitudDinero.jsp";
+    }
+    var flag = 3;
+
+    if (datos.EstadoOrden === 21 || datos.EstadoOrden === 1 || datos.EstadoOrden === 41 || datos.EstadoOrden === 23 || datos.EstadoOrden === 11 || datos.EstadoOrden === 33 || datos.EstadoOrden === 13 || datos.EstadoOrden === 14 || datos.EstadoOrden === 3 || datos.EstadoOrden === 4) {
+        flag = 1;
+    } else {
+        if (datos.Tipo === 300 && datos.EstadoOrden === 43) {
+            flag = 4      //solo aplicable a solicitud de dinero cuando debe ingresar la URL
+        } else {
+            flag = 2;
+        }
+    }
+    //  console.log(flag + " "+ datos.Nro + " " + datos.EstadoOrden + "  " +url + " " + flag)
+    go(101, [{"id": "nro", "val": datos.Nro}, {"id": "url", "val": url}, {"id": "tipo", "val": flag}, {"id": "EstadoOrden", "val": datos.EstadoOrden}])//tipo// 0 puede gestionar
+
+}
+
+        

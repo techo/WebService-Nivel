@@ -1,0 +1,13 @@
+
+var fech
+function fechaActual() {
+
+    dat = new Date();
+
+    fe = dat.getMonth() + 1;
+//    document.decime_date.txt_fecha.value = dat.getDate() + "/" + fe + "/" + dat.getFullYear();
+    fech = dat.getDate() + "/" + fe + "/" + dat.getFullYear();
+    //console.log(fech);
+    $('#txt_fechaxx').val(fech);
+//    setTimeout("updatenow()", 1);
+}

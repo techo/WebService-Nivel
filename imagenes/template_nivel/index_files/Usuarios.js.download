@@ -1,0 +1,152 @@
+//var E_Estado;//1::activo;
+//var E_Nombre;
+//var E_AMaterno;
+//var E_APaterno;
+//var E_correo;
+//var E_Cargo;//0:Programador 1:jefe 2:finanzas
+//var E_Pais;
+//var JD_Nombre;
+//var JD_Correo;
+//var JD_ApellidoMaterno;
+//var JD_ApellidoPaterno;
+//var JD_Cargo;
+//
+//var estado=0;
+//
+//switch (estado){
+//    case 0:
+//        E_Estado="1";//1::activo;
+//        E_Nombre="Israel";
+//        E_AMaterno="Lopez";
+//        E_APaterno="Gonzalez";
+//        E_correo="isr.g.lopez@gmail.com";
+//        E_Cargo="0";
+//        E_Pais="CL";
+//        JD_Nombre="Francisca";
+//        JD_Correo="fca.w@gmail.com";
+//        JD_ApellidoMaterno ="Walker";
+//        JD_ApellidoPaterno ="Ortiz";
+//        JD_Cargo=10;
+//        break;
+//    case 4:
+//        E_Estado="1";//1::activo;
+//        E_Nombre="Ignacio";
+//        E_AMaterno="Cruz";
+//        E_APaterno="Cruz";
+//        E_correo="iCruz@gmail.com";
+//        E_Cargo="0";
+//        E_Pais="CL";
+//        JD_Nombre="Francisca";
+//        JD_Correo="fca.w@gmail.com";
+//        JD_ApellidoMaterno ="Walker";
+//        JD_ApellidoPaterno ="Ortiz";
+//        JD_Cargo=10;
+//        break;
+//    case 1:
+//        E_Estado="1";
+//        E_Nombre="Francisca";
+//        E_AMaterno="Walker";
+//        E_APaterno="Ortiz";
+//        E_correo="fca.w@gmail.com"
+//        E_Cargo="1";
+//        E_Pais="CL";
+//        JD_Nombre="Francisco";
+//        JD_Correo="fco.g@gmail.com";
+//        JD_ApellidoMaterno ="Maureira";
+//        JD_ApellidoPaterno ="Gonzalez";
+//        JD_Cargo=10;
+//        break;
+//    case 2:
+//        E_Estado="1";
+//        E_Nombre="Walter";
+//        E_AMaterno="Olies";
+//        E_APaterno="Olies";
+//        E_correo="w.Olies@gmail.com"
+//        E_Cargo="2";
+//        E_Pais="CL";
+//        JD_Nombre="Ignacio";
+//        JD_Correo="ignacio.b@gmail.com";
+//        JD_ApellidoMaterno ="Molina";
+//        JD_ApellidoPaterno ="Baez";
+//        JD_Cargo=10;
+//        break;
+//}
+//
+
+function Invalidar(){
+     go("log-out")
+    
+}
+
+
+
+/**
+ * Ejecuta la acción del botón del menú seleccionado.
+ * @param {Strig} page string con el comando a ejecutar
+ * @param {JSON} param Json con los parametros a enviar en formato [{"id":"x","val":"x"},{"id":"x","val":"x"}]
+ */
+//function go(page, param) {
+//    
+//    var form;
+//    var acc;
+//    var metod = 'post';
+//    var Cmd = 'CMD';//se llama igual al servlet
+//
+//
+//
+//    if (document.getElementById('formRedirect') === undefined || document.getElementById('formRedirect') === null) {
+//        form = document.createElement('form');
+//        form.id = 'formRedirect';
+//        form.action = Cmd;
+//        form.method = metod;
+//        document.body.appendChild(form);
+//    } else {
+//
+//        form = document.getElementById('formRedirect');
+//        form.action = Cmd;
+//        form.method = metod;
+//    }
+//
+//
+//    if (document.getElementById('peticion') === undefined || document.getElementById('peticion') === null) {
+//        acc = document.createElement('input');
+//        acc.id = 'peticion';
+//        acc.name = 'peticion';
+//        acc.type = 'hidden';
+//        form.appendChild(acc);
+//    } else {
+//        acc = document.getElementById('peticion');
+//        acc.name = 'peticion';
+//        acc.type = 'hidden';
+//    }
+//    if ((param !== undefined && param !== null) && param.length > 0) {
+//        addParams(param, form);
+//    }
+//    acc.value = page;
+//    form.submit();
+//
+//}
+
+/**
+ *
+ * @param array de objetos params
+ * @param form form
+ */
+function addParams(params, form) {
+    var nelem;
+    if (params.length > 0) {
+        $.each(params, function (i, field) {
+
+
+            nelem = $(form).find("[name='" + field.id + "']").is('input') ? document.getElementById(field.id) : document.createElement('input');
+            nelem.type = 'hidden';
+            nelem.id = field.id;
+            nelem.name = field.id;
+            nelem.value = field.val;
+
+            form.appendChild(nelem);
+
+        });
+    }
+}
+    

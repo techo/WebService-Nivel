@@ -99,6 +99,14 @@ $comboBoxStatus.= "</div>";
 						</ul>
 					</li>
 					
+					 <li class="nav-item">
+					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/upload.php"><i class="fa fa-cloud-upload"></i> Upload Imagenes</a>
+					</li>
+					
+					 <li class="nav-item">
+					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListImage.php"><i class="fa fa-cloud-upload"></i> Listado Imagenes</a>
+					</li>
+					
 					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-check"></i>Ejemplos</a>
 						<ul class="nav-dropdown-items">

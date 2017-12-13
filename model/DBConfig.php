@@ -6,9 +6,9 @@ class Database
     private function __construct()
     {
         $db_host = "localhost";
-        $db_nome = "";
-        $db_usuario = "";
-        $db_senha = "";
+        $db_nome = "nivel";
+        $db_usuario = "root";
+        $db_senha = "mysql";
         $db_driver = "mysql";
        
         $sistema_titulo = "Nivel";

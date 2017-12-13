@@ -1,0 +1,74 @@
+table.dataTable  {
+    border-collapse: separate;
+    border: 0px solid #DDD !important;
+}
+
+table.dataTable tbody {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    font-size: 12px;
+}
+
+table.dataTable th{
+    font-size: 13px;
+}
+
+table.dataTable{
+    border: 0px solid #111;
+}
+
+table.dataTable th,table.dataTable td{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 0px solid #111;
+}
+
+table.dataTable thead tr th{    
+    color: #000;
+    font-weight: bold;
+    background: #FFF  none repeat scroll 0% 0%;
+}
+
+
+table.dataTable thead tr th.sorting {
+    color: #000;
+    font-weight: bold;
+    background: #FFF  repeat scroll 0% 0%;
+    cursor: pointer;
+}
+
+table.dataTable thead tr th.sorting_desc {
+    color: #000;
+    font-weight: bold;
+    
+    background: #FFF  url("../datatables/sort_desc.png") no-repeat scroll right center;
+}
+
+table.dataTable thead tr th.sorting_asc {
+    color: #000;
+    font-weight: bold;
+    background: #FFF  url("../datatables/sort_asc.png") no-repeat scroll right center;
+}
+
+
+
+
+
+table.dataTable thead tr:first-child{
+    border-radius: 6px 6px 0 0;
+}
+
+table.dataTable thead th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+table.dataTable thead th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+table.dataTable thead th:only-child{
+    border-radius: 6px 6px 0 0;
+}

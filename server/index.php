@@ -27,6 +27,7 @@ $server->register(
     array('token'            => 'xsd:string'),
     
     array('nombre'           => 'xsd:string'
+         ,'email'            => 'xsd:string'
          ,'apellido_paterno' => 'xsd:string'
          ,'apellido_materno' => 'xsd:string'
          ,'area'             => 'xsd:string'
@@ -34,7 +35,7 @@ $server->register(
          ,'cargo'            => 'xsd:string'
          ,'codcargo'         => 'xsd:string'
          ,'pais'             => 'xsd:string'
-         ,'codpais'          => 'xsd:string'
+         ,'codigoPais'       => 'xsd:string'
     ),
     'WS_Nivel.GetLogin',
     'WS_Nivel.GetLogin',

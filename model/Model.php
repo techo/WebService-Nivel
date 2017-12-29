@@ -99,6 +99,7 @@ class Model
         $sql .= "cargo.nombre as 'cargo', ";
         $sql .= "cargo.id as 'codcargo', ";
         $sql .= "pais.nombre  as 'pais', ";
+        $sql .= "pais.codigo  as 'codigoPais', ";
         $sql .= "pais.id  as 'codpais' ";
         $sql .= "FROM usuario ";
         $sql .= "LEFT JOIN area ON area.id = usuario.id_area ";

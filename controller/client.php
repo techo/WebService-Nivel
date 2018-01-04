@@ -1,9 +1,9 @@
 <?php
 
 
-ini_set('display_errors',1);
-ini_set('display_startup_erros',1);
-error_reporting(E_ALL);
+// ini_set('display_errors',1);
+// ini_set('display_startup_erros',1);
+// error_reporting(E_ALL);
 
     header('Content-Type: application/json; charset=UTF-8',true);
     $cAcao    = $_POST['acao'];
@@ -589,13 +589,14 @@ error_reporting(E_ALL);
           require_once '../model/Model.php';
           $oBj = new Model();
           $aRet = $oBj->ListUsuarios();
-          
+          $html = '';
+
           foreach ($aRet as $k=>$v)
           {
               $aJefe = $oBj->OhmyGod($v['jefe']);
               $aRet[$k]['jefe'] = $aJefe[0]['nombre'];
               $aRet[$k]['jefe_paterno'] = $aJefe[0]['apellido_paterno'];
-              $aRet[$k]['jefe_materno'] = $aJefe[0]['jefe_materno'];
+              $aRet[$k]['jefe_materno'] = $aJefe[0]['apellido_materno'] ? $aJefe[0]['apellido_materno'] : '';
           }
           
           if(!empty($aRet))
@@ -640,7 +641,7 @@ error_reporting(E_ALL);
               $html .= "</div>";
               $html .= "</div>";
               $html .= "</div>";
-                           
+              
               echo json_encode(array("results" => $html));
           }
       }

@@ -104,7 +104,7 @@ if(!$_GET['id'] && !$_SESSION['Mail'])
 						</ul>
 					</li>
 				<li class="nav-item">				
-					<a class="nav-link" href="http://login.techo.org"><i class="fa fa-sign-out"></i>Salir</a>
+					<a class="nav-link" id="sair" href="#"><i class="fa fa-sign-out"></i>Salir</a>
 				</li>	
             </ul>
         </nav>
@@ -149,6 +149,13 @@ if(!$_GET['id'] && !$_SESSION['Mail'])
     <script src="../js/libs/jquery.min.js"></script>
     <script src="../js/libs/bootstrap.min.js"></script> 
     <script src="../js/app.js"></script>
+    <script>
+    $("#sair").on("click", function() 
+    		{
+    		    window.close();
+    		});
+
+    </script>
 </body>
 
 </html>

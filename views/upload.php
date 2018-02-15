@@ -118,7 +118,7 @@ if(!strpos("[".$string."]", "$buscar"))
 						</ul>
 					</li>
 				<li class="nav-item">				
-					<a class="nav-link" href="../index.php"><i class="fa fa-sign-out"></i>Salir</a>
+					<a class="nav-link" id="sair" href="#"><i class="fa fa-sign-out"></i>Salir</a>
 				</li>	
             </ul>
         </nav>
@@ -161,6 +161,13 @@ function getFile(){
 	document.getElementById('sendFile').click();
 }
 </script>
+<script>
+    $("#sair").on("click", function() 
+    		{
+    		    window.close();
+    		});
+
+    </script>
 </body>
 
 </html>

@@ -224,7 +224,7 @@ $comboBoxStatus.= "</div>";
 						</ul>
 					</li>
 				<li class="nav-item">				
-					<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/index.php"><i class="fa fa-sign-out"></i>Salir</a>
+					<a class="nav-link" id="sair" href="#"><i class="fa fa-sign-out"></i>Salir</a>
 				</li>	
             </ul>
         </nav>
@@ -290,6 +290,13 @@ $comboBoxStatus.= "</div>";
     <script src="http://herramientas.techo.org/aff/ws_soap/js/libs/bootstrap.min.js"></script> 
     <script src="http://herramientas.techo.org/aff/ws_soap/js/app.js"></script>
 	<script src="http://herramientas.techo.org/aff/ws_soap/js/main.js"></script>
+	<script>
+    $("#sair").on("click", function() 
+    		{
+    		    window.close();
+    		});
+
+    </script>
 	<!-- Lista dados dos ComboBoxs -->
 </body>
 

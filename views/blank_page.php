@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+$string = $_SESSION['Mail'];
+$buscar = '@techo.org';
+if(!strpos("[".$string."]", "$buscar"))
+{
+    header("Location: http://herramientas.techo.org/aff/ws_soap/index.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

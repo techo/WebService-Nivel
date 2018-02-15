@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+$string = $_SESSION['Mail'];
+$buscar = '@techo.org';
+if(!strpos("[".$string."]", "$buscar"))
+{
+    header("Location: http://login.techo.org");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

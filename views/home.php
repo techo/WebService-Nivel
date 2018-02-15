@@ -1,13 +1,9 @@
 <?php
-// session_start();
-
-// if((!isset ($_SESSION['usuario']) == true) and (!isset ($_SESSION['senha']) == true))
-// {
-// 	unset($_SESSION['login']);
-// 	unset($_SESSION['senha']);
-// 	header('location:../index.php');
-// }
-
+session_start();
+if(!$_GET['id'] && !$_SESSION['Mail'])
+{
+    header("Location: http://login.techo.org");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,19 +104,40 @@
 						</ul>
 					</li>
 				<li class="nav-item">				
-					<a class="nav-link" href="../index.php"><i class="fa fa-sign-out"></i>Salir</a>
+					<a class="nav-link" href="http://login.techo.org"><i class="fa fa-sign-out"></i>Salir</a>
 				</li>	
             </ul>
         </nav>
     </div>
     <!-- Main content -->
     <main class="main">
-         <?php 
-           session_start();
-           echo('<br>');
-           echo('<pre>');
-           echo(print_r($_SESSION, true));
-         ?>   
+       <?php
+       session_start();
+       if($_GET['id'])
+       {
+           $url = 'http://login.techo.org/api?appid=91d03f846bb8b29b4e3c87d80363474b&id='. $_GET['id'];
+           
+           $curl = curl_init();
+           curl_setopt($curl, CURLOPT_URL, $url);
+           curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+           curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+           curl_setopt($curl, CURLOPT_CAINFO, getcwd() . DIRECTORY_SEPARATOR . 'cacert.pem');
+           
+           $output = curl_exec($curl);
+           curl_close($curl);
+           
+           header('Content-Type: application/json');
+           
+           $data = json_decode($output, TRUE);
+           
+           $_SESSION['Mail'] = $data['email'];
+           $_SESSION['id'] = $data['id'];
+       }
+       
+       echo('<pre>');
+       echo(print_r($_SESSION, true));
+?>
     </main>
 
     <footer class="footer">

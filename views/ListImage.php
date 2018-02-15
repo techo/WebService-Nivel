@@ -2,7 +2,12 @@
 
 session_start();
 
-$pasta = "../imagenes/repository/".$_SESSION['Id']."/";
+if(!isset($_SESSION['id']))
+{
+    header("Location: http://login.techo.org");
+}
+
+$pasta = "../imagenes/repository/".$_SESSION['id']."/";
 
 if(is_dir($pasta))
 {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!$_GET['id'] && !$_SESSION['Mail'])
+if(!$_GET['token'] && !$_SESSION['Mail'])
 {
     header("Location: http://login.techo.org");
 }
@@ -113,16 +113,15 @@ if(!$_GET['id'] && !$_SESSION['Mail'])
     <main class="main">
        <?php
        session_start();
-       if($_GET['id'])
+       if($_GET['token'])
        {
-           $url = 'http://login.techo.org/api?appid=91d03f846bb8b29b4e3c87d80363474b&id='. $_GET['id'];
+           $url = 'http://login.techo.org/api?token='. $_GET['token'];
            
            $curl = curl_init();
            curl_setopt($curl, CURLOPT_URL, $url);
            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-           curl_setopt($curl, CURLOPT_CAINFO, getcwd() . DIRECTORY_SEPARATOR . 'cacert.pem');
            
            $output = curl_exec($curl);
            curl_close($curl);

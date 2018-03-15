@@ -164,6 +164,12 @@ if(!strpos("[".$string."]", "$buscar"))
                                     </div>
                                     <div id="jefes">
                                     </div>
+                                     <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="name">ID Externo (NetSuite)</label>
+                                            <input type="text" class="form-control" id="id_netsuite" placeholder="id NetSuite">
+                                        </div>
+                                    </div>
                                     <div class="form-group col-sm-3">
                                         <label for="ccmonth">Status</label>
                                         <select class="form-control" id="status">

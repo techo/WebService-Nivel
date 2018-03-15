@@ -272,6 +272,12 @@ $comboBoxStatus.= "</div>";
                                    <?php echo($comboBoxJefe);?>
                                    <?php echo($comboBoxStatus);?>
                                 </div>
+                                <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="name">ID Externo (NetSuite)</label>
+                                            <input type="text" class="form-control" id="id_netsuite" value="<?php echo($aRet[0]['id_netsuite']);?>">
+                                        </div>
+                                    </div>
                         </form>
                     </div>
                     <div class="card-footer" align="center">

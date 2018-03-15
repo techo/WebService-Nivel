@@ -93,6 +93,7 @@ class Model
         $sql .= "usuario.apellido_paterno as 'apellido_paterno', ";
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
         $sql .= "usuario.mail as 'email' , ";
+        $sql .= "usuario.id_netsuite as 'id_netsuite' , ";
         $sql .= "usuario.status as 'status' , ";
         $sql .= "area.nombre as 'area', ";
         $sql .= "area.id as 'codarea', ";
@@ -224,7 +225,7 @@ class Model
         return $result;
     }
     
-    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $idUser)
+    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $idUser, $netsuite)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -239,6 +240,7 @@ class Model
         $sql .= "id_cargo, ";
         $sql .= "id_pais, ";
         $sql .= "id_jefe, ";
+        $sql .= "id_netsuite, ";
         $sql .= "status, ";
         $sql .= "id_criador, ";
         $sql .= "id_alterador, ";
@@ -254,6 +256,7 @@ class Model
         $sql .= "'". $cargo."', ";
         $sql .= "'". $pais."', ";
         $sql .= "'". $jefe."', ";
+        $sql .= "'". $netsuite."', ";
         $sql .= "'". $status."', ";
         $sql .= "'". $idUser."', ";
         $sql .= " 0, ";
@@ -467,6 +470,7 @@ class Model
         $sql .= "usuario.apellido_paterno, ";
         $sql .= "usuario.apellido_materno, ";
         $sql .= "usuario.mail, ";
+        $sql .= "usuario.id_netsuite as id_netsuite, ";
         $sql .= "usuario.status, ";
         $sql .= "usuario.id_jefe as 'jefe'";
         $sql .= "FROM usuario ";
@@ -496,7 +500,7 @@ class Model
         return $result;
     }
     
-    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id)
+    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -509,6 +513,7 @@ class Model
         $sql .= "id_cargo          = '" . $cargo."', ";
         $sql .= "id_pais           = '" . $pais."', ";
         $sql .= "id_jefe           = '" . $jefe."', ";
+        $sql .= "id_netsuite       = '" . $netsuite."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";

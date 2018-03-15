@@ -42,6 +42,8 @@ function GrabarUsuario()
 	oData.pais     = $('#pais').val();
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
+	oData.netsuite = $('#id_netsuite').val();
+	
 	$.ajax({
 				type: "POST",
 				url: "../controller/client.php",
@@ -370,7 +372,9 @@ function EditarUsuario(id)
 	oData.pais     = $('#pais').val();
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
+	oData.netsuite = $('#id_netsuite').val();
 	oData.id       = id;
+	
 	$.ajax({
 				type: "POST",
 				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",

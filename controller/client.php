@@ -118,7 +118,7 @@
 		    
 		    echo json_encode(array(
 		        "results"  => true,
-		        "redirect" => $aPost['redirect'],
+		        "redirect" => $aPost['redirect'] . '?token='.$_SESSION['Token'],
 		        "token"    => $_SESSION['Token']
 		    ));
 		}
@@ -179,6 +179,7 @@
           $pais     = $aPost['pais'];
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
+          $netsuite = $aPost['netsuite'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
@@ -187,7 +188,7 @@
           
           if(empty($aRet))
           {
-              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id']);
+              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $netsuite);
               
               if($lGraba)
               {
@@ -613,6 +614,7 @@
               $html .= "<th>Nombre</th>";
               $html .= "<th>Email</th>";
               $html .= "<th>Jefe</th>";
+              $html .= "<th>ID NetSuite</th>";
               $html .= "<th>Status</th>";
               $html .= "</tr>";
               foreach ($aRet as $k=>$v)
@@ -621,6 +623,7 @@
                   $html .= "<td>".$v['nombre']." ". $v['apellido_paterno']. " " .$v['apellido_materno']."</td>";
                   $html .= "<td>".$v['mail']."</td>";
                   $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
+                  $html .= "<td>".$v['id_netsuite']."</td>";
                   $html .= "<td>";
                   if($v['status'] == 1)
                   {
@@ -658,12 +661,13 @@
           $pais     = $aPost['pais'];
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
+          $netsuite = $aPost['netsuite'];
           $id       = $aPost['id'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
           
-          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id);
+          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite);
           if($lGraba)
           {
               $message = 'Usuario Cambiado con Exito.';

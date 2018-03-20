@@ -41,6 +41,7 @@ function GrabarUsuario()
 	oData.cargo    = $('#cargo').val();
 	oData.pais     = $('#pais').val();
 	oData.jefe     = $('#jefe').val();
+	oData.region   = $('#region').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
 	
@@ -99,6 +100,34 @@ function GrabarArea()
 	oData.acao     = "GrabarArea";
 	oData.nombre   = $('#nombre').val(); 
 	oData.codigo   = $('#codigo').val();
+	oData.status   = $('#status').val();
+	$.ajax({
+				type: "POST",
+				url: "../controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.reload();
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+
+function GrabarRegion()
+{
+	oData          = new Object();	
+	oData.acao     = "GrabarRegion";
+	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val();
+	oData.pais     = $('#pais').val();
 	oData.status   = $('#status').val();
 	$.ajax({
 				type: "POST",
@@ -249,6 +278,31 @@ function ListPais()
 	});	
 }
 
+function ListRegion()
+{
+	oData       = new Object();	
+	oData.acao  = "ListRegion";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#regiones').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Regiones!');
+			}
+		}
+	});	
+}
+
 function ListJefe()
 {
 	oData       = new Object();	
@@ -373,6 +427,7 @@ function EditarUsuario(id)
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
+	oData.region   = $('#region').val();
 	oData.id       = id;
 	
 	$.ajax({
@@ -545,14 +600,49 @@ function ListaPais()
 	});	
 }
 
+function ListaRegion()
+{
+	oData       = new Object();	
+	oData.acao  = "ListaRegion";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#listagem').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Regiones');
+			}
+		}
+	});	
+}
+
 function RedirectPais(id)
 {
 	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditPais.php/?id="+ id);
 }
 
+function RedirectRegion(id)
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/EditRegion.php/?id="+ id);
+}
+
 function SalirPais()
 {
 	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListPais.php?");
+}
+
+function SalirRegion()
+{
+	window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php");
 }
 
 function EditarPais(id)
@@ -576,6 +666,34 @@ function EditarPais(id)
 					{
 						alert(oData['Message']);
 						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListPais.php");
+					}
+					else
+					{
+						alert(oData['Message']);
+					}
+				}
+			});	
+}
+
+function EditarRegion(id)
+{
+	oData          = new Object();	
+	oData.acao     = "EditarRegion";
+	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val();
+	oData.id_pais  = $('#pais').val();
+	oData.id       = id;
+	$.ajax({
+				type: "POST",
+				url: "http://herramientas.techo.org/aff/ws_soap/controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['Success'] == 'true')
+					{
+						alert(oData['Message']);
+						window.location.assign("http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php");
 					}
 					else
 					{

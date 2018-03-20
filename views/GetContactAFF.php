@@ -109,8 +109,8 @@
              
              $GetContact = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl', false);
              
-             $param = array('token'   => 'b4227c0438c66718746c04016aa94d01-a5b32f6e6f70f4219e399bb3854493d4',
-                            'codPais' => 'OI'
+             $param = array('token'   => '248d39fda271e04a0cd208ef15c9f9e7-b27428651e90c50bba0b6dd04d3f60df',
+                            'codPais' => '7'
              );
              
              $result = $GetContact->call('GetContactAFF', $param);

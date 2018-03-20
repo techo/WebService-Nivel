@@ -54,6 +54,9 @@ if(!$_GET['token'] && !$_SESSION['Mail'])
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -71,6 +74,9 @@ if(!$_GET['token'] && !$_SESSION['Mail'])
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>

@@ -1,22 +1,44 @@
-<?php
-session_start();
+<?php 
+$id = $_GET['id'];
 
-$string = $_SESSION['Mail'];
-$buscar = '@techo.org';
-if(!strpos("[".$string."]", "$buscar"))
+require_once '../model/Model.php';
+$oBj  = new Model();
+$aRet  = $oBj->InfoRegion($id); // Pais
+$aPais = $oBj->ListPais();
+
+//ComboBox Pais
+$comboBoxPais = "<div class='form-group col-sm-3'>";
+$comboBoxPais.= "<label for='ccmonth'>Pais</label>";
+$comboBoxPais.= "<select class='form-control' id='pais'>";
+$comboBoxPais.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aPais as $k => $v)
 {
-    header("Location: http://login.techo.org");
+    if($aRet[0]['id_pais'] == $v['id'])
+    {
+        $comboBoxPais.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxPais.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
 }
 
+$comboBoxPais.= "</select>";
+$comboBoxPais.= "</div>";
+//Fim ComboBox Pais
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Areas</title>
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/simple-line-icons.css" rel="stylesheet">
+    <title>Editar Regi&oacute;n</title>
+    <link href="http://herramientas.techo.org/aff/ws_soap//css/style.css" rel="stylesheet">
+    <link href="http://herramientas.techo.org/aff/ws_soap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://herramientas.techo.org/aff/ws_soap/css/simple-line-icons.css" rel="stylesheet">
 </head>
 <body class="navbar-fixed sidebar-nav fixed-nav">
     <header class="navbar">
@@ -41,9 +63,9 @@ if(!strpos("[".$string."]", "$buscar"))
                     <span>Menu</span>
                 </li>
 				 <li class="nav-item">
-				 <a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a>
+				 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/home.php"><i class="fa fa-home"></i> Home</a>
 				 
-				 <li class="nav-item nav-dropdown">
+				<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
@@ -59,12 +81,15 @@ if(!strpos("[".$string."]", "$buscar"))
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
 							</li>
 							<li class="nav-item">
+								<a class="nav-link" href="region.php"><i></i>Regi&oacute;n</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
 					
-					 <li class="nav-item nav-dropdown">
+					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
@@ -78,6 +103,9 @@ if(!strpos("[".$string."]", "$buscar"))
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
@@ -122,7 +150,7 @@ if(!strpos("[".$string."]", "$buscar"))
     <!-- Main content -->
     <main class="main">
                <div class="card-header">
-                        <strong>Registro de Areas</strong> 
+                        <strong>Editar Regi&oacute;n</strong> 
                     </div>
                     <div class="card-block">
                         <form action="" method="post" class="form-horizontal ">
@@ -130,31 +158,24 @@ if(!strpos("[".$string."]", "$buscar"))
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input type="text" class="form-control" id="nombre" placeholder="Enter Area">
+                                            <input type="text" class="form-control" id="nombre" value="<?php echo($aRet[0]['nombre']);?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="name">C&oacute;digo</label>
+                                            <input type="text" class="form-control" id="codigo" value="<?php echo($aRet[0]['codigo']);?>">
                                         </div>
                                     </div>
                                 </div>
                              <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label for="name">C&oacute;digo</label>
-                                            <input type="text" class="form-control" id="codigo" placeholder="Enter Codigo">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label for="ccmonth">Status</label>
-                                        <select class="form-control" id="status">
-                                        	<option value="0">-- SELECCIONE--</option>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
-                                        </select>
-                                    </div>
+                                     <?php echo($comboBoxPais);?>
                                 </div>
                         </form>
                     </div>
                     <div class="card-footer" align="center">
-                        <button type="button" class="btn btn-sm btn-success" onclick="GrabarArea();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="LimpiarGenerico();"><i class="fa fa-ban"></i> Limpiar</button>
+                        <button type="button" class="btn btn-sm btn-success" onclick="EditarRegion(<?php echo($id);?>);"><i class="fa fa-dot-circle-o"></i> Grabar</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="SalirRegion();"><i class="fa fa-ban"></i> Salir</button>
                     </div>
     </main>
 
@@ -164,10 +185,10 @@ if(!strpos("[".$string."]", "$buscar"))
         </span>
     </footer>
     <!-- Bootstrap and necessary plugins -->
-    <script src="../js/libs/jquery.min.js"></script>
-    <script src="../js/libs/bootstrap.min.js"></script> 
-    <script src="../js/app.js"></script>
-	<script src="../js/main.js"></script>
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/libs/jquery.min.js"></script>
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/libs/bootstrap.min.js"></script> 
+    <script src="http://herramientas.techo.org/aff/ws_soap/js/app.js"></script>
+	<script src="http://herramientas.techo.org/aff/ws_soap/js/main.js"></script>
 	<script>
     $("#sair").on("click", function() 
     		{
@@ -175,6 +196,7 @@ if(!strpos("[".$string."]", "$buscar"))
     		});
 
     </script>
+	<!-- Lista dados dos ComboBoxs -->
 </body>
 
 </html>

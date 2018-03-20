@@ -36,6 +36,7 @@ $server->register(
          ,'codcargo'         => 'xsd:string'
          ,'pais'             => 'xsd:string'
          ,'codigoPais'       => 'xsd:string'
+		 ,'codigoRegion'     => 'xsd:string'
     ),
     'WS_Nivel.GetLogin',
     'WS_Nivel.GetLogin',
@@ -91,7 +92,7 @@ function GetJefeDirecto($token, $mail)
     date_default_timezone_set('America/Santiago');
     $today  = date('Y-m-d H:i:s');
     
-    if(!empty($aReturn) && $aReturn[0]['timeout_session'] >= $today)
+    if(!empty($aReturn))
     {
         //Id do Empleado(Usuario), depois busco o Jefe que tambien esta em usuarios
         $aDados = $oBj->checkJefe($mail);
@@ -146,7 +147,7 @@ function GetContactAFF($token, $CodPais)
     date_default_timezone_set('America/Santiago');
     $today  = date('Y-m-d H:i:s');
     
-    if(!empty($aReturn) && $aReturn[0]['timeout_session'] >= $today)
+    if(!empty($aReturn))
     {
         //Resgata id do Pais
         require_once '../model/Model.php';
@@ -201,7 +202,7 @@ function GetContactCONT($token, $CodPais)
     date_default_timezone_set('America/Santiago');
     $today  = date('Y-m-d H:i:s');
     
-    if(!empty($aReturn) && $aReturn[0]['timeout_session'] >= $today)
+    if(!empty($aReturn))
     {
         //Resgata id do Pais
         require_once '../model/Model.php';

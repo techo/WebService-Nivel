@@ -1,5 +1,6 @@
 <?php 
 $id = $_GET['id'];
+
 require_once '../model/Model.php';
 $oBj = new Model();
 $aRet = $oBj->InfoUser($id); // Usuario
@@ -8,6 +9,7 @@ $aAreas  = $oBj->ListArea();
 $aCargos = $oBj->ListCargo();
 $aPais   = $oBj->ListPais();
 $aChefe  = $oBj->ListJefe();
+$aRegion  = $oBj->ListRegion();
 
 //Searche Jefe
 $aJefe  = $oBj->checkJefe($aRet[0]['email']);
@@ -21,7 +23,7 @@ $comboBoxArea.= "<option value='0'>-- SELECCIONE--</option>";
 
 foreach ($aAreas as $k => $v)
 {
-    if($aRet[0]['codarea'] == $v['id'])
+    if($aRet[0]['id_area'] == $v['id'])
     {
         $comboBoxArea.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
     }
@@ -123,6 +125,28 @@ $comboBoxStatus.= "</select>";
 $comboBoxStatus.= "</div>";
 //Fim ComboBox Status
 
+//ComboBox Region
+$comboBoxRegion = "<div class='form-group col-sm-3'>";
+$comboBoxRegion.= "<label for='ccmonth'>Regi&oacute;n</label>";
+$comboBoxRegion.= "<select class='form-control' id='region'>";
+$comboBoxRegion.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aRegion as $k => $v)
+{
+    if($aRet[0]['id_region'] == $v['id'])
+    {
+        $comboBoxRegion.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+    else
+    {
+        $comboBoxRegion.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+    }
+}
+
+$comboBoxRegion.= "</select>";
+$comboBoxRegion.= "</div>";
+//Fim ComboBox Region
+
 ?>
 
 <!DOCTYPE html>
@@ -174,6 +198,9 @@ $comboBoxStatus.= "</div>";
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="region.php"><i></i>Regi&oacute;n</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -191,6 +218,9 @@ $comboBoxStatus.= "</div>";
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -271,13 +301,14 @@ $comboBoxStatus.= "</div>";
                                    <?php echo($comboBoxPais);?>
                                    <?php echo($comboBoxJefe);?>
                                    <?php echo($comboBoxStatus);?>
-                                </div>
-                                <div class="col-sm-3">
+                                   <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="name">ID Externo (NetSuite)</label>
+                                            <label for="name">ID Interno (NetSuite)</label>
                                             <input type="text" class="form-control" id="id_netsuite" value="<?php echo($aRet[0]['id_netsuite']);?>">
                                         </div>
                                     </div>
+                                    <?php echo($comboBoxRegion);?>
+                                </div>
                         </form>
                     </div>
                     <div class="card-footer" align="center">

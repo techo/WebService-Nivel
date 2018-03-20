@@ -109,7 +109,7 @@
             
             $GetCheckToken = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl&debug=1', 'wsdl');
             
-            $param = array('token'   => '6998b5b0ed492b280571a6a746c0bcbc-0ac7b0bba5321a708a4fc699a0fc2a50');
+            $param = array('token'   => '248d39fda271e04a0cd208ef15c9f9e7-b27428651e90c50bba0b6dd04d3f60df');
             
             $result = $GetCheckToken->call('GetCheckToken', $param);
             

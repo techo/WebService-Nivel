@@ -94,9 +94,13 @@ class Model
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
         $sql .= "usuario.mail as 'email' , ";
         $sql .= "usuario.id_netsuite as 'id_netsuite' , ";
+        $sql .= "usuario.id_region as 'id_region' , ";
         $sql .= "usuario.status as 'status' , ";
+        $sql .= "region.nombre as 'region', ";
+        $sql .= "region.codigo as 'codigoRegion', ";
+        $sql .= "area.id as 'id_area', ";
         $sql .= "area.nombre as 'area', ";
-        $sql .= "area.id as 'codarea', ";
+        $sql .= "area.codigo as 'codarea', ";
         $sql .= "cargo.nombre as 'cargo', ";
         $sql .= "cargo.id as 'codcargo', ";
         $sql .= "pais.nombre  as 'pais', ";
@@ -104,8 +108,9 @@ class Model
         $sql .= "pais.id  as 'codpais' ";
         $sql .= "FROM usuario ";
         $sql .= "LEFT JOIN area ON area.id = usuario.id_area ";
-        $sql .= "INNER JOIN cargo ON cargo.id = usuario.id_cargo ";
-        $sql .= "INNER JOIN pais ON pais.id = usuario.id_pais ";
+        $sql .= "LEFT JOIN cargo ON cargo.id = usuario.id_cargo ";
+        $sql .= "LEFT JOIN pais ON pais.id = usuario.id_pais ";
+        $sql .= "LEFT JOIN region ON region.id = usuario.id_region ";
         $sql .= "WHERE usuario.id = '".$idUser."' ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
@@ -225,7 +230,7 @@ class Model
         return $result;
     }
     
-    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $idUser, $netsuite)
+    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $region, $status, $idUser, $netsuite)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -240,6 +245,7 @@ class Model
         $sql .= "id_cargo, ";
         $sql .= "id_pais, ";
         $sql .= "id_jefe, ";
+        $sql .= "id_region, ";
         $sql .= "id_netsuite, ";
         $sql .= "status, ";
         $sql .= "id_criador, ";
@@ -256,6 +262,7 @@ class Model
         $sql .= "'". $cargo."', ";
         $sql .= "'". $pais."', ";
         $sql .= "'". $jefe."', ";
+        $sql .= "'". $region."', ";
         $sql .= "'". $netsuite."', ";
         $sql .= "'". $status."', ";
         $sql .= "'". $idUser."', ";
@@ -395,6 +402,46 @@ class Model
         return $Logado;
     }
     
+    function GrabarRegion($nombre, $codigo, $status, $idPais, $idUser)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "INSERT INTO region (";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "codigo, ";
+        $sql .= "status, ";
+        $sql .= "id_pais, ";
+        $sql .= "id_criador, ";
+        $sql .= "id_alterador, ";
+        $sql .= "fecha_inc, ";
+        $sql .= "fecha_alt) VALUES (";
+        $sql .= " NULL, ";
+        $sql .= "'". $nombre."', ";
+        $sql .= "'". $codigo."', ";
+        $sql .= "'". $status."', ";
+        $sql .= "'". $idPais."', ";
+        $sql .= "'". $idUser."', ";
+        $sql .= " 0, ";
+        $sql .= " NOW(), ";
+        $sql .= " '0000-00-00 00:00:00')";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $Logado = true;
+        }
+        else
+        {
+            $Logado = false;
+        }
+        
+        return $Logado;
+    }
+    
     function ListArea()
     {
         require_once 'DBConfig.php';
@@ -445,6 +492,22 @@ class Model
         return $result;
     }
     
+    function ListRegion()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "id, ";
+        $sql .= "nombre ";
+        $sql .= "FROM region ";
+        $sql.= "WHERE status = 1 ORDER BY nombre ASC";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
     function ListJefe()
     {
         require_once 'DBConfig.php';
@@ -471,9 +534,12 @@ class Model
         $sql .= "usuario.apellido_materno, ";
         $sql .= "usuario.mail, ";
         $sql .= "usuario.id_netsuite as id_netsuite, ";
+        $sql .= "usuario.id_region as id_region, ";
+        $sql .= "region.nombre as 'region_nombre', ";
         $sql .= "usuario.status, ";
-        $sql .= "usuario.id_jefe as 'jefe'";
+        $sql .= "usuario.id_jefe as 'jefe' ";
         $sql .= "FROM usuario ";
+        $sql .= "LEFT JOIN region on region.id = usuario.id_region ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -500,7 +566,7 @@ class Model
         return $result;
     }
     
-    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite)
+    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite, $region)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -514,6 +580,7 @@ class Model
         $sql .= "id_pais           = '" . $pais."', ";
         $sql .= "id_jefe           = '" . $jefe."', ";
         $sql .= "id_netsuite       = '" . $netsuite."', ";
+        $sql .= "id_region         = '" . $region."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";
@@ -685,6 +752,26 @@ class Model
         return $result;
     }
     
+    function ListaRegion()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "region.id as 'id', ";
+        $sql .= "pais.nombre as 'nombre_pais',  ";
+        $sql .= "region.nombre as 'nombre',  ";
+        $sql .= "region.codigo as 'codigo',  ";
+        $sql .= "region.id_pais as 'id_pais',  ";
+        $sql .= "region.status as 'status'";
+        $sql .= "FROM region ";
+        $sql .= "INNER JOIN pais pais ON pais.id = region.id_pais ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
     function InfoPais($id)
     {
         require_once 'DBConfig.php';
@@ -713,6 +800,25 @@ class Model
         return $result;
     }
     
+    function InfoRegion($id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "region.id as 'id', ";
+        $sql .= "region.nombre as 'nombre',  ";
+        $sql .= "region.codigo as 'codigo', ";
+        $sql .= "region.id_pais as 'id_pais' ";
+        $sql .= "FROM region ";
+       // $sql .= "INNER JOIN usuario aff ON pais.id_aff = aff.id ";
+        $sql .= "WHERE region.id =  " . $id;
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
     function EditarPais($nombre, $codigo, $id_aff, $id_cont, $status, $idUser, $id)
     {
         require_once 'DBConfig.php';
@@ -723,6 +829,34 @@ class Model
         $sql .= "id_aff            = '" . $id_aff."', ";
         $sql .= "id_cont           = '" . $id_cont."', ";
         $sql .= "status            = '" . $status."', ";
+        $sql .= "id_alterador      = '" . $idUser."', ";
+        $sql .= "fecha_alt         = NOW() ";
+        $sql .= "WHERE id          = '" . $id."'";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $Logado = true;
+        }
+        else
+        {
+            $Logado = false;
+        }
+        
+        return $Logado;
+    }
+    
+    function EditarRegion($nombre, $codigo, $id_pais, $idUser, $id)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "UPDATE region SET ";
+        $sql .= "nombre            = '" . $nombre."', ";
+        $sql .= "codigo            = '" . $codigo."', ";
+        $sql .= "id_pais            = '" . $id_pais."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";
         $sql .= "WHERE id          = '" . $id."'";

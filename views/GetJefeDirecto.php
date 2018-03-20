@@ -3,7 +3,7 @@
          
          $GetJefe = new nusoap_client('http://herramientas.techo.org/aff/ws_soap/server/?wsdl', false);
          
-         $param = array('token' => '248d39fda271e04a0cd208ef15c9f9e7-444e3db2ce67915f94e8c17405aea9b3',
+         $param = array('token' => '248d39fda271e04a0cd208ef15c9f9e7-b27428651e90c50bba0b6dd04d3f60df',
              'mail' => 'ezequiel.cruz@techo.org'
          );
          

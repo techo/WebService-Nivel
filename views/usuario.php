@@ -58,6 +58,9 @@ if(!strpos("[".$string."]", "$buscar"))
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -75,6 +78,9 @@ if(!strpos("[".$string."]", "$buscar"))
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -164,9 +170,11 @@ if(!strpos("[".$string."]", "$buscar"))
                                     </div>
                                     <div id="jefes">
                                     </div>
+                                     <div id="regiones">                                       
+                                    	</div>
                                      <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="name">ID Externo (NetSuite)</label>
+                                            <label for="name">ID Interno (NetSuite)</label>
                                             <input type="text" class="form-control" id="id_netsuite" placeholder="id NetSuite">
                                         </div>
                                     </div>
@@ -204,6 +212,7 @@ if(!strpos("[".$string."]", "$buscar"))
 	    ListCargo();
 	    ListPais();
 	    ListJefe();
+	    ListRegion();
 	});
 	</script>
 	<script>

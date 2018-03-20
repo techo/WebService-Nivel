@@ -25,6 +25,9 @@
         case 'GrabarCargo'    : GrabarCargo($_POST);
         break;
         
+        case 'GrabarRegion'   : GrabarRegion($_POST);
+        break;
+        
         case 'ListArea'       : ListArea();
         break;
         
@@ -32,6 +35,9 @@
         break;
         
         case 'ListPais'       : ListPais();
+        break;
+        
+        case 'ListRegion'     : ListRegion();
         break;
         
         case 'ListJefe'       : ListJefe();
@@ -64,7 +70,13 @@
         case 'ListaPais'      : ListaPais($_POST);
         break;
         
+        case 'ListaRegion'    : ListaRegion($_POST);
+        break;
+        
         case 'EditarPais'     : EditarPais($_POST);
+        break;
+        
+        case 'EditarRegion'   : EditarRegion($_POST);
         break;
         
       }
@@ -178,6 +190,7 @@
           $cargo    = $aPost['cargo'];
           $pais     = $aPost['pais'];
           $jefe     = $aPost['jefe'];
+          $region   = $aPost['region'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
           
@@ -188,7 +201,7 @@
           
           if(empty($aRet))
           {
-              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $netsuite);
+              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $region, $status, $_SESSION['Id'], $netsuite);
               
               if($lGraba)
               {
@@ -424,6 +437,49 @@
           }
       }
       
+      function GrabarRegion($aPost)
+      {
+          session_start();
+          
+          $nombre = $aPost['nombre'];
+          $codigo = $aPost['codigo'];
+          $status = $aPost['status'];
+          $idPais = $aPost['pais'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $aRet = $oBj->CheckUser($_SESSION['Mail']);
+          $_SESSION['Id'] = $aRet[0]['id'];
+          
+          $lGraba = $oBj->GrabarRegion($nombre, $codigo, $status, $idPais, $_SESSION['Id']);
+          
+          if($lGraba)
+          {
+              $message = 'Region registrada con Exito.';
+              $sucess  = 'true';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          else
+          {
+              $message = 'Error al registrar Region.';
+              $sucess  = 'false';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+      }
+      
       function ListArea()
       {
           require_once '../model/Model.php';
@@ -489,6 +545,33 @@
               $html .= "<div class='form-group col-sm-3'>";
               $html .= "<label for='ccmonth'>Pais</label>";
               $html .= "<select class='form-control' id='pais'>";
+              $html .= "<option value='0'>-- SELECCIONE--</option>";
+              
+              foreach ($aRet as $k=>$v)
+              
+              {
+                  $html .= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
+              }
+              
+              $html .= "</select>";
+              $html .= " </div>";
+              
+              echo json_encode(array("results" => $html));
+          }
+      }
+      
+      function ListRegion()
+      {
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $aRet = $oBj->ListRegion();
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='form-group col-sm-3'>";
+              $html .= "<label for='ccmonth'>Regi&oacute;n</label>";
+              $html .= "<select class='form-control' id='region'>";
               $html .= "<option value='0'>-- SELECCIONE--</option>";
               
               foreach ($aRet as $k=>$v)
@@ -615,6 +698,7 @@
               $html .= "<th>Email</th>";
               $html .= "<th>Jefe</th>";
               $html .= "<th>ID NetSuite</th>";
+              $html .= "<th>Regi&oacute;n</th>";
               $html .= "<th>Status</th>";
               $html .= "</tr>";
               foreach ($aRet as $k=>$v)
@@ -624,6 +708,7 @@
                   $html .= "<td>".$v['mail']."</td>";
                   $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
                   $html .= "<td>".$v['id_netsuite']."</td>";
+                  $html .= "<td>".$v['region_nombre']."</td>";
                   $html .= "<td>";
                   if($v['status'] == 1)
                   {
@@ -662,12 +747,13 @@
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
+          $region   = $aPost['region'];
           $id       = $aPost['id'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
           
-          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite);
+          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite, $region);
           if($lGraba)
           {
               $message = 'Usuario Cambiado con Exito.';
@@ -927,6 +1013,59 @@
           }
       }
       
+      function ListaRegion()
+      {
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          $aRet = $oBj->ListaRegion();
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='col-lg-12'>";
+              $html .= "<div class='card'>";
+              $html .= "<div class='card-header'>";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Regiones";
+              $html .= "</div>";
+              $html .= "<div class='card-block'>";
+              $html .= "<table class='table table-bordered table-striped table-condensed'>";
+              $html .= "<thead>";
+              $html .= "<tr>";
+              $html .= "<th>Nombre</th>";
+              $html .= "<th>Codigo</th>";
+              $html .= "<th>País</th>";
+              $html .= "<th>Status</th>";
+              $html .= "</tr>";
+              foreach ($aRet as $k=>$v)
+              {
+                  $html .= "<tr>";
+                  $html .= "<td>".$v['nombre']."</td>";
+                  $html .= "<td>".$v['codigo']."</td>";
+                  $html .= "<td>".$v['nombre_pais']."</td>";
+                  $html .= "<td>";
+                  if($v['status'] == 1)
+                  {
+                      $html .= "<span class='tag tag-success'>Activo</span>";
+                  }
+                  else
+                  {
+                      $html .= "<span class='tag tag-danger'>Inactivo</span>";
+                  }
+                  $html .= '<td><a type="button" onclick="RedirectRegion('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+                  $html .= "</td>";
+                  $html .= " </tr>";
+              }
+              $html .= "</thead>";
+              $html .= "<tbody>";
+              $html .= "</tbody>";
+              $html .= "</table>";
+              $html .= "</div>";
+              $html .= "</div>";
+              $html .= "</div>";
+              
+              echo json_encode(array("results" => $html));
+          }
+      }
+      
       function EditarPais($aPost)
       {
           session_start();
@@ -956,6 +1095,45 @@
           else
           {
               $message = 'Error al Cambiar Pais.';
+              $sucess  = 'false';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          
+      }
+      
+      function EditarRegion($aPost)
+      {
+          session_start();
+          $nombre   = $aPost['nombre'];
+          $codigo   = $aPost['codigo'];
+          $id_pais  = $aPost['id_pais'];
+          $id       = $aPost['id'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $lGraba = $oBj->EditarRegion($nombre, $codigo, $id_pais, $_SESSION['Id'], $id);
+          if($lGraba)
+          {
+              $message = 'Region Cambiado con Exito.';
+              $sucess  = 'true';
+              $result  = '';
+              
+              $aRet = array('Message' => $message,
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
+              echo(json_encode($aRet));
+          }
+          else
+          {
+              $message = 'Error al Cambiar Region.';
               $sucess  = 'false';
               $result  = '';
               

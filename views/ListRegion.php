@@ -13,7 +13,7 @@ if(!strpos("[".$string."]", "$buscar"))
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Areas</title>
+    <title>Lista Regi&oacute;n</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -34,7 +34,7 @@ if(!strpos("[".$string."]", "$buscar"))
             </form>
         </div>
     </header>
-     <div class="sidebar">
+   <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-title text-xs-center">
@@ -47,28 +47,28 @@ if(!strpos("[".$string."]", "$buscar"))
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/usuario.php"><i></i>Usuarios</a>
+								<a class="nav-link" href="usuario.php"><i></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i></i>Paises</a>
+								<a class="nav-link" href="paises.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i></i>Areas</a>
+								<a class="nav-link" href="areas.php"><i></i>Areas</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
+								<a class="nav-link" href="cargos.php"><i></i>Cargos</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
+								<a class="nav-link" href="region.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
 					
-					 <li class="nav-item nav-dropdown">
+					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListUsuario.php"><i></i>Usuarios</a>
+								<a class="nav-link" href="ListUsuario.php"><i></i>Usuarios</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListPais.php"><i></i>Paises</a>
@@ -90,7 +90,7 @@ if(!strpos("[".$string."]", "$buscar"))
 					</li>
 					
 					 <li class="nav-item">
-					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListImage.php"><i class="fa fa-cloud-upload"></i> Listado Imagenes</a>
+					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListImage.php"><i class="fa fa-picture-o"></i> Listado Imagenes</a>
 					</li>
 					
 					<li class="nav-item nav-dropdown">
@@ -121,41 +121,10 @@ if(!strpos("[".$string."]", "$buscar"))
     </div>
     <!-- Main content -->
     <main class="main">
-               <div class="card-header">
-                        <strong>Registro de Areas</strong> 
-                    </div>
-                    <div class="card-block">
-                        <form action="" method="post" class="form-horizontal ">
-                             <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="name">Nombre</label>
-                                            <input type="text" class="form-control" id="nombre" placeholder="Enter Area">
-                                        </div>
-                                    </div>
-                                </div>
-                             <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label for="name">C&oacute;digo</label>
-                                            <input type="text" class="form-control" id="codigo" placeholder="Enter Codigo">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label for="ccmonth">Status</label>
-                                        <select class="form-control" id="status">
-                                        	<option value="0">-- SELECCIONE--</option>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
-                                        </select>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
-                    <div class="card-footer" align="center">
-                        <button type="button" class="btn btn-sm btn-success" onclick="GrabarArea();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="LimpiarGenerico();"><i class="fa fa-ban"></i> Limpiar</button>
-                    </div>
+       <div class="row">
+                    <div id="listagem">
+                    <!--/col-->
+                </div>
     </main>
 
     <footer class="footer">
@@ -167,7 +136,12 @@ if(!strpos("[".$string."]", "$buscar"))
     <script src="../js/libs/jquery.min.js"></script>
     <script src="../js/libs/bootstrap.min.js"></script> 
     <script src="../js/app.js"></script>
-	<script src="../js/main.js"></script>
+    <script src="../js/main.js?"></script>
+    <script>
+	$(document).ready(function() {
+		ListaRegion();
+	});
+	</script>
 	<script>
     $("#sair").on("click", function() 
     		{

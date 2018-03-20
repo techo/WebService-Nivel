@@ -1,19 +1,16 @@
 <?php
 session_start();
 
-$string = $_SESSION['Mail'];
-$buscar = '@techo.org';
-if(!strpos("[".$string."]", "$buscar"))
+if(!isset($_SESSION['id']))
 {
     header("Location: http://login.techo.org");
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Areas</title>
+    <title>Regi&oacute;n</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -43,7 +40,7 @@ if(!strpos("[".$string."]", "$buscar"))
 				 <li class="nav-item">
 				 <a class="nav-link" href="home.php"><i class="fa fa-home"></i> Home</a>
 				 
-				 <li class="nav-item nav-dropdown">
+				<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-user-plus"></i>Registros</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
@@ -64,7 +61,7 @@ if(!strpos("[".$string."]", "$buscar"))
 						</ul>
 					</li>
 					
-					 <li class="nav-item nav-dropdown">
+					<li class="nav-item nav-dropdown">
 						<a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-users"></i>Listas</a>
 						<ul class="nav-dropdown-items">
 							<li class="nav-item">
@@ -90,7 +87,7 @@ if(!strpos("[".$string."]", "$buscar"))
 					</li>
 					
 					 <li class="nav-item">
-					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListImage.php"><i class="fa fa-cloud-upload"></i> Listado Imagenes</a>
+					 <a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListImage.php"><i class="fa fa-picture-o"></i> Listado Imagenes</a>
 					</li>
 					
 					<li class="nav-item nav-dropdown">
@@ -122,7 +119,7 @@ if(!strpos("[".$string."]", "$buscar"))
     <!-- Main content -->
     <main class="main">
                <div class="card-header">
-                        <strong>Registro de Areas</strong> 
+                        <strong>Registro de Regi&oacute;n</strong> 
                     </div>
                     <div class="card-block">
                         <form action="" method="post" class="form-horizontal ">
@@ -130,16 +127,18 @@ if(!strpos("[".$string."]", "$buscar"))
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="name">Nombre</label>
-                                            <input type="text" class="form-control" id="nombre" placeholder="Enter Area">
+                                            <input type="text" class="form-control" id="nombre" placeholder="Enter Region">
                                         </div>
                                     </div>
-                                </div>
-                             <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="name">C&oacute;digo</label>
                                             <input type="text" class="form-control" id="codigo" placeholder="Enter Codigo">
                                         </div>
+                                    </div>
+                                </div>
+                             <div class="row">
+                                    <div id="paises">                                       
                                     </div>
                                     <div class="form-group col-sm-4">
                                         <label for="ccmonth">Status</label>
@@ -153,7 +152,7 @@ if(!strpos("[".$string."]", "$buscar"))
                         </form>
                     </div>
                     <div class="card-footer" align="center">
-                        <button type="button" class="btn btn-sm btn-success" onclick="GrabarArea();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
+                        <button type="button" class="btn btn-sm btn-success" onclick="GrabarRegion();"><i class="fa fa-dot-circle-o"></i> Grabar</button>
                         <button type="button" class="btn btn-sm btn-danger" onclick="LimpiarGenerico();"><i class="fa fa-ban"></i> Limpiar</button>
                     </div>
     </main>
@@ -175,6 +174,11 @@ if(!strpos("[".$string."]", "$buscar"))
     		});
 
     </script>
+    <script>
+	$(document).ready(function() {
+	    ListPais();
+	});
+	</script>
 </body>
 
 </html>

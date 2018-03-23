@@ -366,13 +366,14 @@ class Model
         return $Logado;
     }
     
-    function GrabarCargo($nombre, $status, $idUser)
+    function GrabarCargo($nombre, $codigo, $status, $idUser)
     {
         require_once 'DBConfig.php';
         $sql  = "";
         $sql .= "INSERT INTO cargo (";
         $sql .= "id, ";
         $sql .= "nombre, ";
+        $sql .= "codigo, ";
         $sql .= "status, ";
         $sql .= "id_criador, ";
         $sql .= "id_alterador, ";
@@ -380,6 +381,7 @@ class Model
         $sql .= "fecha_alt) VALUES (";
         $sql .= " NULL, ";
         $sql .= "'". $nombre."', ";
+        $sql .= "'". $codigo."', ";
         $sql .= "'". $status."', ";
         $sql .= "'". $idUser."', ";
         $sql .= " 0, ";
@@ -671,6 +673,7 @@ class Model
         $sql  = "SELECT ";
         $sql .= "id, ";
         $sql .= "nombre, ";
+        $sql .= "codigo, ";
         $sql .= "status ";
         $sql .= "FROM cargo ";
         $pdo = Database::conexao();
@@ -687,6 +690,7 @@ class Model
         $sql  = "SELECT ";
         $sql .= "id, ";
         $sql .= "nombre, ";
+        $sql .= "codigo, ";
         $sql .= "status ";
         $sql .= "FROM cargo ";
         $sql.= "WHERE id = " . $id;
@@ -698,12 +702,13 @@ class Model
         return $result;
     }
     
-    function EditarCargo($nombre, $status, $idUser, $id)
+    function EditarCargo($nombre, $codigo, $status, $idUser, $id)
     {
         require_once 'DBConfig.php';
         $sql  = "";
         $sql .= "UPDATE cargo SET ";
         $sql .= "nombre            = '" . $nombre."', ";
+        $sql .= "codigo            = '" . $codigo."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";

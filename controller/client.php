@@ -399,8 +399,10 @@
       
       function GrabarCargo($aPost)
       {
+          
           session_start();
           $nombre = $aPost['nombre'];
+          $codigo = $aPost['codigo'];
           $status = $aPost['status'];
           
           require_once '../model/Model.php';
@@ -409,7 +411,7 @@
           $aRet = $oBj->CheckUser($_SESSION['Mail']);
           $_SESSION['Id'] = $aRet[0]['id'];
           
-          $lGraba = $oBj->GrabarCargo($nombre, $status, $_SESSION['Id']);
+          $lGraba = $oBj->GrabarCargo($nombre, $codigo, $status, $_SESSION['Id']);
           
           if($lGraba)
           {
@@ -889,12 +891,14 @@
               $html .= "<thead>";
               $html .= "<tr>";
               $html .= "<th>Nombre</th>";
+              $html .= "<th>Codigo</th>";
               $html .= "<th>Status</th>";
               $html .= "</tr>";
               foreach ($aRet as $k=>$v)
               {
                   $html .= "<tr>";
                   $html .= "<td>".$v['nombre']."</td>";
+                  $html .= "<td>".$v['codigo']."</td>";
                   $html .= "<td>";
                   if($v['status'] == 1)
                   {
@@ -922,15 +926,17 @@
       
       function EditarCargo($aPost)
       {
+          
           session_start();
           $nombre   = $aPost['nombre'];
+          $codigo   = $aPost['codigo'];
           $status   = $aPost['status'];
           $id       = $aPost['id'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
           
-          $lGraba = $oBj->EditarCargo($nombre, $status, $_SESSION['Id'], $id);
+          $lGraba = $oBj->EditarCargo($nombre, $codigo, $status, $_SESSION['Id'], $id);
           if($lGraba)
           {
               $message = 'Cargo Cambiado con Exito.';

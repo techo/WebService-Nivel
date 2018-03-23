@@ -154,6 +154,12 @@ $comboBoxStatus.= "</div>";
                                         </div>
                                     </div>
                                 </div>
+                                 <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="name">C&oacute;digo</label>
+                                            <input type="text" class="form-control" id="codigo" value="<?php echo($aRet[0]['codigo']);?>">
+                                        </div>
+                                    </div>
                              <div class="row">
                                     <?php echo($comboBoxStatus);?>
                                 </div>

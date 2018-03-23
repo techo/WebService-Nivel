@@ -167,7 +167,9 @@ function GrabarCargo()
 	oData          = new Object();	
 	oData.acao     = "GrabarCargo";
 	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val(); 
 	oData.status   = $('#status').val();
+	
 	$.ajax({
 				type: "POST",
 				url: "../controller/client.php",
@@ -553,6 +555,7 @@ function EditarCargo(id)
 	oData          = new Object();	
 	oData.acao     = "EditarCargo";
 	oData.nombre   = $('#nombre').val(); 
+	oData.codigo   = $('#codigo').val(); 
 	oData.status   = $('#status').val();
 	oData.id       = id;
 	$.ajax({

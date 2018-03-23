@@ -135,6 +135,12 @@ if(!strpos("[".$string."]", "$buscar"))
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="name">C&oacute;digo</label>
+                                            <input type="text" class="form-control" id="codigo" placeholder="Enter Codigo">
+                                        </div>
+                                    </div>
                              <div class="row">
                                     <div class="form-group col-sm-4">
                                         <label for="ccmonth">Status</label>

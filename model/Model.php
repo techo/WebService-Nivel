@@ -102,7 +102,7 @@ class Model
         $sql .= "area.nombre as 'area', ";
         $sql .= "area.codigo as 'codarea', ";
         $sql .= "cargo.nombre as 'cargo', ";
-        $sql .= "cargo.id as 'codcargo', ";
+        $sql .= "cargo.codigo as 'codcargo', ";
         $sql .= "pais.nombre  as 'pais', ";
         $sql .= "pais.codigo  as 'codigoPais', ";
         $sql .= "pais.id  as 'codpais' ";

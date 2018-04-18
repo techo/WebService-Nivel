@@ -1,13 +1,5 @@
 <?php 
 session_start();
-
-$string = $_SESSION['Mail'];
-$buscar = '@techo.org';
-if(!strpos("[".$string."]", "$buscar"))
-{
-    header("Location: http://login.techo.org");
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +129,7 @@ if(!strpos("[".$string."]", "$buscar"))
 			<input id="submitBtn" type="submit" style="display:none;" />
 		</form>
 
-		<image id="imgButton" onclick="getFile();" src="../imagenes/assets/upload.png" />
+		<image id="imgButton" onclick="getFile();" src="http://herramientas.techo.org/aff/imagenes/assets/upload.png" />
 		<div>
 			<br>Haga clic en la c&aacute;mara para cargar el documento...
 		</div>

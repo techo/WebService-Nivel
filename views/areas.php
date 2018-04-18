@@ -53,13 +53,7 @@ if(!strpos("[".$string."]", "$buscar"))
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -74,13 +68,7 @@ if(!strpos("[".$string."]", "$buscar"))
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListPais.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>

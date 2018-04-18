@@ -5,37 +5,14 @@ require_once '../model/Model.php';
 $oBj = new Model();
 $aRet = $oBj->InfoUser($id); // Usuario
 
-$aAreas  = $oBj->ListArea();
 $aCargos = $oBj->ListCargo();
 $aPais   = $oBj->ListPais();
 $aChefe  = $oBj->ListJefe();
-$aRegion  = $oBj->ListRegion();
 
 //Searche Jefe
 $aJefe  = $oBj->checkJefe($aRet[0]['email']);
 $aJefe  = $oBj->OhmyGod($aJefe[0]['id_jefe']);
 
-//ComboBox Area
-$comboBoxArea = "<div class='form-group col-sm-3'>";
-$comboBoxArea.= "<label for='ccmonth'>Area</label>";
-$comboBoxArea.= "<select class='form-control' id='area'>";
-$comboBoxArea.= "<option value='0'>-- SELECCIONE--</option>";
-
-foreach ($aAreas as $k => $v)
-{
-    if($aRet[0]['id_area'] == $v['id'])
-    {
-        $comboBoxArea.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
-    }
-    else
-    {
-        $comboBoxArea.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
-    }
-}
-
-$comboBoxArea.= "</select>";
-$comboBoxArea.= "</div>";
-//Fim ComboBox Area
 
 //ComboBox Cargos
 $comboBoxCargo = "<div class='form-group col-sm-3'>";
@@ -45,7 +22,7 @@ $comboBoxCargo.= "<option value='0'>-- SELECCIONE--</option>";
 
 foreach ($aCargos as $k => $v)
 {
-    if($aRet[0]['codcargo'] == $v['id'])
+    if($aRet[0]['idcargo'] == $v['id'])
     {
         $comboBoxCargo.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
     }
@@ -125,28 +102,6 @@ $comboBoxStatus.= "</select>";
 $comboBoxStatus.= "</div>";
 //Fim ComboBox Status
 
-//ComboBox Region
-$comboBoxRegion = "<div class='form-group col-sm-3'>";
-$comboBoxRegion.= "<label for='ccmonth'>Regi&oacute;n</label>";
-$comboBoxRegion.= "<select class='form-control' id='region'>";
-$comboBoxRegion.= "<option value='0'>-- SELECCIONE--</option>";
-
-foreach ($aRegion as $k => $v)
-{
-    if($aRet[0]['id_region'] == $v['id'])
-    {
-        $comboBoxRegion.= "<option selected value='" . $v['id']."'>" . $v['nombre']."</option>";
-    }
-    else
-    {
-        $comboBoxRegion.= "<option value='" . $v['id']."'>" . $v['nombre']."</option>";
-    }
-}
-
-$comboBoxRegion.= "</select>";
-$comboBoxRegion.= "</div>";
-//Fim ComboBox Region
-
 ?>
 
 <!DOCTYPE html>
@@ -193,13 +148,7 @@ $comboBoxRegion.= "</div>";
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="region.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -214,13 +163,7 @@ $comboBoxRegion.= "</div>";
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListPais.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -293,8 +236,6 @@ $comboBoxRegion.= "</div>";
                                             <input type="text" class="form-control" id="email" value="<?php echo($aRet[0]['email']);?>">
                                         </div>
                                     </div>
-                                   
-                                    <?php echo($comboBoxArea);?>
                                 </div>
                                 <div class="row">
                                    <?php echo($comboBoxCargo);?>
@@ -307,7 +248,6 @@ $comboBoxRegion.= "</div>";
                                             <input type="text" class="form-control" id="id_netsuite" value="<?php echo($aRet[0]['id_netsuite']);?>">
                                         </div>
                                     </div>
-                                    <?php echo($comboBoxRegion);?>
                                 </div>
                         </form>
                     </div>

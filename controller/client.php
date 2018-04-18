@@ -130,7 +130,7 @@
 		    
 		    echo json_encode(array(
 		        "results"  => true,
-		        "redirect" => $aPost['redirect'] . '?token='.$_SESSION['Token'],
+		        "redirect" => $aPost['redirect'] . '?token='.$_SESSION['Token'].'&ID='. $_SESSION['Id'],
 		        "token"    => $_SESSION['Token']
 		    ));
 		}
@@ -186,11 +186,9 @@
           $materno  = $aPost['materno'];
           $email    = $aPost['mail'];
           $password = $aPost['password'];
-          $area     = $aPost['area'];
           $cargo    = $aPost['cargo'];
           $pais     = $aPost['pais'];
           $jefe     = $aPost['jefe'];
-          $region   = $aPost['region'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
           
@@ -201,7 +199,7 @@
           
           if(empty($aRet))
           {
-              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $region, $status, $_SESSION['Id'], $netsuite);
+              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $netsuite);
               
               if($lGraba)
               {
@@ -420,9 +418,9 @@
               $result  = '';
               
               $aRet = array('Message' => $message,
-                            'Success' => $sucess,
-                            'Result'  => $result);
-                      
+                  'Success' => $sucess,
+                  'Result'  => $result);
+              
               echo(json_encode($aRet));
           }
           else
@@ -432,8 +430,8 @@
               $result  = '';
               
               $aRet = array('Message' => $message,
-                            'Success' => $sucess,
-                            'Result'  => $result);
+                  'Success' => $sucess,
+                  'Result'  => $result);
               
               echo(json_encode($aRet));
           }
@@ -700,7 +698,6 @@
               $html .= "<th>Email</th>";
               $html .= "<th>Jefe</th>";
               $html .= "<th>ID NetSuite</th>";
-              $html .= "<th>Regi&oacute;n</th>";
               $html .= "<th>Status</th>";
               $html .= "</tr>";
               foreach ($aRet as $k=>$v)
@@ -710,7 +707,6 @@
                   $html .= "<td>".$v['mail']."</td>";
                   $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
                   $html .= "<td>".$v['id_netsuite']."</td>";
-                  $html .= "<td>".$v['region_nombre']."</td>";
                   $html .= "<td>";
                   if($v['status'] == 1)
                   {
@@ -743,19 +739,17 @@
           $paterno  = $aPost['paterno'];
           $materno  = $aPost['materno'];
           $email    = $aPost['mail'];
-          $area     = $aPost['area'];
           $cargo    = $aPost['cargo'];
           $pais     = $aPost['pais'];
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
-          $region   = $aPost['region'];
           $id       = $aPost['id'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
           
-          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite, $region);
+          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite);
           if($lGraba)
           {
               $message = 'Usuario Cambiado con Exito.';

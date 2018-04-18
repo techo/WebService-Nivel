@@ -53,13 +53,7 @@ if(!strpos("[".$string."]", "$buscar"))
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/paises.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/areas.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/cargos.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/region.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -74,13 +68,7 @@ if(!strpos("[".$string."]", "$buscar"))
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListPais.php"><i></i>Paises</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListArea.php"><i></i>Areas</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListRegion.php"><i></i>Regi&oacute;n</a>
 							</li>
 						</ul>
 					</li>
@@ -159,9 +147,6 @@ if(!strpos("[".$string."]", "$buscar"))
                                             <input type="password" class="form-control" id="password" placeholder="Enter Contrase&ntilde;a">
                                         </div>
                                     </div>
-                                    <div id="areas">
-                                        
-                                    </div>
                                 </div>
                                 <div class="row">
                                    <div id="cargos">
@@ -170,8 +155,6 @@ if(!strpos("[".$string."]", "$buscar"))
                                     </div>
                                     <div id="jefes">
                                     </div>
-                                     <div id="regiones">                                       
-                                    	</div>
                                      <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="name">ID Interno (NetSuite)</label>
@@ -208,11 +191,9 @@ if(!strpos("[".$string."]", "$buscar"))
 	<!-- Lista dados dos ComboBoxs -->
 	<script>
 	$(document).ready(function() {
-	    ListArea();
 	    ListCargo();
 	    ListPais();
 	    ListJefe();
-	    ListRegion();
 	});
 	</script>
 	<script>

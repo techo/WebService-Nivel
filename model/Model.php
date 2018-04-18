@@ -94,23 +94,16 @@ class Model
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
         $sql .= "usuario.mail as 'email' , ";
         $sql .= "usuario.id_netsuite as 'id_netsuite' , ";
-        $sql .= "usuario.id_region as 'id_region' , ";
         $sql .= "usuario.status as 'status' , ";
-        $sql .= "region.nombre as 'region', ";
-        $sql .= "region.codigo as 'codigoRegion', ";
-        $sql .= "area.id as 'id_area', ";
-        $sql .= "area.nombre as 'area', ";
-        $sql .= "area.codigo as 'codarea', ";
         $sql .= "cargo.nombre as 'cargo', ";
+        $sql .= "cargo.id as 'idcargo', ";
         $sql .= "cargo.codigo as 'codcargo', ";
         $sql .= "pais.nombre  as 'pais', ";
         $sql .= "pais.codigo  as 'codigoPais', ";
         $sql .= "pais.id  as 'codpais' ";
         $sql .= "FROM usuario ";
-        $sql .= "LEFT JOIN area ON area.id = usuario.id_area ";
         $sql .= "LEFT JOIN cargo ON cargo.id = usuario.id_cargo ";
         $sql .= "LEFT JOIN pais ON pais.id = usuario.id_pais ";
-        $sql .= "LEFT JOIN region ON region.id = usuario.id_region ";
         $sql .= "WHERE usuario.id = '".$idUser."' ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
@@ -145,7 +138,7 @@ class Model
         $sql .= "usuario.mail, ";
         $sql .= "cargo.nombre as 'cargo'";   
         $sql .= "FROM usuario ";
-        $sql .= "INNER JOIN cargo ON cargo.id = usuario.id_cargo ";
+        $sql .= "LEFT JOIN cargo ON cargo.id = usuario.id_cargo ";
         $sql .= "WHERE usuario.id = '".$idJefe."' ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
@@ -180,8 +173,8 @@ class Model
         $sql .= "usuario.mail, ";
         $sql .= "cargo.nombre as 'cargo'";
         $sql .= "FROM pais ";
-        $sql .= "INNER JOIN usuario ON usuario.id = pais.id_aff ";
-        $sql .= "INNER JOIN cargo ON cargo.id = usuario.id_cargo ";
+        $sql .= "LEFT JOIN usuario ON usuario.id = pais.id_aff ";
+        $sql .= "LEFT JOIN cargo ON cargo.id = usuario.id_cargo ";
         $sql.= "WHERE pais.codigo = '".$CodPais."' ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
@@ -230,7 +223,7 @@ class Model
         return $result;
     }
     
-    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $area, $cargo, $pais, $jefe, $region, $status, $idUser, $netsuite)
+    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $idUser, $netsuite)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -241,11 +234,9 @@ class Model
         $sql .= "apellido_materno, ";
         $sql .= "mail, ";
         $sql .= "password, ";
-        $sql .= "id_area, ";
         $sql .= "id_cargo, ";
         $sql .= "id_pais, ";
         $sql .= "id_jefe, ";
-        $sql .= "id_region, ";
         $sql .= "id_netsuite, ";
         $sql .= "status, ";
         $sql .= "id_criador, ";
@@ -258,11 +249,9 @@ class Model
         $sql .= "'". $materno."', ";
         $sql .= "'". $email."', ";
         $sql .= "'". $password."', ";
-        $sql .= "'". $area."', ";
         $sql .= "'". $cargo."', ";
         $sql .= "'". $pais."', ";
         $sql .= "'". $jefe."', ";
-        $sql .= "'". $region."', ";
         $sql .= "'". $netsuite."', ";
         $sql .= "'". $status."', ";
         $sql .= "'". $idUser."', ";
@@ -536,12 +525,9 @@ class Model
         $sql .= "usuario.apellido_materno, ";
         $sql .= "usuario.mail, ";
         $sql .= "usuario.id_netsuite as id_netsuite, ";
-        $sql .= "usuario.id_region as id_region, ";
-        $sql .= "region.nombre as 'region_nombre', ";
         $sql .= "usuario.status, ";
         $sql .= "usuario.id_jefe as 'jefe' ";
         $sql .= "FROM usuario ";
-        $sql .= "LEFT JOIN region on region.id = usuario.id_region ";
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -568,7 +554,7 @@ class Model
         return $result;
     }
     
-    function EditarUsuario($nombre, $paterno, $materno, $email, $area, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite, $region)
+    function EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -577,12 +563,10 @@ class Model
         $sql .= "apellido_paterno  = '" . $paterno."', ";
         $sql .= "apellido_materno  = '" . $materno."', ";
         $sql .= "mail              = '" . $email."', ";
-        $sql .= "id_area           = '" . $area."', ";
         $sql .= "id_cargo          = '" . $cargo."', ";
         $sql .= "id_pais           = '" . $pais."', ";
         $sql .= "id_jefe           = '" . $jefe."', ";
         $sql .= "id_netsuite       = '" . $netsuite."', ";
-        $sql .= "id_region         = '" . $region."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";

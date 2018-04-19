@@ -36,6 +36,7 @@ $server->register(
          ,'codcargo'         => 'xsd:string'
          ,'pais'             => 'xsd:string'
          ,'codigoPais'       => 'xsd:string'
+         ,'id_netsuite'      => 'xsd:string'
 		 ,'codigoRegion'     => 'xsd:string'
     ),
     'WS_Nivel.GetLogin',

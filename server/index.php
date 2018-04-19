@@ -76,6 +76,7 @@ $server->register(
     array('nombre'   => 'xsd:string'
         ,'apellido_paterno' => 'xsd:string'
         ,'apellido_materno' => 'xsd:string'
+        ,'id_netsuite'      => 'xsd:string'
         ,'mail'             => 'xsd:string'
         ,'cargo'            => 'xsd:string'
     ),
@@ -131,6 +132,7 @@ $server->register(
     array('nombre'   => 'xsd:string'
          ,'apellido_paterno' => 'xsd:string'
          ,'apellido_materno' => 'xsd:string'
+         ,'id_netsuite'      => 'xsd:string'
          ,'mail'             => 'xsd:string'
          ,'cargo'            => 'xsd:string'
     ),

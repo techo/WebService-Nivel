@@ -135,6 +135,7 @@ class Model
         $sql .= "usuario.nombre, ";
         $sql .= "usuario.apellido_paterno, ";
         $sql .= "usuario.apellido_materno, ";
+        $sql .= "usuario.id_netsuite as 'id_netsuite', ";
         $sql .= "usuario.mail, ";
         $sql .= "cargo.nombre as 'cargo'";   
         $sql .= "FROM usuario ";
@@ -171,6 +172,7 @@ class Model
         $sql .= "usuario.apellido_paterno, ";
         $sql .= "usuario.apellido_materno, ";
         $sql .= "usuario.mail, ";
+        $sql .= "usuario.id_netsuite as 'id_netsuite', ";
         $sql .= "cargo.nombre as 'cargo'";
         $sql .= "FROM pais ";
         $sql .= "LEFT JOIN usuario ON usuario.id = pais.id_aff ";

@@ -251,9 +251,10 @@
                         		</thead>
                         		<tbody>
                         			<tr>
-                        				<td><p style="padding-bottom:20px; text-align:center;">abajo informaci&oacute;n sobre su Login:</p>
+                        				<td><p style="padding-bottom:20px; text-align:center;">Abajo informaci&oacute;n sobre su Login en Nivel:</p>
                             				Email:<strong> '. $email .'</strong><br>
                             				Contrase&ntilde;a:<strong> '. $password .'</strong><br>
+                                            Acceso al Sistema : <a href="http://techo.ecloudapp.site:8084/Nivel">Clic aqu&iacute;</a> 
                         				</td>
                         			</tr>
                         			<tr>

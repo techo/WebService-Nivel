@@ -13,6 +13,9 @@
         case 'Login'          : LoginUsuario($_POST);
         break; 
         
+        case 'EnviarSenha'     : EnviarSenha($_POST);
+        break; 
+        
         case 'GrabarUsuario'  : GrabarUsuario($_POST);
         break;
         
@@ -1145,6 +1148,99 @@
               echo(json_encode($aRet));
           }
           
+      }
+      
+      function EnviarSenha($aPost)
+      {
+          $email = $aPost['correo'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $aRet = $oBj->BuscarSenha($email);
+          
+          $pass = $aRet[0]['PASSWORD'];
+          
+          if($aRet)
+          {
+              require_once("../lib/phpmailer/class.phpmailer.php");
+              $mail = new PHPMailer1;
+              
+              $mail->isSMTP();
+              
+              //   $mail->SMTPDebug = 2;
+              
+              $mail->Host = 'smtp.gmail.com';
+              
+              $mail->Port = 587;
+              
+              $mail->SMTPSecure = 'tls';
+              
+              $mail->SMTPAuth = true;
+              
+              $mail->Username = "no-reply@techo.org";
+              
+              $mail->Password = "0CBiyyRg";
+              
+              $mail->setFrom($email);
+              
+              $mail->addAddress($email);
+              
+              $mail->Subject = 'Recuperar contraseña';
+              
+              $mail->msgHTML('<!DOCTYPE html>
+                        <html>
+                        <head>
+                        	<meta charset="utf-8">
+                        	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+                        	<title>Recuperar contraseña</title>
+                        </head>
+                        <body>
+                        <style>
+                        	* {
+                        		font-size: 14px;
+                        		line-height: 1.8em;
+                        		font-family: arial;
+                        	}
+                        </style>
+                        	<table style="margin:0 auto; max-width:660px;">
+                        		<thead>
+                        			<tr>
+                        				<th><img src="https://crunchbase-production-res.cloudinary.com/image/upload/c_lpad,h_256,w_256,f_jpg/v1456028699/hmjywirmsbcl3frjdtsn.png" />  </th>
+                        			</tr>
+                        		</thead>
+                        		<tbody>
+                        			<tr>
+                        				<td><p style="padding-bottom:20px; text-align:center;">Abajo informaci&oacute;n sobre su Login en Nivel:</p>
+                            				Email:<strong> '. $email .'</strong><br>
+                            				Contrase&ntilde;a:<strong> '. $pass.'</strong><br>
+                                            Acceso al Sistema : <a href="http://techo.ecloudapp.site:8084/Nivel">Clic aqu&iacute;</a>
+                        				</td>
+                        			</tr>
+                        			<tr>
+                        				<td>
+                        				</td>
+                        			</tr>
+                        		</tbody>
+                        	</table>
+                        </body>
+                        </html>');
+              
+              $mail->AltBody = 'This is a plain-text message body';
+              
+              //  $mail->addAttachment('images/phpmailer_mini.png');
+              
+              if (!$mail->send()) {
+                  echo "Mailer Error: " . $mail->ErrorInfo;
+              } else {
+                  
+                  $message = 'Correo Enviado con Exito.';
+                  $sucess  = 'true';
+                  $result  = '';
+                  
+                  echo json_encode(array("results" => $message));
+              }
+          }
       }
 		
 ?>                    

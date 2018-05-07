@@ -37,11 +37,9 @@ function GrabarUsuario()
 	oData.materno  = $('#materno').val();
 	oData.mail     = $('#email').val(); 
 	oData.password = $('#password').val();
-	oData.area     = $('#area').val();
 	oData.cargo    = $('#cargo').val();
 	oData.pais     = $('#pais').val();
 	oData.jefe     = $('#jefe').val();
-	oData.region   = $('#region').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
 	
@@ -167,9 +165,7 @@ function GrabarCargo()
 	oData          = new Object();	
 	oData.acao     = "GrabarCargo";
 	oData.nombre   = $('#nombre').val(); 
-	oData.codigo   = $('#codigo').val(); 
 	oData.status   = $('#status').val();
-	
 	$.ajax({
 				type: "POST",
 				url: "../controller/client.php",
@@ -423,13 +419,11 @@ function EditarUsuario(id)
 	oData.paterno  = $('#paterno').val(); 
 	oData.materno  = $('#materno').val();
 	oData.mail     = $('#email').val(); 
-	oData.area     = $('#area').val();
 	oData.cargo    = $('#cargo').val();
 	oData.pais     = $('#pais').val();
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
-	oData.region   = $('#region').val();
 	oData.id       = id;
 	
 	$.ajax({
@@ -555,7 +549,6 @@ function EditarCargo(id)
 	oData          = new Object();	
 	oData.acao     = "EditarCargo";
 	oData.nombre   = $('#nombre').val(); 
-	oData.codigo   = $('#codigo').val(); 
 	oData.status   = $('#status').val();
 	oData.id       = id;
 	$.ajax({
@@ -706,5 +699,30 @@ function EditarRegion(id)
 			});	
 }
 
-
+function EnviaSenha()
+{
+	oData          = new Object();	
+	oData.acao     = "EnviarSenha";
+	oData.correo   = $('#correo').val(); 
+	
+	console.log(oData.correo);
+	
+	$.ajax({
+				type: "POST",
+				url: "controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['results'])
+					{
+						alert('Enviada con Exito');
+					}
+					else
+					{
+							alert('Error correo no encontrado');
+					}
+				}
+			});	
+}
 

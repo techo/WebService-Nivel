@@ -16,6 +16,9 @@
         case 'EnviarSenha'     : EnviarSenha($_POST);
         break; 
         
+        case 'NovaSenha'       : NovaSenha($_POST);
+        break; 
+        
         case 'GrabarUsuario'  : GrabarUsuario($_POST);
         break;
         
@@ -1160,6 +1163,7 @@
           $aRet = $oBj->BuscarSenha($email);
           
           $pass = $aRet[0]['PASSWORD'];
+          $id   = $aRet[0]['id'];
           
           if($aRet)
           {
@@ -1214,7 +1218,8 @@
                         				<td><p style="padding-bottom:20px; text-align:center;">Abajo informaci&oacute;n sobre su Login en Nivel:</p>
                             				Email:<strong> '. $email .'</strong><br>
                             				Contrase&ntilde;a:<strong> '. $pass.'</strong><br>
-                                            Acceso al Sistema : <a href="http://techo.ecloudapp.site:8084/Nivel">Clic aqu&iacute;</a>
+                                            Acceso al Sistema : <a href="http://techo.ecloudapp.site:8084/Nivel">Clic aqu&iacute;</a><br>
+                                            Si desea modificar su contraseña clic aquí: <a href="http://herramientas.techo.org/aff/ws_soap/newpass.php?register='.$id. '&mail='.$email.'">Clic aqu&iacute;</a><br>
                         				</td>
                         			</tr>
                         			<tr>
@@ -1240,6 +1245,31 @@
                   
                   echo json_encode(array("results" => $message));
               }
+          }
+      }
+      
+      function NovaSenha($aPost)
+      {
+          $email = $aPost['correo'];
+          $id    = $aPost['id'];
+          $senha = $aPost['senha'];
+          
+          require_once '../model/Model.php';
+          $oBj = new Model();
+          
+          $aRet = $oBj->AlterarSenha($email, $id, $senha);
+          
+          if($aRet)
+          {
+              $message = 'Contrasena cambiada con Exito.';
+              
+              echo json_encode(array("results" => $message));
+          }
+          else
+          {
+              $message = 'Error al cambiada contrasena.';
+              
+              echo json_encode(array("results" => $message));
           }
       }
 		

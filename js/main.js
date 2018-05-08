@@ -705,8 +705,6 @@ function EnviaSenha()
 	oData.acao     = "EnviarSenha";
 	oData.correo   = $('#correo').val(); 
 	
-	console.log(oData.correo);
-	
 	$.ajax({
 				type: "POST",
 				url: "controller/client.php",
@@ -721,6 +719,34 @@ function EnviaSenha()
 					else
 					{
 							alert('Error correo no encontrado');
+					}
+				}
+			});	
+}
+
+function NovaSenha()
+{
+	oData          = new Object();	
+	oData.acao     = "NovaSenha";
+	oData.senha    = $('#newpass').val(); 
+	oData.id       = $('#id1').val(); 
+	oData.correo   = $('#correo1').val(); 
+	
+	$.ajax({
+				type: "POST",
+				url: "controller/client.php",
+				dataType: "json",
+				data: oData,
+				success: function(oData)
+				{	
+					if(oData['results'])
+					{
+						alert('Grabado con Exito');
+						window.location.href = "http://techo.ecloudapp.site:8084/Nivel";
+					}
+					else
+					{
+							alert('Error al Grabar');
 					}
 				}
 			});	

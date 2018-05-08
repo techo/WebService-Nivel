@@ -868,5 +868,42 @@ class Model
         return $Logado;
     }
     
+    function BuscarSenha($email)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT * FROM usuario ";
+        $sql .= "WHERE mail  = '".$email."' ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function AlterarSenha($email, $id, $senha)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "UPDATE usuario SET ";
+        $sql .= "PASSWORD            = '" . $senha."'";
+        $sql .= "WHERE id          = '" . $id."' and mail = '".$email."'";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $aRet = true;
+        }
+        else
+        {
+            $aRet= false;
+        }
+        
+        return $aRet;
+    }
+    
 }
 ?>

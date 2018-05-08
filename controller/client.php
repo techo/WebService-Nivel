@@ -1219,7 +1219,7 @@
                             				Email:<strong> '. $email .'</strong><br>
                             				Contrase&ntilde;a:<strong> '. $pass.'</strong><br>
                                             Acceso al Sistema : <a href="http://techo.ecloudapp.site:8084/Nivel">Clic aqu&iacute;</a><br>
-                                            Si desea modificar su contraseña clic aquí: <a href="http://herramientas.techo.org/aff/ws_soap/newpass.php?register='.$id. '&mail='.$email.'">Clic aqu&iacute;</a><br>
+                                            Si desea modificar su contraseña: <a href="http://herramientas.techo.org/aff/ws_soap/newpass.php?register='.$id. '&mail='.$email.'">Clic aqu&iacute;</a><br>
                         				</td>
                         			</tr>
                         			<tr>

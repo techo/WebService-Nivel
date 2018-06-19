@@ -905,5 +905,57 @@ class Model
         return $aRet;
     }
     
+    function ImportaUsuario($aParam)
+    {
+        require_once 'DBConfig.php';
+        $sql  = "";
+        $sql .= "INSERT INTO usuario (";
+        $sql .= "id, ";
+        $sql .= "nombre, ";
+        $sql .= "apellido_paterno, ";
+        $sql .= "apellido_materno, ";
+        $sql .= "mail, ";
+        $sql .= "password, ";
+        $sql .= "id_cargo, ";
+        $sql .= "id_pais, ";
+        $sql .= "id_jefe, ";
+        $sql .= "id_netsuite, ";
+        $sql .= "status, ";
+        $sql .= "id_criador, ";
+        $sql .= "id_alterador, ";
+        $sql .= "fecha_inc, ";
+        $sql .= "fecha_alt) VALUES (";
+        $sql .= " NULL, ";
+        $sql .= "'". $aParam[0]['nome']."', ";
+        $sql .= "'". $aParam[0]['paterno']."', ";
+        $sql .= "'". $aParam[0]['materno']."', ";
+        $sql .= "'". $aParam[0]['mail']."', ";
+        $sql .= "'". $aParam[0]['password']."', ";
+        $sql .= "'". $aParam[0]['cargo']."', ";
+        $sql .= "'". $aParam[0]['pais']."', ";
+        $sql .= "'". $aParam[0]['jefe']."', ";
+        $sql .= "'". $aParam[0]['netsuite']."', ";
+        $sql .= " 1, ";
+        $sql .= " 0, ";
+        $sql .= " 0, ";
+        $sql .= " NOW(), ";
+        $sql .= " '0000-00-00 00:00:00')";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $bGravou = $stmt->rowCount();
+        
+        if($bGravou == 1)
+        {
+            $lgravou = true;
+        }
+        else
+        {
+            $lgravou= false;
+        }
+        
+        return $lgravou;
+    }
+    
 }
 ?>

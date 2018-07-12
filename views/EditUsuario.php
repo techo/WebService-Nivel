@@ -81,10 +81,12 @@ $comboBoxJefe.= "</div>";
 //Fim ComboBox Jefe
 
 //ComboBox Status
+$p = '';
+
 $comboBoxStatus = "<div class='form-group col-sm-3'>";
 $comboBoxStatus.= "<label for='ccmonth'>Status</label>";
 $comboBoxStatus.= "<select class='form-control' id='status'>";
-$comboBoxStatus.= "<option value='0'>-- SELECCIONE--</option>";
+$comboBoxStatus.= "<option $p value='0'>-- SELECCIONE--</option>";
 
 if($aRet[0]['status'] == 1)
 {
@@ -96,6 +98,12 @@ if($aRet[0]['status'] == 2)
 {
     $comboBoxStatus.= "<option value='1'>Activo</option>";
     $comboBoxStatus.= "<option selected value='2'>Inactivo</option>";
+}
+if($aRet[0]['status'] == 0)
+{
+    $p = 'selected';
+    $comboBoxStatus.= "<option value='1'>Activo</option>";
+    $comboBoxStatus.= "<option value='2'>Inactivo</option>";
 }
 
 $comboBoxStatus.= "</select>";

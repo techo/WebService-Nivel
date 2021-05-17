@@ -549,7 +549,7 @@ class Model
 		{
 			$tipo = 'mail';
 		}
-		else if ($tipo == 'País')
+		else if ($tipo == 'Pais')
 		{
 			require_once 'DBConfig.php';
 			$sql  = "SELECT  * from pais where pais.nombre = '" . $valor ."'";

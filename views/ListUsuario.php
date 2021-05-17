@@ -111,10 +111,28 @@ if(!strpos("[".$string."]", "$buscar"))
     </div>
     <!-- Main content -->
     <main class="main">
-       <div class="row">
-                    <div id="usuario">
-                    <!--/col-->
-                </div>
+    
+    	 <div class="row">
+        	<div class="col-sm-4">
+        		<div class="form-group">
+        			<label for="cars">Filtrar: </label>
+        			<select class='form-control' id='tipo'>
+        				<option value='Mail'>Mail</option>
+        				<option value='Pais'>Pais</option>
+                    </select>
+        		</div>
+        		<div class="form-group">
+        			 <input type='text' id='valor'><br>
+        		</div>
+        		
+        		 <button type='button' id='filtrar'>Filtrar!</button>
+        	</div>
+        </div>
+		<div class="row">
+            <div id="usuario">
+            <!--/col-->
+        	</div>
+        </div>	
     </main>
 
     <footer class="footer">
@@ -130,6 +148,32 @@ if(!strpos("[".$string."]", "$buscar"))
     <script>
 	$(document).ready(function() {
 	    ListUsuarios();
+
+	    $( "#filtrar" ).click(function() {
+	    	oData       = new Object();	
+	    	oData.acao  = "BuscaUsuario";
+	    	oData.valor = $('#valor').val();
+	    	oData.tipo = $('#tipo').val();
+	    	
+	    	$.ajax({
+	    		type: "POST",
+	    		url: "../controller/client.php",
+	    		dataType: "json",
+	    		data: oData,
+	    		success: function(oData)
+	    		{	
+	    			if(oData['results'])
+	    			{
+	    				$('#usuario').html(oData['results']);
+	    			}
+
+	    			else
+	    			{
+	    				alert('Error al Cargar Filtro!');
+	    			}
+	    		}
+	    	});	
+		  	});
 	});
 	</script>
 	<script>

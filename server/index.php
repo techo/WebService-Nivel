@@ -30,14 +30,12 @@ $server->register(
          ,'email'            => 'xsd:string'
          ,'apellido_paterno' => 'xsd:string'
          ,'apellido_materno' => 'xsd:string'
-         ,'area'             => 'xsd:string'
-         ,'codarea'          => 'xsd:string'
          ,'cargo'            => 'xsd:string'
          ,'codcargo'         => 'xsd:string'
          ,'pais'             => 'xsd:string'
          ,'codigoPais'       => 'xsd:string'
          ,'id_netsuite'      => 'xsd:string'
-		 ,'codigoRegion'     => 'xsd:string'
+		 ,'id_subsidiaria'   => 'xsd:string'
     ),
     'WS_Nivel.GetLogin',
     'WS_Nivel.GetLogin',

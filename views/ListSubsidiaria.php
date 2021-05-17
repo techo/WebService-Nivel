@@ -13,7 +13,7 @@ if(!strpos("[".$string."]", "$buscar"))
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Lista Cargos</title>
+    <title>Lista Pais</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/simple-line-icons.css" rel="stylesheet">
@@ -113,7 +113,7 @@ if(!strpos("[".$string."]", "$buscar"))
     <!-- Main content -->
     <main class="main">
        <div class="row">
-                    <div id="listagem">
+                    <div id="combosubsidiaria">
                     <!--/col-->
                 </div>
     </main>
@@ -130,7 +130,7 @@ if(!strpos("[".$string."]", "$buscar"))
     <script src="../js/main.js?"></script>
     <script>
 	$(document).ready(function() {
-		ListaCargo();
+		TelaSubsidiaria();
 	});
 	</script>
 	<script>

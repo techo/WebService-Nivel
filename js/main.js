@@ -42,6 +42,7 @@ function GrabarUsuario()
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
+	oData.subsidiaria = $('#subsidiaria').val();
 	
 	$.ajax({
 				type: "POST",
@@ -424,6 +425,7 @@ function EditarUsuario(id)
 	oData.jefe     = $('#jefe').val();
 	oData.status   = $('#status').val();
 	oData.netsuite = $('#id_netsuite').val();
+	oData.subsidiaria = $('#subsidiaria').val();
 	oData.id       = id;
 	
 	$.ajax({
@@ -750,5 +752,55 @@ function NovaSenha()
 					}
 				}
 			});	
+}
+
+function ListaSubsidiaria()
+{
+	oData       = new Object();	
+	oData.acao  = "ComboSubsidiaria";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#combosubsidiaria').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Subsidiaria!');
+			}
+		}
+	});	
+}
+
+function TelaSubsidiaria()
+{
+	oData       = new Object();	
+	oData.acao  = "ListaSubsidiaria";
+	
+	$.ajax({
+		type: "POST",
+		url: "../controller/client.php",
+		dataType: "json",
+		data: oData,
+		success: function(oData)
+		{	
+			if(oData['results'])
+			{
+				$('#combosubsidiaria').html(oData['results']);
+			}
+
+			else
+			{
+				alert('Error al Cargar Subsidiaria!');
+			}
+		}
+	});	
 }
 

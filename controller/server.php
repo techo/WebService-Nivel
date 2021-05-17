@@ -17,51 +17,55 @@ require_once '../lib/nusoap.php';
 $server = new nusoap_server();
 
 //Configuracao WSDL
-$server->configureWSDL('WS_Nivel', 'http://herramientas.techo.org/aff/ws_soap/server');
-$server->wsdl->schemaTargetNamespace = 'http://herramientas.techo.org/aff/ws_soap/server';
+$server->configureWSDL('urn:Server');
+$server->wsdl->schemaTargetNamespace = 'urn:Server';
 
 //GetLogin
 
 $server->register(
     'GetLogin',
     array('token'            => 'xsd:string'),
-    
-    array('nombre'           => 'xsd:string'
-         ,'apellido_paterno' => 'xsd:string'
-         ,'apellido_materno' => 'xsd:string'
-         ,'area'             => 'xsd:string'
-         ,'codarea'          => 'xsd:string'
-         ,'cargo'            => 'xsd:string'
-         ,'codcargo'         => 'xsd:string'
-         ,'pais'             => 'xsd:string'
-         ,'codpais'          => 'xsd:string'
+    array('Retorno'          => 'xsd:string'
     ),
-    'WS_Nivel.GetLogin',
-    'WS_Nivel.GetLogin',
-    'rpc',
-    'encoded',
-    'Metodo de autenticacion de los usuarios');
+          'urn:Server.GetLogin',
+          'urn:Server.GetLogin',
+          'rpc',
+          'encoded',
+          'Metodo de autenticación de los usuarios');
 
-    
-function GetLogin($token)
+function GetLogin($token) 
 {
     require_once '../model/Model.php';
     $oBj = new Model();
     $aReturn = $oBj->checkToken($token);
     
     $array = json_decode(json_encode($aReturn), True);
-    
+      
     if(!empty($aReturn))
     {
         $aUser = $oBj->InfoUser($array[0]['id_usuario']);
-        $aUser = $aUser[0];
-        return $aUser;
+        
+        $message = 'Request Success';
+        $sucess  = 'true';
+        $result  = $aUser;
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
     else
     {
         $message = 'Invalid Token.';
-        $aDados['Error'] = $message;
-        return $aDados;
+        $sucess  = 'false';
+        $result  = '';
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
 }
 
@@ -70,14 +74,9 @@ $server->register(
     'GetJefeDirecto',
     array('token'     => 'xsd:string',
           'mail'      => 'xsd:string'),
-    array('nombre'   => 'xsd:string'
-        ,'apellido_paterno' => 'xsd:string'
-        ,'apellido_materno' => 'xsd:string'
-        ,'mail'             => 'xsd:string'
-        ,'cargo'            => 'xsd:string'
-    ),
-          'WS_Nivel.GetJefeDirecto',
-          'WS_Nivel.GetJefeDirecto',
+    array('Retorno'   => 'xsd:string'),
+          'urn:Server.GetJefeDirecto',
+          'urn:Server.GetJefeDirecto',
           'rpc',
           'encoded',
           'Metodo que devuelve el Jefe Directo del Empleado');
@@ -100,23 +99,40 @@ function GetJefeDirecto($token, $mail)
         
         if(!empty($aJefe))
         {
-           
-            $result  = $aJefe[0];
+            $message = 'Request Success';
+            $sucess  = 'true';
+            $result  = $aJefe;
             
-            return $result;
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
         else
         {
             $message = 'Invalid Mail';
-            $aDados['Error'] = $message;
-            return $aDados;
+            $sucess  = 'false';
+            $result  = '';
+            
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
     }
     else
     {
         $message = 'Invalid Token.';
-        $aDados['Error'] = $message;
-        return $aDados;
+        $sucess  = 'false';
+        $result  = '';
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
 }
 
@@ -125,14 +141,9 @@ $server->register(
     'GetContactAFF',
     array('token'     => 'xsd:string',
           'codPais'   => 'xsd:string'),
-    array('nombre'   => 'xsd:string'
-         ,'apellido_paterno' => 'xsd:string'
-         ,'apellido_materno' => 'xsd:string'
-         ,'mail'             => 'xsd:string'
-         ,'cargo'            => 'xsd:string'
-    ),
-          'WS_Nivel.GetContactAFF',
-          'WS_Nivel.GetContactAFF',
+    array('Retorno'   => 'xsd:string'),
+          'urn:Server.GetContactAFF',
+          'urn:Server.GetContactAFF',
           'rpc',
           'encoded',
           'Metodo que devuelve el Contacto de la AFF');
@@ -155,39 +166,52 @@ function GetContactAFF($token, $CodPais)
         if(!empty($aRet))
         {
             $aDados = $oBj->ListContactAFF($CodPais);
-            $result = $aDados[0];
             
-            return $result;
-           
+            $message = 'Request Success';
+            $sucess  = 'true';
+            $result  = $aDados;
+            
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
         else 
         {
             $message = 'Invalid CodPais';
-            $aDados['Error'] = $message;
-            return $aDados;
+            $sucess  = 'false';
+            $result  = '';
+            
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
     }
     else
     {
         $message = 'Invalid Token.';
-        $aDados['Error'] = $message;
-        return $aDados;
+        $sucess  = 'false';
+        $result  = '';
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
 }
 
 //GetContactCONT
 $server->register(
     'GetContactCONT',
-    array('token'            => 'xsd:string',
-          'codPais'          => 'xsd:string'),
-    array('nombre'           => 'xsd:string'
-         ,'apellido_paterno' => 'xsd:string'
-         ,'apellido_materno' => 'xsd:string'
-         ,'mail'             => 'xsd:string'
-         ,'cargo'            => 'xsd:string'
-    ),
-    'WS_Nivel.GetContactCONT',
-    'WS_Nivel.GetContactCONT',
+    array('token'     => 'xsd:string',
+          'codPais'   => 'xsd:string'),
+    array('Retorno'   => 'xsd:string'),
+    'urn:Server.GetContactCONT',
+    'urn:Server.GetContactCONT',
     'rpc',
     'encoded',
     'Metodo que devuelve el Contacto de la CONT');
@@ -211,40 +235,53 @@ function GetContactCONT($token, $CodPais)
         {
             $aDados = $oBj->ListContactCONT($CodPais);
             
-            $result  = $aDados[0];
-            return $result;
+            $message = 'Request Success';
+            $sucess  = 'true';
+            $result  = $aDados;
+            
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
         else
         {
             $message = 'Invalid CodPais';
-            $aDados['Error'] = $message;
-            return $aDados;
+            $sucess  = 'false';
+            $result  = '';
+            
+            $aRet = array('Message' => $message,
+                          'Success' => $sucess,
+                          'Result'  => $result);
+            
+            return json_encode($aRet);
         }
     }
     else
     {
         $message = 'Invalid Token.';
-        $aDados['Error'] = $message;
-        return $aDados;
+        $sucess  = 'false';
+        $result  = '';
+        
+        $aRet = array('Message' => $message,
+                      'Success'  => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
 }
 
+//GetCheckToken
 $server->register(
     'GetCheckToken',
-    array('token'          => 'xsd:string'),
-    array(
-         'token'           => 'xsd:string'
-        ,'ip_request'      => 'xsd:string'
-        ,'start_session'   => 'xsd:string'
-        ,'timeout_session' => 'xsd:string'
-        
-    ),
-    'WS_Nivel.GetCheckToken',
-    'WS_Nivel.GetCheckToken',
+    array('token'     => 'xsd:string'),
+    array('Retorno'   => 'xsd:string'),
+    'urn:Server.GetCheckToken',
+    'urn:Server.GetCheckToken',
     'rpc',
     'encoded',
     'Metodo que devuelve la info del Token');
-    
 
 function GetCheckToken($token)
 {
@@ -255,16 +292,55 @@ function GetCheckToken($token)
     if($lReturn)
     {
         $aDados = $oBj->InfoToken($token);
-        $result = $aDados[0];
         
-        return ($result);
+        $message = 'Request Success';
+        $sucess  = 'true';
+        $result  = $aDados;
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
     else
     {
         $message = 'Invalid Token.';
-        $aDados['Error'] = $message;
-        return $aDados;
+        $sucess  = 'false';
+        $result  = '';
+        
+        $aRet = array('Message' => $message,
+                      'Success' => $sucess,
+                      'Result'  => $result);
+        
+        return json_encode($aRet);
     }
 }
+
+
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 $server->service($HTTP_RAW_POST_DATA); 
+   
+?>                    
+
+                      
+                    
+                  
+                
+
+                
+                  
+                    
+                    
+                      
+                        
+                        
+                      
+
+                      
+                        
+                        
+                      
+                   
+                  
+                

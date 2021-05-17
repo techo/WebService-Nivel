@@ -94,6 +94,7 @@ class Model
         $sql .= "usuario.apellido_materno as 'apellido_materno' , ";
         $sql .= "usuario.mail as 'email' , ";
         $sql .= "usuario.id_netsuite as 'id_netsuite' , ";
+        $sql .= "usuario.id_subsidiaria as 'id_subsidiaria' , ";
         $sql .= "usuario.status as 'status' , ";
         $sql .= "cargo.nombre as 'cargo', ";
         $sql .= "cargo.id as 'idcargo', ";
@@ -225,7 +226,7 @@ class Model
         return $result;
     }
     
-    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $idUser, $netsuite)
+    function GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $idUser, $netsuite, $subsidiaria)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -240,6 +241,7 @@ class Model
         $sql .= "id_pais, ";
         $sql .= "id_jefe, ";
         $sql .= "id_netsuite, ";
+        $sql .= "id_subsidiaria, ";
         $sql .= "status, ";
         $sql .= "id_criador, ";
         $sql .= "id_alterador, ";
@@ -255,6 +257,7 @@ class Model
         $sql .= "'". $pais."', ";
         $sql .= "'". $jefe."', ";
         $sql .= "'". $netsuite."', ";
+        $sql .= "'". $subsidiaria."', ";
         $sql .= "'". $status."', ";
         $sql .= "'". $idUser."', ";
         $sql .= " 0, ";
@@ -526,10 +529,50 @@ class Model
         $sql .= "usuario.apellido_paterno, ";
         $sql .= "usuario.apellido_materno, ";
         $sql .= "usuario.mail, ";
+        $sql .= "pais.nombre as pais, ";
         $sql .= "usuario.id_netsuite as id_netsuite, ";
         $sql .= "usuario.status, ";
         $sql .= "usuario.id_jefe as 'jefe' ";
         $sql .= "FROM usuario ";
+        $sql .= "INNER JOIN pais ON pais.id = usuario.id_pais ";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+	
+	function BuscaUsuario($tipo, $valor)
+    {						
+		if($tipo == 'Correo')
+		{
+			$tipo = 'mail';
+		}
+		else if ($tipo == 'País')
+		{
+			require_once 'DBConfig.php';
+			$sql  = "SELECT  * from pais where pais.nombre = '" . $valor ."'";
+			$pdo = Database::conexao();
+			$stmt = $pdo->prepare($sql);
+			$stmt->execute();
+			$aRet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			
+			$tipo  = 'usuario.id_pais';
+			$valor = $aRet[0]['id'];
+		}
+        require_once 'DBConfig.php';
+        $sql  = "SELECT ";
+        $sql .= "usuario.id, ";
+        $sql .= "usuario.nombre, ";
+        $sql .= "usuario.apellido_paterno, ";
+        $sql .= "usuario.apellido_materno, ";
+        $sql .= "usuario.mail, ";
+        $sql .= "pais.nombre as pais, ";
+        $sql .= "usuario.id_netsuite as id_netsuite, ";
+        $sql .= "usuario.status, ";
+        $sql .= "usuario.id_jefe as 'jefe' ";
+        $sql .= "FROM usuario INNER JOIN pais ON pais.id = usuario.id_pais WHERE ". $tipo ." like '%" . $valor . "%'";							
         $pdo = Database::conexao();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -556,7 +599,7 @@ class Model
         return $result;
     }
     
-    function EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite)
+    function EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $idUser, $id, $netsuite, $subsidiaria)
     {
         require_once 'DBConfig.php';
         $sql  = "";
@@ -569,6 +612,7 @@ class Model
         $sql .= "id_pais           = '" . $pais."', ";
         $sql .= "id_jefe           = '" . $jefe."', ";
         $sql .= "id_netsuite       = '" . $netsuite."', ";
+        $sql .= "id_subsidiaria       = '" . $subsidiaria."', ";
         $sql .= "status            = '" . $status."', ";
         $sql .= "id_alterador      = '" . $idUser."', ";
         $sql .= "fecha_alt         = NOW() ";
@@ -955,6 +999,34 @@ class Model
         }
         
         return $lgravou;
+    }
+    
+    function ListaSubsidiaria()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT * ";
+        $sql .= "FROM subsidiaria ";
+        $sql.= "WHERE status = 1 ORDER BY subsidiaria ASC";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    function ComboSubsidiaria()
+    {
+        require_once 'DBConfig.php';
+        $sql  = "SELECT * ";
+        $sql .= "FROM subsidiaria ";
+        $sql.= "WHERE status = 1";
+        $pdo = Database::conexao();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
     }
     
 }

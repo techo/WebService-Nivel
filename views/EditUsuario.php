@@ -8,6 +8,7 @@ $aRet = $oBj->InfoUser($id); // Usuario
 $aCargos = $oBj->ListCargo();
 $aPais   = $oBj->ListPais();
 $aChefe  = $oBj->ListJefe();
+$aSubsidiaria  = $oBj->ListaSubsidiaria();
 
 //Searche Jefe
 $aJefe  = $oBj->checkJefe($aRet[0]['email']);
@@ -109,6 +110,28 @@ if($aRet[0]['status'] == 0)
 $comboBoxStatus.= "</select>";
 $comboBoxStatus.= "</div>";
 //Fim ComboBox Status
+
+//ComboBox Subsidiaria
+$comboBoxSubsidiaria = "<div class='form-group col-sm-3'>";
+$comboBoxSubsidiaria.= "<label for='ccmonth'>Subsidiaria</label>";
+$comboBoxSubsidiaria.= "<select class='form-control' id='subsidiaria'>";
+$comboBoxSubsidiaria.= "<option value='0'>-- SELECCIONE--</option>";
+
+foreach ($aSubsidiaria as $k => $v)
+{
+    if($aRet[0]['id_subsidiaria'] == $v['subsidiaria_id_netsuite'])
+    {
+        $comboBoxSubsidiaria.= "<option selected value='" . $v['subsidiaria_id_netsuite']."'>" . $v['subsidiaria']."</option>";
+    }
+    else
+    {
+        $comboBoxSubsidiaria.= "<option value='" . $v['subsidiaria_id_netsuite']."'>" . $v['subsidiaria']."</option>";
+    }
+}
+
+$comboBoxSubsidiaria.= "</select>";
+$comboBoxSubsidiaria.= "</div>";
+//Fim ComboBox Subsidiaria
 
 ?>
 
@@ -250,6 +273,7 @@ $comboBoxStatus.= "</div>";
                                    <?php echo($comboBoxPais);?>
                                    <?php echo($comboBoxJefe);?>
                                    <?php echo($comboBoxStatus);?>
+                                   <?php echo($comboBoxSubsidiaria);?>
                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="name">ID Interno (NetSuite)</label>

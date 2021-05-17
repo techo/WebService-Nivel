@@ -70,6 +70,9 @@ if(!strpos("[".$string."]", "$buscar"))
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListSubsidiaria.php"><i></i>Subsidiaria</a>
+							</li>
 						</ul>
 					</li>
 					
@@ -161,6 +164,7 @@ if(!strpos("[".$string."]", "$buscar"))
                                             <input type="text" class="form-control" id="id_netsuite" placeholder="id NetSuite">
                                         </div>
                                     </div>
+                                     <div id="combosubsidiaria"></div>   
                                     <div class="form-group col-sm-3">
                                         <label for="ccmonth">Status</label>
                                         <select class="form-control" id="status">
@@ -194,6 +198,7 @@ if(!strpos("[".$string."]", "$buscar"))
 	    ListCargo();
 	    ListPais();
 	    ListJefe();
+	    ListaSubsidiaria();
 	});
 	</script>
 	<script>

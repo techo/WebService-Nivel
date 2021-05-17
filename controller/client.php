@@ -84,6 +84,15 @@
         
         case 'EditarRegion'   : EditarRegion($_POST);
         break;
+		
+		case 'BuscaUsuario'      : BuscaUsuario($_POST);
+        break;
+        
+		case 'ListaSubsidiaria'  : ListaSubsidiaria($_POST);
+		break;
+		
+		case 'ComboSubsidiaria'  : ComboSubsidiaria($_POST);
+		break;
         
       }
       
@@ -197,6 +206,7 @@
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
+          $subsidiaria = $aPost['subsidiaria'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
@@ -205,7 +215,7 @@
           
           if(empty($aRet))
           {
-              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $netsuite);
+              $lGraba = $oBj->GrabarUsuario($nombre, $paterno, $materno, $email, $password, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $netsuite, $subsidiaria);
               
               if($lGraba)
               {
@@ -681,7 +691,7 @@
           $oBj = new Model();
           $aRet = $oBj->ListUsuarios();
           $html = '';
-
+          
           foreach ($aRet as $k=>$v)
           {
               $aJefe = $oBj->OhmyGod($v['jefe']);
@@ -695,7 +705,7 @@
               $html .= "<div class='col-lg-12'>";
               $html .= "<div class='card'>";
               $html .= "<div class='card-header'>";
-              $html .= "<i class='fa fa-align-justify'></i> Lista de Usuarios";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Usuarios </br>";
               $html .= "</div>";
               $html .= "<div class='card-block'>";
               $html .= "<table class='table table-bordered table-striped table-condensed'>";
@@ -705,6 +715,7 @@
               $html .= "<th>Email</th>";
               $html .= "<th>Jefe</th>";
               $html .= "<th>ID NetSuite</th>";
+              $html .= "<th>Pa&iacute;s</th>";
               $html .= "<th>Status</th>";
               $html .= "</tr>";
               foreach ($aRet as $k=>$v)
@@ -714,6 +725,7 @@
                   $html .= "<td>".$v['mail']."</td>";
                   $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
                   $html .= "<td>".$v['id_netsuite']."</td>";
+                  $html .= "<td>".$v['pais']."</td>";
                   $html .= "<td>";
                   if($v['status'] == 1)
                   {
@@ -751,12 +763,13 @@
           $jefe     = $aPost['jefe'];
           $status   = $aPost['status'];
           $netsuite = $aPost['netsuite'];
+          $subsidiaria = $aPost['subsidiaria'];
           $id       = $aPost['id'];
           
           require_once '../model/Model.php';
           $oBj = new Model();
           
-          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite);
+          $lGraba = $oBj->EditarUsuario($nombre, $paterno, $materno, $email, $cargo, $pais, $jefe, $status, $_SESSION['Id'], $id, $netsuite, $subsidiaria);
           if($lGraba)
           {
               $message = 'Usuario Cambiado con Exito.';
@@ -1272,6 +1285,153 @@
               echo json_encode(array("results" => $message));
           }
       }
+	  
+	  function BuscaUsuario($aPost)
+	  {
+		  $tipo  = $aPost['tipo'];				
+		  $valor = $aPost['valor'];
+		  
+		  require_once '../model/Model.php';
+          $oBj = new Model();
+		  		  
+		  if(!empty($valor))
+		  {
+			  $aRet = $oBj->BuscaUsuario($tipo, $valor);
+		  }
+		  else
+		  {
+			  $aRet = $oBj->ListUsuarios();
+		  }
+		  
+		  
+          $html = '';
+		  		  
+          foreach ($aRet as $k=>$v)
+          {
+              $aJefe = $oBj->OhmyGod($v['jefe']);
+              $aRet[$k]['jefe'] = $aJefe[0]['nombre'];
+              $aRet[$k]['jefe_paterno'] = $aJefe[0]['apellido_paterno'];
+              $aRet[$k]['jefe_materno'] = $aJefe[0]['apellido_materno'] ? $aJefe[0]['apellido_materno'] : '';
+          }
+          
+          if(!empty($aRet))
+          {
+              $html .= "<div class='col-lg-12'>";
+              $html .= "<div class='card'>";
+              $html .= "<div class='card-header'>";
+              $html .= "<i class='fa fa-align-justify'></i> Lista de Usuarios </br>";
+              $html .= "</div>";
+              $html .= "<div class='card-block'>";
+              $html .= "<table class='table table-bordered table-striped table-condensed'>";
+              $html .= "<thead>";
+              $html .= "<tr>";
+              $html .= "<th>Nombre</th>";
+              $html .= "<th>Email</th>";
+              $html .= "<th>Jefe</th>";
+              $html .= "<th>ID NetSuite</th>";
+              $html .= "<th>Pa&iacute;s</th>";
+              $html .= "<th>Status</th>";
+              $html .= "</tr>";
+              foreach ($aRet as $k=>$v)
+              {
+                  $html .= "<tr>";
+                  $html .= "<td>".$v['nombre']." ". $v['apellido_paterno']. " " .$v['apellido_materno']."</td>";
+                  $html .= "<td>".$v['mail']."</td>";
+                  $html .= "<td>".$v['jefe']." ". $v['jefe_paterno']. " " .$v['jefe_materno']."</td>";
+                  $html .= "<td>".$v['id_netsuite']."</td>";
+                  $html .= "<td>".$v['pais']."</td>";
+                  $html .= "<td>";
+                  if($v['status'] == 1)
+                  {
+                      $html .= "<span class='tag tag-success'>Activo</span>";
+                  }
+                  else 
+                  {
+                      $html .= "<span class='tag tag-danger'>Inactivo</span>";
+                  }
+                  $html .= '<td><a type="button" onclick="EditarUser('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+                  $html .= "</td>";
+                  $html .= " </tr>";
+              }
+              $html .= "</thead>";
+              $html .= "<tbody>";
+              $html .= "</tbody>";
+              $html .= "</table>";
+              $html .= "</div>";
+              $html .= "</div>";
+              $html .= "</div>";
+              
+              echo json_encode(array("results" => $html));
+          }
+	  }
+	  
+	  function ListaSubsidiaria()
+	  {
+	      require_once '../model/Model.php';
+	      $oBj = new Model();
+	      $aRet = $oBj->ListaSubsidiaria();
+	      
+	      if(!empty($aRet))
+	      {
+	          $html .= "<div class='col-lg-12'>";
+	          $html .= "<div class='card'>";
+	          $html .= "<div class='card-header'>";
+	          $html .= "<i class='fa fa-align-justify'></i> Lista de Paises";
+	          $html .= "</div>";
+	          $html .= "<div class='card-block'>";
+	          $html .= "<table class='table table-bordered table-striped table-condensed'>";
+	          $html .= "<thead>";
+	          $html .= "<tr>";
+	          $html .= "<th>Subsidiaria</th>";
+	          $html .= "<th>Codigo En NetSuite</th>";
+	        //  $html .= "<th></th>";
+	          $html .= "</tr>";
+	          foreach ($aRet as $k=>$v)
+	          {
+	              $html .= "<tr>";
+	              $html .= "<td>".$v['subsidiaria']."</td>";
+	              $html .= "<td>".$v['subsidiaria_id_netsuite']."</td>";
+	           //   $html .= '<td><a type="button" onclick="RedirectSubsidiaria('. $v['id'] .');" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>';
+	           //   $html .= "</td>";
+	              $html .= " </tr>";
+	          }
+	          $html .= "</thead>";
+	          $html .= "<tbody>";
+	          $html .= "</tbody>";
+	          $html .= "</table>";
+	          $html .= "</div>";
+	          $html .= "</div>";
+	          $html .= "</div>";
+	          
+	          echo json_encode(array("results" => $html));
+	      }
+	  }
+	  
+	  function ComboSubsidiaria()
+	  {
+	      require_once '../model/Model.php';
+	      $oBj = new Model();
+	      
+	      $aRet = $oBj->ComboSubsidiaria();
+	      
+	      if(!empty($aRet))
+	      {
+	          $html .= "<div class='form-group col-sm-3'>";
+	          $html .= "<label for='ccmonth'>Subsidiaria</label>";
+	          $html .= "<select class='form-control' id='subsidiaria'>";
+	          $html .= "<option value='0'>-- SELECCIONE--</option>";
+	          
+	          foreach ($aRet as $k=>$v)
+	          {
+	              $html .= "<option value='" . $v['subsidiaria_id_netsuite']."'>" . $v['subsidiaria']."</option>";
+	          }
+	          
+	          $html .= "</select>";
+	          $html .= " </div>";
+	          
+	          echo json_encode(array("results" => $html));
+	      }
+	  }
 		
 ?>                    
 

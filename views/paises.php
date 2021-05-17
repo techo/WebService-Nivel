@@ -67,6 +67,9 @@ if(!isset($_SESSION['Id']))
 							<li class="nav-item">
 								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListCargo.php"><i></i>Cargos</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="http://herramientas.techo.org/aff/ws_soap/views/ListSubsidiaria.php"><i></i>Subsidiaria</a>
+							</li>
 						</ul>
 					</li>
 					
